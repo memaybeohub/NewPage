@@ -1027,6 +1027,15 @@ function addCheckSkill(v)
         end
     end
 end
+getgenv().GetPing = function()
+    local ping = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString()
+    ping = ping:gsub("CV", "")
+    ping = ping:gsub("%%d", "")
+    ping = ping:gsub(" ", "")
+    ping = ping:gsub("(%d%)", "")
+    ping = ping:split("(")[1]
+    return tonumber(ping)
+end
 function KillNigga(MobInstance) 
     local LS,LS2 = pcall(function()
         if IsPlayerAlive() and
@@ -1035,7 +1044,8 @@ function KillNigga(MobInstance)
         then
             local mmas = GetMidPoint(MobInstance.Name, MobInstance.HumanoidRootPart)
             local LockCFrame
-            if mmas and not string.find(MobInstance.Name, "Boss") and MobInstance.Humanoid.MaxHealth < 130000 then
+            local KillingBoss
+            if mmas and not string.find(MobInstance:FindFirstChildOfClass('Humanoid').DisplayName, "Boss") and MobInstance.Humanoid.MaxHealth < 130000 then
                 LockCFrame = CFrame.new(mmas)
             else
                 LockCFrame = MobInstance.HumanoidRootPart.CFrame
@@ -1057,23 +1067,45 @@ function KillNigga(MobInstance)
             end
             ]]
             SetContent('Killing '..tostring(N_Name))
-            --[[
-                        if IsBoss(MobInstance) then 
+            if IsBoss(MobInstance) then 
                 KillingBoss = true 
             end
-            if not KillingBoss then
-                --CheckReqHop(Nasga.HumanoidRootPart.CFrame,Nasga)
+            if not KillingBoss and CheckEnabling and (CheckEnabling('High Ping Hop') or CheckEnabling("Player Nearing Hop")) then 
+                task.spawn(function()
+                    if tick()-_G.PirateRaidTick >= 90 then 
+                        if GetPing and GetPing() >= 1000 then 
+                            task.wait(60,function()
+                                if GetPing and GetPing() >= 700 then 
+                                    HopServer(10,true,'Ping is too high.')
+                                end
+                            end)
+                        end
+                        for ___,plrs in pairs(game.Players:GetChildren()) do 
+                            pcall(function()
+                                if plrs.Name ~= game.Players.LocalPlayer.Name then 
+                                    local MobCFrame = MobInstance.PrimaryPart.CFrame
+                                    if GetDistance(plrs.Character.PrimaryPart,MobCFrame) < 2000 then 
+                                        task.delay(120,function()
+                                            if GetDistance(plrs.Character.PrimaryPart,MobCFrame) < 2000 then 
+                                                HopServer(10,true,'Player nearing...')
+                                            end
+                                        end)
+                                    end
+                                end
+                            end)
+                        end 
+                    end
+                end)
             end
             for i, v in pairs({
-                "Deandre [Lv. 1750]",
-                "Urban [Lv. 1750]",
-                "Diablo [Lv. 1750]"
+                "Deandre",
+                "Urban",
+                "Diablo"
             }) do
-                if RemoveLevelTitle(v) == RemoveLevelTitle(MobInstance.Name) then
+                if v == MobInstance.Name then
                     KillingBoss = true
                 end
             end
-            ]] 
             local BringMobSuccess
             task.delay(7.5,function() 
                 BringMobSuccess = true
@@ -2555,7 +2587,7 @@ RunService.Heartbeat:Connect(function()
         else
             AddBodyVelocity(false)
         end 
-        if _G.PlayerLastMoveTick and tick()-_G.PlayerLastMoveTick >= 10*60 then 
+        if _G.PlayerLastMoveTick and tick()-_G.PlayerLastMoveTick >= 5*60 then 
             game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)  
         end
         local SetText = ""
