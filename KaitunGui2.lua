@@ -22,7 +22,6 @@ local function LoadConfig()
         end
         _G.SavedConfig = Data 
         print('Readed data:',_G.SavedConfig)
-        for i,v in _G.SavedConfig do print(i,v) end
         return Data 
     else
         print('You doesnt have a data file, creating new one...')
