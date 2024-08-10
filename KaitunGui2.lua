@@ -327,7 +327,12 @@ KaitunSettings:NewDropdown("Fruit Choosen",{
     },
     ["Place Holder Text"] = "Select Options",
     ["Callback"] = function(Value)
-        _G.FruitSnipping = Value
+        _G.FruitSnipping = {}
+        for i,v in pairs(Value) do 
+            if v then 
+                table.insert(_G.FruitSnipping,i)
+            end
+        end
     end
 })
 
