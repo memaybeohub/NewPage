@@ -2761,7 +2761,7 @@ getrawgame.__namecall = newcclosure(function(...)
 	return oldraw(...)
 end)
 ]]
-SetContent('😇')
+task.spawn(SetContent,"😇")
 print('Loaded Success Full!')
 _G.EnLoaded = true   
 LoadPlayer()
