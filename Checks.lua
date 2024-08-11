@@ -745,7 +745,7 @@ AutoSoulGuitar = function()
             SetContent("Unlocking Soul Guitar's Puzzle (Praying Grave Stone)",5)
             if not Sea3 then 
                 TeleportWorld(3)
-            elseif (moonPhase == 5 or moonPhase == 4) and (moonPhase == 4 or (moonPhase == 5 and (game.Lighting.ClockTime > 15 or game.Lighting.ClockTime < 5))) then   
+            elseif (moonPhase == 5 or moonPhase == 4) and (moonPhase == 4 or (moonPhase == 5 and (game.Lighting.ClockTime > 12 or game.Lighting.ClockTime < 5))) then   
                 if moonPhase == 5 and (game.Lighting.ClockTime > 18 or game.Lighting.ClockTime < 5) then
                     Tweento(CFrame.new(-8654.314453125, 140.9499053955078, 6167.5283203125)) 
                     if GetDistance(CFrame.new(-8654.314453125, 140.9499053955078, 6167.5283203125)) < 10 then
