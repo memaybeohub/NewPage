@@ -647,7 +647,7 @@ AutoCDK = function(questTitle)
             end
             task.wait()
             task.wait()
-        until not MobSP
+        until not NearestHazeMob()
     elseif questTitle == 'Yama Quest -3' then 
         if FindMobHasHaki() then 
             repeat 
