@@ -1362,7 +1362,7 @@ function CheckSafeZone(p)
     for i, v in pairs(game:GetService("Workspace")["_WorldOrigin"].SafeZones:GetChildren()) do
         if v:IsA("Part") then
             if
-                GetDistance(v,p.PrimaryPart) <= 400 and
+                GetDistance(v,p.PrimaryPart) <= 200 and
                     p.Humanoid.Health / p.Humanoid.MaxHealth >= 90 / 100
              then
                 return true
