@@ -1404,9 +1404,9 @@ function KillPlayer(PlayerName)
                         task.wait()
                         game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,100,10)
                         _G.UseFAttack = false
-                    until tick()-getNeartick > 5 and tick()-getNeartick < 100
+                    until tick()-getNeartick > 3 and tick()-getNeartick < 100
                     game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,0,10)
-                elseif tick()-getNeartick > 5 and tick()-getNeartick < 100 then 
+                elseif tick()-getNeartick > 3 and tick()-getNeartick < 100 then 
                     KillingMob = true
                     EquipWeapon() 
                     FastMob = false
@@ -1418,7 +1418,7 @@ function KillPlayer(PlayerName)
                         
                     else
                         task.spawn(function()
-                            game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,0,2.5)
+                            game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,2,2.5)
                         end)
                         task.spawn(function()
                             for i,v in game.workspace.Enemies:GetChildren() do v.Humanoid.Health = 0 end
