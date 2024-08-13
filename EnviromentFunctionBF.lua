@@ -803,7 +803,7 @@ function Tweento(targetCFrame)
         task.spawn(function()
             if not _G.SavedConfig['Same Y Tween'] then return end
             if (game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Y < targetCFrame.Y-5 or game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Y > targetCFrame.Y+5) 
-            and (not bmg or (targetCFrame.Y > bmg.Y+10 and targetCFrame.Y < bmg.Y-10))  then 
+            and (not bmg)  then 
                 if _G.tween then 
                     _G.tween:Cancel()
                     _G.tween = nil 
@@ -1068,11 +1068,14 @@ function KillNigga(MobInstance)
             end
             ]]
             SetContent('Killing '..tostring(N_Name))
+            --[[
             if IsBoss(MobInstance) then 
                 KillingBoss = true 
             end
-            if not KillingBoss and CheckEnabling and (CheckEnabling('High Ping Hop') or CheckEnabling("Player Nearing Hop")) then 
-                task.spawn(function()
+            ]]
+            
+            task.spawn(function()
+                if not KillingBoss and CheckEnabling and (CheckEnabling('High Ping Hop') or CheckEnabling("Player Nearing Hop")) then 
                     if tick()-_G.PirateRaidTick >= 90 then 
                         if GetPing and GetPing() >= 1000 then 
                             task.wait(60,function()
@@ -1082,22 +1085,22 @@ function KillNigga(MobInstance)
                             end)
                         end
                         for ___,plrs in pairs(game.Players:GetChildren()) do 
-                            pcall(function()
-                                if plrs.Name ~= game.Players.LocalPlayer.Name then 
-                                    local MobCFrame = MobInstance.PrimaryPart.CFrame
-                                    if GetDistance(plrs.Character.PrimaryPart,MobCFrame) < 2000 then 
-                                        task.delay(120,function()
-                                            if GetDistance(plrs.Character.PrimaryPart,MobCFrame) < 2000 then 
-                                                HopServer(10,true,'Player nearing...')
-                                            end
-                                        end)
-                                    end
+                            if plrs.Name ~= game.Players.LocalPlayer.Name then 
+                                local MobCFrame = MobInstance.PrimaryPart.CFrame
+                                if GetDistance(plrs.Character.PrimaryPart,MobCFrame) < 2000 then 
+                                    task.delay(120,function()
+                                        if GetDistance(plrs.Character.PrimaryPart,MobCFrame) < 2000 then 
+                                            HopServer(10,true,'Player nearing...')
+                                        end
+                                    end)
                                 end
-                            end)
+                            end
                         end 
                     end
-                end)
-            end
+                end
+            end)
+            --[[
+                        
             for i, v in pairs({
                 "Deandre",
                 "Urban",
@@ -1107,6 +1110,7 @@ function KillNigga(MobInstance)
                     KillingBoss = true
                 end
             end
+            ]]
             local BringMobSuccess
             task.delay(7.5,function() 
                 BringMobSuccess = true
@@ -1844,14 +1848,16 @@ end
 function collectAllFruit_Store()
     if _G.ServerData['Workspace Fruits'] then 
         for i,v in pairs(_G.ServerData['Workspace Fruits']) do 
-            SetContent('Picking up '..getRealFruit(v))
-            Tweento(v.Handle.CFrame)
-            task.wait(.1) 
-            task.delay(3,function()
-                if _G.CurrentTask == 'Collect Fruit' then 
-                    _G.CurrentTask = ''
-                end
-            end)
+            if v then 
+                SetContent('Picking up '..getRealFruit(v))
+                Tweento(v.Handle.CFrame)
+                task.wait(.1) 
+                task.delay(3,function()
+                    if _G.CurrentTask == 'Collect Fruit' then 
+                        _G.CurrentTask = ''
+                    end
+                end)
+            end
         end
     end
 end 
