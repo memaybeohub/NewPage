@@ -2,6 +2,7 @@ repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer
 local lasttis = 0 
 local JoinedGame = tick() 
 _G.MeleeWait = ''
+print('Ok')
 getgenv().SetContent = function(v1,delayticks)
     if not v1 then v1 = '' end 
     if tick()-lasttis > 0 then
@@ -48,6 +49,7 @@ if not game.Players.LocalPlayer.Team then
         )
     until game.Players.LocalPlayer.Team ~= nil 
 end
+print('Loaded Team')
 local RunService= game:GetService("RunService")
 function RemoveLevelTitle(v)
     return tostring(tostring(v):gsub(" %pLv. %d+%p", ""):gsub(" %pRaid Boss%p", ""):gsub(" %pBoss%p", ""))
