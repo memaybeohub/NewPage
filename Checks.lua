@@ -6,63 +6,61 @@ getgenv().CheckEnabling = function(taskName)
     return _G.SavedConfig and _G.SavedConfig['Actions Allowed'] and _G.SavedConfig['Actions Allowed'][taskName]
 end
 getgenv().refreshTask = function() 
-    if _G.TOIKHONGBINGU then 
-        if tick()-_G.TaskUpdateTick >= 60 then 
-            _G.CurrentTask = ''
-        end
-        if _G.CurrentTask == '' then  
-            if _G.ServerData["PlayerBackpack"]['Special Microchip'] or CheckIsRaiding() then 
-                _G.CurrentTask = 'Auto Raid'
-            elseif _G.ServerData['PlayerData'].DevilFruit == '' and _G.SnipeFruit and _G.FruitSniping and _G.CanEatFruit then 
-                _G.CurrentTask = 'Eat Fruit'
-            elseif #_G.ServerData['Workspace Fruits'] > 0 then 
-                _G.CurrentTask = 'Collect Fruit' 
-            elseif Sea3 and _G.CurrentElite and (not _G.Config.OwnedItems["Yama"] and not _G.ServerData['Server Bosses']['rip_indra True Form'])  then 
-                _G.CurrentTask = 'Hunting Elite'  
-            elseif Sea3 and CheckEnabling('Cursed Dual Katana') and _G.ServerData['PlayerData'].Level >= 2000 and not _G.Config.OwnedItems["Tushita"] and (_G.ServerData['Server Bosses']['rip_indra True Form'] or (getgenv().TushitaQuest and getgenv().TushitaQuest.OpenedDoor)) then 
-                _G.CurrentTask = 'Getting Tushita'
-            elseif Sea3 and CheckEnabling('Cursed Dual Katana') and not _G.Config.OwnedItems["Yama"] and (_G.ServerData['PlayerData']["Elite Hunted"] >= 30 or _G.ServerData['PlayerData'].Level >= 2100) then 
-                _G.CurrentTask = 'Getting Yama' 
-            elseif Sea3 and CheckEnabling('Cursed Dual Katana') and _G.CDKQuest and _G.CDKQuest ~= '' then 
-                _G.CurrentTask = 'Getting Cursed Dual Katana' 
-            elseif Sea3 and CheckEnabling('Mirage Puzzle') and _G.RaceV4Progress and _G.ServerData['PlayerData'].RaceVer == "V3" and _G.Config.OwnedItems['Mirror Fractal'] and _G.Config.OwnedItems['Valkyrie Helm'] and (_G.RaceV4Progress < 4 or (game:GetService("Workspace").Map:FindFirstChild("MysticIsland") and not game.ReplicatedStorage.Remotes.CommF_:InvokeServer("CheckTempleDoor"))) then 
-                _G.CurrentTask = 'Unlocking Mirage Puzzle'
-            elseif (Sea2 or Sea3) and CheckEnabling('Upgrading Race') and _G.ServerData['PlayerData'].Beli >= 2000000 and _G.ServerData['PlayerData'].Level >= 2550 and not table.find({'Skypiea',"Fishman","Ghoul"},_G.ServerData['PlayerData'].Race) and (_G.ServerData['PlayerData'].RaceVer == 'V2') then 
-                _G.CurrentTask = 'Auto Race V3'
-            elseif _G.ServerData['PlayerData'].Level > 200 and CheckEnabling('Saber') and not (_G.Config.OwnedItems["Saber"]) and (not SaberQuest.UsedRelic or _G.ServerData['PlayerData'].Level >= 550) then 
-                _G.CurrentTask = 'Saber Quest'
-            elseif _G.Config and CheckEnabling('Soul Guitar') and _G.Config["Melee Level Values"] and _G.Config["Melee Level Values"]['Godhuman'] > 0 and _G.ServerData['PlayerData'].Level >= 2300 and not _G.Config.OwnedItems["Soul Guitar"] then 
-                _G.CurrentTask = 'Getting Soul Guitar'
-            elseif Sea3 and (_G.ServerData['Server Bosses']['Soul Reaper'] or _G.ServerData["PlayerBackpack"]['Hallow Essence']) and (not _G.ServerData["Inventory Items"]["Alucard Fragment"] or _G.ServerData["Inventory Items"]["Alucard Fragment"].Count ~= 5) then 
-                _G.CurrentTask = 'Getting Hallow Scythe'
-            elseif Sea3 and CheckEnabling('Mirror Fractal') and ((_G.ServerData['PlayerBackpack']["God's Chalice"] or _G.ServerData['PlayerBackpack']["Sweet Chalice"] ) or _G.ServerData['PlayerData'].Level >= 2550) and not _G.Config.OwnedItems["Mirror Fractal"] then
-                _G.CurrentTask = 'Auto Dough King'
-            elseif _G.ServerData['PlayerData'].Level > 150 
-            and CheckEnabling('Pole (1st Form)') and not _G.Config.OwnedItems["Pole (1st Form)"] 
-            and (_G.ServerData['Server Bosses']['Thunder God']) then 
-                _G.CurrentTask = 'Pole Quest'
-            elseif game.PlaceId == 2753915549 and _G.ServerData['PlayerData'].Level >= 700 and game.ReplicatedStorage.Remotes.CommF_:InvokeServer("DressrosaQuestProgress", "Dressrosa") ~= 0 then 
-                _G.CurrentTask = 'Sea 2 Quest'
-                print('Sea 1',Sea1)
-                print('Sea2',Sea2)
-                print('Sea 3',Sea3)
-            elseif Sea3 and (_G.CakePrince or (_G.ServerData['Server Bosses']['Cake Prince'] or _G.ServerData['Server Bosses']['Dough King'] ))  then 
-                _G.CurrentTask = 'Cake Prince Raid Boss Event'
-            elseif (Sea2 or Sea3) and (_G.ServerData['Server Bosses']['Core'] or (Sea3 and _G.PirateRaidTick and tick()-_G.PirateRaidTick < 60)) then 
-                _G.CurrentTask = '3rd Sea Event'
-            elseif Sea2 and _G.ServerData['PlayerData'].Level >= 850 and game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BartiloQuestProgress", "Bartilo") ~= 3 then
-                _G.CurrentTask = 'Bartilo Quest'
-            elseif Sea2 and _G.ServerData['PlayerData'].Level >= 1500 and game.ReplicatedStorage.Remotes.CommF_:InvokeServer("ZQuestProgress", "Zou") ~= 0 then 
-                _G.CurrentTask = 'Auto Sea 3' 
-            elseif (Sea2 or Sea3) and (_G.RaidBossEvent or _G.ServerData['Server Bosses']['Darkbeard'] or _G.ServerData['Server Bosses']['rip_indra True Form']) then 
-                _G.CurrentTask = 'Auto Raid Boss' 
-            elseif Sea3 and (_G.ServerData['PlayerBackpack']["God's Chalice"] and (not UnCompleteColor() or HasColor(UnCompleteColor().BrickColor.Name))) then 
-                _G.CurrentTask = "Using God's Chalice"
-            elseif CheckEnabling('Upgrading Race') and _G.ServerData['PlayerData'].Beli >= 500000 and _G.Config.OwnedItems["Warrior Helmet"] and _G.ServerData['PlayerData'].RaceVer == 'V1' then 
-                _G.CurrentTask = 'Race V2 Quest' 
-            end  
-            _G.TaskUpdateTick = tick()
-        end
+    if tick()-_G.TaskUpdateTick >= 60 then 
+        _G.CurrentTask = ''
+    end
+    if _G.CurrentTask == '' then  
+        if _G.ServerData["PlayerBackpack"]['Special Microchip'] or CheckIsRaiding() then 
+            _G.CurrentTask = 'Auto Raid'
+        elseif _G.ServerData['PlayerData'].DevilFruit == '' and _G.SnipeFruit and _G.FruitSniping and _G.CanEatFruit then 
+            _G.CurrentTask = 'Eat Fruit'
+        elseif #_G.ServerData['Workspace Fruits'] > 0 then 
+            _G.CurrentTask = 'Collect Fruit' 
+        elseif Sea3 and _G.CurrentElite and (not _G.Config.OwnedItems["Yama"] and not _G.ServerData['Server Bosses']['rip_indra True Form'])  then 
+            _G.CurrentTask = 'Hunting Elite'  
+        elseif Sea3 and CheckEnabling('Cursed Dual Katana') and _G.ServerData['PlayerData'].Level >= 2000 and not _G.Config.OwnedItems["Tushita"] and (_G.ServerData['Server Bosses']['rip_indra True Form'] or (getgenv().TushitaQuest and getgenv().TushitaQuest.OpenedDoor)) then 
+            _G.CurrentTask = 'Getting Tushita'
+        elseif Sea3 and CheckEnabling('Cursed Dual Katana') and not _G.Config.OwnedItems["Yama"] and (_G.ServerData['PlayerData']["Elite Hunted"] >= 30 or _G.ServerData['PlayerData'].Level >= 2100) then 
+            _G.CurrentTask = 'Getting Yama' 
+        elseif Sea3 and CheckEnabling('Cursed Dual Katana') and _G.CDKQuest and _G.CDKQuest ~= '' then 
+            _G.CurrentTask = 'Getting Cursed Dual Katana' 
+        elseif Sea3 and CheckEnabling('Mirage Puzzle') and _G.RaceV4Progress and _G.ServerData['PlayerData'].RaceVer == "V3" and _G.Config.OwnedItems['Mirror Fractal'] and _G.Config.OwnedItems['Valkyrie Helm'] and (_G.RaceV4Progress < 4 or (game:GetService("Workspace").Map:FindFirstChild("MysticIsland") and not game.ReplicatedStorage.Remotes.CommF_:InvokeServer("CheckTempleDoor"))) then 
+            _G.CurrentTask = 'Unlocking Mirage Puzzle'
+        elseif (Sea2 or Sea3) and CheckEnabling('Upgrading Race') and _G.ServerData['PlayerData'].Beli >= 2000000 and _G.ServerData['PlayerData'].Level >= 2550 and not table.find({'Skypiea',"Fishman","Ghoul"},_G.ServerData['PlayerData'].Race) and (_G.ServerData['PlayerData'].RaceVer == 'V2') then 
+            _G.CurrentTask = 'Auto Race V3'
+        elseif _G.ServerData['PlayerData'].Level > 200 and CheckEnabling('Saber') and not (_G.Config.OwnedItems["Saber"]) and (not SaberQuest.UsedRelic or _G.ServerData['PlayerData'].Level >= 550) then 
+            _G.CurrentTask = 'Saber Quest'
+        elseif _G.Config and CheckEnabling('Soul Guitar') and _G.Config["Melee Level Values"] and _G.Config["Melee Level Values"]['Godhuman'] > 0 and _G.ServerData['PlayerData'].Level >= 2300 and not _G.Config.OwnedItems["Soul Guitar"] then 
+            _G.CurrentTask = 'Getting Soul Guitar'
+        elseif Sea3 and (_G.ServerData['Server Bosses']['Soul Reaper'] or _G.ServerData["PlayerBackpack"]['Hallow Essence']) and (not _G.ServerData["Inventory Items"]["Alucard Fragment"] or _G.ServerData["Inventory Items"]["Alucard Fragment"].Count ~= 5) then 
+            _G.CurrentTask = 'Getting Hallow Scythe'
+        elseif Sea3 and CheckEnabling('Mirror Fractal') and ((_G.ServerData['PlayerBackpack']["God's Chalice"] or _G.ServerData['PlayerBackpack']["Sweet Chalice"] ) or _G.ServerData['PlayerData'].Level >= 2550) and not _G.Config.OwnedItems["Mirror Fractal"] then
+            _G.CurrentTask = 'Auto Dough King'
+        elseif _G.ServerData['PlayerData'].Level > 150 
+        and CheckEnabling('Pole (1st Form)') and not _G.Config.OwnedItems["Pole (1st Form)"] 
+        and (_G.ServerData['Server Bosses']['Thunder God']) then 
+            _G.CurrentTask = 'Pole Quest'
+        elseif game.PlaceId == 2753915549 and _G.ServerData['PlayerData'].Level >= 700 and game.ReplicatedStorage.Remotes.CommF_:InvokeServer("DressrosaQuestProgress", "Dressrosa") ~= 0 then 
+            _G.CurrentTask = 'Sea 2 Quest'
+            print('Sea 1',Sea1)
+            print('Sea2',Sea2)
+            print('Sea 3',Sea3)
+        elseif Sea3 and (_G.CakePrince or (_G.ServerData['Server Bosses']['Cake Prince'] or _G.ServerData['Server Bosses']['Dough King'] ))  then 
+            _G.CurrentTask = 'Cake Prince Raid Boss Event'
+        elseif (Sea2 or Sea3) and (_G.ServerData['Server Bosses']['Core'] or (Sea3 and _G.PirateRaidTick and tick()-_G.PirateRaidTick < 60)) then 
+            _G.CurrentTask = '3rd Sea Event'
+        elseif Sea2 and _G.ServerData['PlayerData'].Level >= 850 and game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BartiloQuestProgress", "Bartilo") ~= 3 then
+            _G.CurrentTask = 'Bartilo Quest'
+        elseif Sea2 and _G.ServerData['PlayerData'].Level >= 1500 and game.ReplicatedStorage.Remotes.CommF_:InvokeServer("ZQuestProgress", "Zou") ~= 0 then 
+            _G.CurrentTask = 'Auto Sea 3' 
+        elseif (Sea2 or Sea3) and (_G.RaidBossEvent or _G.ServerData['Server Bosses']['Darkbeard'] or _G.ServerData['Server Bosses']['rip_indra True Form']) then 
+            _G.CurrentTask = 'Auto Raid Boss' 
+        elseif Sea3 and (_G.ServerData['PlayerBackpack']["God's Chalice"] and (not UnCompleteColor() or HasColor(UnCompleteColor().BrickColor.Name))) then 
+            _G.CurrentTask = "Using God's Chalice"
+        elseif CheckEnabling('Upgrading Race') and _G.ServerData['PlayerData'].Beli >= 500000 and _G.Config.OwnedItems["Warrior Helmet"] and _G.ServerData['PlayerData'].RaceVer == 'V1' then 
+            _G.CurrentTask = 'Race V2 Quest' 
+        end  
+        _G.TaskUpdateTick = tick()
     end
 end 
 local rF1,rF2 
@@ -135,7 +133,7 @@ if hookfunction then
                 for i,v2 in pairs(game.ReplicatedStorage.Effect.Container:GetDescendants()) do 
                     pcall(function()
                         if v2.ClassName =='ModuleScript' and typeof(require(v2)) == 'function' then 
-                            hookfunction(require(v2),function()end) 
+                            hookfunction(require(v2),function()end)     
                             task.wait(1)
                         end
                     end)
@@ -928,7 +926,7 @@ AutoSoulGuitar = function()
                 'Ship Officer'
             }) 
         end
-    elseif CheckMaterialCount('Dark Fragment') < 1 then   
+    elseif CheckMaterialCount('Dark Fragment') < 1  then   
         if not _G.ChestCollect then _G.ChestCollect = 0 end
         if not Sea2 then 
             TeleportWorld(2)
