@@ -28,7 +28,7 @@ getgenv().refreshTask = function()
             _G.CurrentTask = 'Unlocking Mirage Puzzle'
         elseif (Sea2 or Sea3) and CheckEnabling('Upgrading Race') and _G.ServerData['PlayerData'].Beli >= 2000000 and _G.ServerData['PlayerData'].Level >= 2550 and not table.find({'Skypiea',"Fishman","Ghoul"},_G.ServerData['PlayerData'].Race) and (_G.ServerData['PlayerData'].RaceVer == 'V2') then 
             _G.CurrentTask = 'Auto Race V3'
-        elseif _G.ServerData['PlayerData'].Level > 200 and CheckEnabling('Saber') and not (_G.Config.OwnedItems["Saber"]) and (not SaberQuest.UsedRelic or _G.ServerData['PlayerData'].Level >= 550) then 
+        elseif _G.ServerData['PlayerData'].Level > 200 and CheckEnabling('Saber') and not (_G.Config.OwnedItems["Saber"]) and ((SaberQuest and not SaberQuest.UsedRelic) or _G.ServerData['PlayerData'].Level >= 550) then 
             _G.CurrentTask = 'Saber Quest'
         elseif _G.Config and CheckEnabling('Soul Guitar') and _G.Config["Melee Level Values"] and _G.Config["Melee Level Values"]['Godhuman'] > 0 and _G.ServerData['PlayerData'].Level >= 2300 and not _G.Config.OwnedItems["Soul Guitar"] then 
             _G.CurrentTask = 'Getting Soul Guitar'
