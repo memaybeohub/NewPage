@@ -1,4 +1,3 @@
-repeat task.wait() until game:IsLoaded() and game.Players.LocalPlayer 
 local lasttis = 0 
 local JoinedGame = tick() 
 _G.MeleeWait = ''
