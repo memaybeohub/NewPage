@@ -1166,8 +1166,7 @@ function KillNigga(MobInstance)
                 end 
                 task.wait()
             until not MobInstance or not MobInstance:FindFirstChildOfClass("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or
-            MobInstance.Humanoid.Health <= 0 or not IsPlayerAlive() or 
-            task.wait()
+            MobInstance.Humanoid.Health <= 0 or not IsPlayerAlive()  
             SetContent('...')
             KillingMobTick = 0
             KillingMob = false
