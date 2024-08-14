@@ -85,6 +85,7 @@ task.delay(.1,function()
     end
 end)    
 if hookfunction then 
+    wait(3)
     hookfunction(require(game.ReplicatedStorage.Notification).new,function(v1,v2) 
         v1 = tostring(v1):gsub("<Color=[^>]+>", "") 
         local Nof = game.Players.LocalPlayer.Character:FindFirstChild('Notify') or (function() 
