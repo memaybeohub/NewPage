@@ -115,27 +115,13 @@ getgenv().HopServer = function(CountTarget, hoplowallow,reasontohop)
             end
             local huhu = game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer(i)
             for k, v in pairs(huhu) do
-                if k ~= game.JobId and v["Count"] <=     CountTarget then
+                if k ~= game.JobId and v["Count"] <= CountTarget-1 then
                     if not Settings2[k] or tick() - Settings2[k].Time > 60 * 10 then
                         SetContent('Hopping normal server...')
                         Settings2[k] = {
                             Time = tick()
                         }
                         SaveSettings2()
-                        if
-                            game:GetService("Players").LocalPlayer.PlayerGui.Main.InCombat.Bottom.Visible and
-                                game:GetService("Players").LocalPlayer.PlayerGui.Main.InCombat.Visible
-                         then
-                            repeat
-                                wait()
-                                AntiLowHealthting = true
-                                game.Players.LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Z,(math.random(8500, 10000)),game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Z)
-                            until not game:GetService("Players").LocalPlayer or
-                                (not game:GetService("Players").LocalPlayer.PlayerGui.Main.InCombat.Bottom.Visible and
-                                    not game:GetService("Players").LocalPlayer.PlayerGui.Main.InCombat.Visible)
-                            AntiLowHealthting = false
-                        else
-                        end 
                         game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer("teleport", k)
                         return true 
                     elseif tick() - Settings2[k].Time > 60 * 60 then
