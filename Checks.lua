@@ -12,6 +12,12 @@ getgenv().refreshTask = function()
     if not SaberQuest or not SaberQuest.KilledShanks then 
         getgenv().SaberQuest = game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("ProQuestProgress")
     end
+    if not _G.Config then 
+        _G.Config = {}
+    end
+    if not _G.Config.OwnedItems then 
+        _G.Config.OwnedItems = {}
+    end
     if _G.CurrentTask == '' then  
         if _G.ServerData["PlayerBackpack"]['Special Microchip'] or CheckIsRaiding() then 
             _G.CurrentTask = 'Auto Raid'
@@ -1031,18 +1037,23 @@ AutoTushita = function()
                             game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress", "Torch", i)
                         end
                     end
+                    task.wait()
                 until not _G.ServerData["PlayerBackpack"]['Holy Torch'] or TushitaQuest.OpenedDoor
+                task.wait()
                 task.wait()
                 print('Tushita Door Opened:',TushitaQuest.OpenedDoor)
                 if TushitaStartQuestTick then 
                     print('Done tushita in',tick() - (TushitaStartQuestTick or 0))
                 end
+                task.wait()
                 repeat 
+                    task.wait()
                     if _G.ServerData['Server Bosses']['rip_indra True Form'] then 
                         KillBoss(_G.ServerData['Server Bosses']['rip_indra True Form'])
                     end
                     task.wait()
                 until not _G.ServerData['Server Bosses']['rip_indra True Form']
+                wait()
             else
                 KillBoss(_G.ServerData['Server Bosses']['rip_indra True Form'])
             end
