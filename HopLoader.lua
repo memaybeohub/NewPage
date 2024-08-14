@@ -129,7 +129,7 @@ getgenv().HopServer = function(CountTarget, hoplowallow,reasontohop)
                             repeat
                                 wait()
                                 AntiLowHealthting = true
-                                AntiLowHealth(math.random(8500, 10000))
+                                game.Players.LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Z,(math.random(8500, 10000)),game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Z)
                             until not game:GetService("Players").LocalPlayer or
                                 (not game:GetService("Players").LocalPlayer.PlayerGui.Main.InCombat.Bottom.Visible and
                                     not game:GetService("Players").LocalPlayer.PlayerGui.Main.InCombat.Visible)
@@ -172,7 +172,9 @@ getgenv().HopServer = function(CountTarget, hoplowallow,reasontohop)
         end
         game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(child)
     end
-    Hop()
+    while not Hop() do 
+        task.wait()
+    end
     SaveSettings2()
 end
 print('Hub: Loaded Hop.')
