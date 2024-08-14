@@ -3,7 +3,7 @@ _G.CurrentTask = ""
 _G.TaskUpdateTick = tick()  
 _G.PirateRaidTick = 0
 getgenv().CheckEnabling = function(taskName)
-    return _G.SavedConfig and _G.SavedConfig['Actions Allowed'] and _G.SavedConfig['Actions Allowed'][taskName]
+    return _G.SavedConfig and _G.SavedConfig['Actions Allowed'] and (_G.SavedConfig['Actions Allowed'][taskName] or _G.SavedConfig[taskName])
 end
 getgenv().refreshTask = function() 
     if tick()-_G.TaskUpdateTick >= 60 then 
@@ -127,6 +127,7 @@ if hookfunction then
             hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Respawn), function()end)
             hookfunction(require(game:GetService("ReplicatedStorage"):WaitForChild("GuideModule")).ChangeDisplayedNPC,function() end) 
             task.spawn(function()
+                repeat task.wait(1) until game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool')
                 local acc5 = getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2].activeController
                 if not acc5 or not acc5.equipped then 
                     repeat task.wait()
