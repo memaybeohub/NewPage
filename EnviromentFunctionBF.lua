@@ -1119,6 +1119,7 @@ function KillNigga(MobInstance)
                 repeat task.wait() until MobInstance.PrimaryPart and GetDistance(MobInstance.PrimaryPart) < 150 
                 addCheckSkill(MobInstance)
                 wait()
+                sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 3000+300)
                 if BringMob(MobInstance, LockCFrame) then 
                     task.wait(.275)
                     BringMobSuccess = true 
@@ -1135,7 +1136,6 @@ function KillNigga(MobInstance)
                 _G.KillAuraConnection:Disconnect()
                 _G.KillAuraConnection = nil 
             end 
-            sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 3000+300)
             local CurrentPlrHum = game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid')
             repeat
                 if CurrentPlrHum and CurrentPlrHum.Health > 0 then 
@@ -1164,11 +1164,14 @@ function KillNigga(MobInstance)
                 else 
                     _G.UseFAttack = false
                     wait(1)
+                    pcall(function()
+                        CurrentPlrHum = game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid')
+                    end)
                 end 
                 task.wait()
             until not MobInstance or not MobInstance:FindFirstChildOfClass("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or
             MobInstance.Humanoid.Health <= 0 or not IsPlayerAlive() or 
-                CheckIsRaiding()
+            task.wait()
             SetContent('...')
             KillingMobTick = 0
             KillingMob = false

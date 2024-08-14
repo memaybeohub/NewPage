@@ -549,10 +549,10 @@ AutoCDK = function(questTitle)
                         wait(2) 
                     until GetDistance(game:GetService("Workspace")["_WorldOrigin"].Locations["Hell Dimension"]) > 2000 
                     _G.CDKQuest = CheckQuestCDK()  
-                    _G.CDKQuest = CheckQuestCDK()  
                 else 
                     if CheckTorchDimension("Yama") then 
                         Torch = CheckTorchDimension("Yama")
+                        task.spawn(SetContent,'Touching torch.')
                         Tweento(Torch.CFrame)  
                         wait(.5)
                         fireproximityprompt(Torch.ProximityPrompt)  
@@ -567,8 +567,12 @@ AutoCDK = function(questTitle)
                                 end) 
                             end
                             Tweento(CurrentCFrame * CFrame.new(0,250,0))
+                            task.wait()
                         until not NearestMob(1500) or tick()-TickTorch >= 5
+                        task.wait()
                         Tweento(CurrentCFrame)
+                    else
+                        print('Not Torch Dimension yama')
                     end
                 end
             end
