@@ -85,72 +85,73 @@ task.delay(.1,function()
     end
 end)    
 if hookfunction then 
-    wait(3)
-    hookfunction(require(game.ReplicatedStorage.Notification).new,function(v1,v2) 
-        v1 = tostring(v1):gsub("<Color=[^>]+>", "") 
-        local Nof = game.Players.LocalPlayer.Character:FindFirstChild('Notify') or (function() 
-            if not game.Players.LocalPlayer.Character:FindFirstChild('Notify') then 
-                local nof = Instance.new('StringValue',game.Players.LocalPlayer.Character)
-                nof.Name = 'Notify'
-                nof.Value = ''
-                return nof
-            end 
-        end)()
-        Nof.Value = v1 
-        local FakeLOL = {}
-        function FakeLOL.Display(p18)
-            return true;
-        end; 
-        function FakeLOL.Dead()
-        end
-        return FakeLOL
-    end)   
-    task.delay(15,function() 
-        warn('Disabling effects') 
-        if hookfunction and not islclosure(hookfunction) then 
-            for i,v in pairs(require(game.ReplicatedStorage.Effect.Container.Misc.Damage)) do 
-                if typeof(v) == 'function' then 
-                    hookfunction(
-                        v, 
-                        function()
-                            return {
-                                Run = function() end,
-                                Stop = function() end,
-                            }
-                        end
-                    )
-                end
-            end 
-            for i,v in pairs(game.ReplicatedStorage.Assets.GUI:GetChildren()) do 
-                v.Enabled = false 
+    task.delay(2,function()
+        hookfunction(require(game.ReplicatedStorage.Notification).new,function(v1,v2) 
+            v1 = tostring(v1):gsub("<Color=[^>]+>", "") 
+            local Nof = game.Players.LocalPlayer.Character:FindFirstChild('Notify') or (function() 
+                if not game.Players.LocalPlayer.Character:FindFirstChild('Notify') then 
+                    local nof = Instance.new('StringValue',game.Players.LocalPlayer.Character)
+                    nof.Name = 'Notify'
+                    nof.Value = ''
+                    return nof
+                end 
+            end)()
+            Nof.Value = v1 
+            local FakeLOL = {}
+            function FakeLOL.Display(p18)
+                return true;
+            end; 
+            function FakeLOL.Dead()
             end
-            hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Death), function()end)
-            hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Respawn), function()end)
-            hookfunction(require(game:GetService("ReplicatedStorage"):WaitForChild("GuideModule")).ChangeDisplayedNPC,function() end) 
-            task.spawn(function()
-                repeat task.wait(1) until game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool')
-                local acc5 = getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2].activeController
-                if not acc5 or not acc5.equipped then 
-                    repeat task.wait()
-                    until acc5 and acc5.equipped
-                end
-                for i,v in pairs(acc5.data) do  
+            return FakeLOL
+        end)   
+        task.delay(15,function() 
+            warn('Disabling effects') 
+            if hookfunction and not islclosure(hookfunction) then 
+                for i,v in pairs(require(game.ReplicatedStorage.Effect.Container.Misc.Damage)) do 
                     if typeof(v) == 'function' then 
-                        hookfunction(v,function() end )
+                        hookfunction(
+                            v, 
+                            function()
+                                return {
+                                    Run = function() end,
+                                    Stop = function() end,
+                                }
+                            end
+                        )
                     end
+                end 
+                for i,v in pairs(game.ReplicatedStorage.Assets.GUI:GetChildren()) do 
+                    v.Enabled = false 
                 end
-            end)
-            task.delay(0.1,function()
-                for i,v2 in pairs(game.ReplicatedStorage.Effect.Container:GetDescendants()) do 
-                    pcall(function()
-                        if v2.ClassName =='ModuleScript' and typeof(require(v2)) == 'function' then 
-                            hookfunction(require(v2),function()end)     
-                            task.wait(1)
+                hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Death), function()end)
+                hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Respawn), function()end)
+                hookfunction(require(game:GetService("ReplicatedStorage"):WaitForChild("GuideModule")).ChangeDisplayedNPC,function() end) 
+                task.spawn(function()
+                    repeat task.wait(1) until game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool')
+                    local acc5 = getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2].activeController
+                    if not acc5 or not acc5.equipped then 
+                        repeat task.wait()
+                        until acc5 and acc5.equipped
+                    end
+                    for i,v in pairs(acc5.data) do  
+                        if typeof(v) == 'function' then 
+                            hookfunction(v,function() end )
                         end
-                    end)
-                end
-            end)
-        end
+                    end
+                end)
+                task.delay(0.1,function()
+                    for i,v2 in pairs(game.ReplicatedStorage.Effect.Container:GetDescendants()) do 
+                        pcall(function()
+                            if v2.ClassName =='ModuleScript' and typeof(require(v2)) == 'function' then 
+                                hookfunction(require(v2),function()end)     
+                                task.wait(1)
+                            end
+                        end)
+                    end
+                end)
+            end
+        end)
     end)
 end
 _G.rejoin = game:GetService("CoreGui").RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(
