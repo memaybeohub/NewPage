@@ -1076,7 +1076,7 @@ function KillNigga(MobInstance)
             
             task.spawn(function()
                 if not KillingBoss and CheckEnabling and (CheckEnabling('High Ping Hop') or CheckEnabling("Player Nearing Hop")) then 
-                    if tick()-_G.PirateRaidTick >= 90 then 
+                    if not _G.PirateRaidTick or tick()-_G.PirateRaidTick >= 90 then 
                         if GetPing and GetPing() >= 1000 then 
                             task.wait(60,function()
                                 if GetPing and GetPing() >= 700 then 
@@ -1084,18 +1084,19 @@ function KillNigga(MobInstance)
                                 end
                             end)
                         end
-                        for ___,plrs in pairs(game.Players:GetChildren()) do 
-                            if plrs.Name ~= game.Players.LocalPlayer.Name then 
-                                local MobCFrame = MobInstance.PrimaryPart.CFrame
-                                if GetDistance(plrs.Character.PrimaryPart,MobCFrame) < 2000 then 
-                                    task.delay(120,function()
-                                        if GetDistance(plrs.Character.PrimaryPart,MobCFrame) < 2000 then 
-                                            HopServer(10,true,'Player nearing...')
-                                        end
-                                    end)
+                        local bbxz 
+                        if Exploiters then 
+                            for name__,v in Exploiters  do 
+                                bbxz = workspace.Character:FindFirstChild(name__)  
+                                if bbxz then 
+                                    if GetDistance(bbxz.PrimaryPart) < 500 then 
+                                        HopServer(10,true,'Cheater nearing')
+                                    end
                                 end
                             end
-                        end 
+                        else 
+                            print(' not ',Exploiters)
+                        end
                     end
                 end
             end)
@@ -1960,7 +1961,42 @@ function CheckRaceVer()
 end 
 workspace.Enemies.ChildAdded:Connect(LoadBoss)
 game.ReplicatedStorage.ChildAdded:Connect(LoadBoss) 
-
+local FreeFallTime = {}
+getgenv().Exploiters = {}
+function checkExploiting(playerInstance)
+    if playerInstance.Name == game.Players.LocalPlayer.Character.Name then return end 
+    local humanoid = playerInstance.Character:WaitForChild("Humanoid")
+    if humanoid:GetState() == Enum.HumanoidStateType.Freefall then            
+        if not FreeFallTime[playerInstance.Name] then 
+            FreeFallTime[playerInstance.Name] = tick()
+            repeat
+                task.wait()
+            until humanoid:GetState() ~= Enum.HumanoidStateType.Freefall or tick()-FreeFallTime[playerInstance.Name] >= 20 
+            if tick()-FreeFallTime[playerInstance.Name] >= 20 then 
+            end
+        end 
+    elseif FreeFallTime[playerInstance.Name] then 
+        if tick()-FreeFallTime[playerInstance.Name] > 20 then 
+            Exploiters[playerInstance.Name] = true 
+        end
+    end
+    humanoid.StateChanged:Connect(function(_oldState, newState)
+        if humanoid:GetState() == Enum.HumanoidStateType.Freefall then            
+            if not FreeFallTime[playerInstance.Name] then 
+                FreeFallTime[playerInstance.Name] = tick()
+            end 
+        elseif FreeFallTime[playerInstance.Name] then 
+            if tick()-FreeFallTime[playerInstance.Name] > 20 then 
+                Exploiters[playerInstance.Name] = true 
+                FreeFallTime[playerInstance.Name] = nil
+            end
+        end
+    end)    
+end
+for i,v in game.Players:GetChildren() do 
+    task.spawn(checkExploiting,v)
+end
+game.Players.ChildAdded:Connect(checkExploiting)
 local Melee_and_Price = {
     ["Black Leg"] = {Beli = 150000, Fragment = 0},
     ["Fishman Karate"] = {Beli = 750000, Fragment = 0},
