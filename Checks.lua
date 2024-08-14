@@ -9,6 +9,9 @@ getgenv().refreshTask = function()
     if tick()-_G.TaskUpdateTick >= 60 then 
         _G.CurrentTask = ''
     end
+    if not SaberQuest or not SaberQuest.KilledShanks then 
+        getgenv().SaberQuest = game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("ProQuestProgress")
+    end
     if _G.CurrentTask == '' then  
         if _G.ServerData["PlayerBackpack"]['Special Microchip'] or CheckIsRaiding() then 
             _G.CurrentTask = 'Auto Raid'
@@ -20,7 +23,7 @@ getgenv().refreshTask = function()
             _G.CurrentTask = 'Hunting Elite'  
         elseif Sea3 and CheckEnabling('Cursed Dual Katana') and _G.ServerData['PlayerData'].Level >= 2000 and not _G.Config.OwnedItems["Tushita"] and (_G.ServerData['Server Bosses']['rip_indra True Form'] or (getgenv().TushitaQuest and getgenv().TushitaQuest.OpenedDoor)) then 
             _G.CurrentTask = 'Getting Tushita'
-        elseif Sea3 and CheckEnabling('Cursed Dual Katana') and not _G.Config.OwnedItems["Yama"] and (_G.ServerData['PlayerData']["Elite Hunted"] >= 30 or _G.ServerData['PlayerData'].Level >= 2100) then 
+        elseif Sea3 and CheckEnabling('Cursed Dual Katana') and not _G.Config.OwnedItems["Yama"] and (_G.ServerData['PlayerData']["Elite Hunted"] >= 30 or _G.ServerData['PlayerData'].Level >= 2200) then 
             _G.CurrentTask = 'Getting Yama' 
         elseif Sea3 and CheckEnabling('Cursed Dual Katana') and _G.CDKQuest and _G.CDKQuest ~= '' then 
             _G.CurrentTask = 'Getting Cursed Dual Katana' 
