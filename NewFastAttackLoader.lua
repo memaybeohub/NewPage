@@ -27,7 +27,7 @@ if hookfunction and not islclosure(hookfunction) then
     end)
 end
 local old = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework)
-local com = getupvalue and getupvalue(old, 2) or debug and debug.getupvalue and debug.getupvalue(old, 2) or getupvalues and getupvalues(old)[2] orr debug.getupvalues and debug.getupvalues(old)[2]
+local com = getupvalue and getupvalue(old, 2) or debug and debug.getupvalue and debug.getupvalue(old, 2) or getupvalues and getupvalues(old)[2] or debug.getupvalues and debug.getupvalues(old)[2]
 require(game.ReplicatedStorage.Util.CameraShaker):Stop()
 local lastAttack = 0
 game:GetService("RunService").Stepped:Connect(
