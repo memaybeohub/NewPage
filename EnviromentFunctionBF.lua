@@ -1087,7 +1087,7 @@ function KillNigga(MobInstance)
                         local bbxz 
                         if Exploiters then 
                             for name__,v in Exploiters  do 
-                                bbxz = workspace.Character:FindFirstChild(name__)  
+                                bbxz = workspace.Characters:FindFirstChild(name__)  
                                 if bbxz then 
                                     if GetDistance(bbxz.PrimaryPart) < 500 then 
                                         HopServer(10,true,'Cheater nearing')
@@ -1958,7 +1958,7 @@ game.ReplicatedStorage.ChildAdded:Connect(LoadBoss)
 local FreeFallTime = {}
 getgenv().Exploiters = {}
 function checkExploiting(playerInstance)
-    if playerInstance.Name == game.Players.LocalPlayer.Character.Name then return end 
+    if not playerInstance or playerInstance.Name == game.Players.LocalPlayer.Character.Name then return end 
     local humanoid = playerInstance.Character:WaitForChild("Humanoid")
     if humanoid:GetState() == Enum.HumanoidStateType.Freefall then            
         if not FreeFallTime[playerInstance.Name] then 
@@ -1967,6 +1967,7 @@ function checkExploiting(playerInstance)
                 task.wait()
             until humanoid:GetState() ~= Enum.HumanoidStateType.Freefall or tick()-FreeFallTime[playerInstance.Name] >= 20 
             if tick()-FreeFallTime[playerInstance.Name] >= 20 then 
+                Exploiters[playerInstance.Name] = true 
             end
         end 
     elseif FreeFallTime[playerInstance.Name] then 
@@ -1983,6 +1984,8 @@ function checkExploiting(playerInstance)
             if tick()-FreeFallTime[playerInstance.Name] > 20 then 
                 Exploiters[playerInstance.Name] = true 
                 FreeFallTime[playerInstance.Name] = nil
+            else
+                FreeFallTime[playerInstance.Name] = tick()
             end
         end
     end)    
