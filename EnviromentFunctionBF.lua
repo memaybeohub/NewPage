@@ -1141,17 +1141,12 @@ function KillNigga(MobInstance)
             repeat
                 if CurrentPlrHum and CurrentPlrHum.Health > 0 then 
                     if not (_G.ServerData["PlayerBackpack"]['Sweet Chalice'] or _G.ServerData["PlayerBackpack"]["God's Chalice"]) or ((_G.ServerData["PlayerBackpack"]['Sweet Chalice'] or _G.ServerData["PlayerBackpack"]["God's Chalice"]) and CurrentPlrHum.Health >(CurrentPlrHum.MaxHealth*31)/100) then
-                        if not _G.DogdeUntil or _G.DogdeUntil < tick() then 
-                            KillingMob = true
-                            EquipWeapon()
-                            TweenKill(MobInstance)  
-                            if BringMobSuccess then 
-                                _G.UseFAttack = true 
-                            end  
-                        else 
-                            _G.UseFAttack = false 
-                            game.Players.LocalPlayer.Character.PrimaryPart.CFrame = MobInstance.PrimaryPart.CFrame * CFrame.new(0,300,0)
-                        end
+                        KillingMob = true
+                        EquipWeapon()
+                        TweenKill(MobInstance)  
+                        if BringMobSuccess then 
+                            _G.UseFAttack = true 
+                        end  
                     elseif (_G.ServerData["PlayerBackpack"]['Sweet Chalice'] or _G.ServerData["PlayerBackpack"]["God's Chalice"]) and CurrentPlrHum.Health <= (CurrentPlrHum.MaxHealth*30)/100 then 
                         local OldCFrame = game.Players.LocalPlayer.Character.PrimaryPart.CFrame
                         repeat 
