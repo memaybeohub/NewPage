@@ -39,7 +39,7 @@ getgenv().refreshTask = function()
             _G.CurrentTask = 'Auto Race V3'
         elseif _G.ServerData['PlayerData'].Level > 200 and CheckEnabling('Saber') and not (_G.Config.OwnedItems["Saber"]) and ((SaberQuest and not SaberQuest.UsedRelic) or _G.ServerData['PlayerData'].Level >= 550) then 
             _G.CurrentTask = 'Saber Quest'
-        elseif _G.Config and CheckEnabling('Soul Guitar') and _G.Config["Melee Level Values"] and _G.Config["Melee Level Values"]['Godhuman'] > 0 and _G.ServerData['PlayerData'].Level >= 2300 and not _G.Config.OwnedItems["Soul Guitar"] then 
+        elseif _G.Config and CheckEnabling('Soul Guitar') and _G.Config["Melee Level Values"] and (_G.Config["Melee Level Values"]['Godhuman'] > 0 or _G.ServerData['PlayerData'].Level >= 2400) and _G.ServerData['PlayerData'].Level >= 2300 and not _G.Config.OwnedItems["Soul Guitar"] then 
             _G.CurrentTask = 'Getting Soul Guitar'
         elseif Sea3 and (_G.ServerData['Server Bosses']['Soul Reaper'] or _G.ServerData["PlayerBackpack"]['Hallow Essence']) and (not _G.ServerData["Inventory Items"]["Alucard Fragment"] or _G.ServerData["Inventory Items"]["Alucard Fragment"].Count ~= 5) then 
             _G.CurrentTask = 'Getting Hallow Scythe'

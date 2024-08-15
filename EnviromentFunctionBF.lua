@@ -577,7 +577,7 @@ function CheckMessage(v1)
         return v1
     elseif v1:find('factory') then 
         return v1
-    elseif v1:find('Loading...') then 
+    elseif v1 == "Loading..." then 
         print('Dimension Loading ⚠️⚠️⚠️|',v1,v1 == "Loading...")
         _G.DimensionLoading = true
     elseif v1:find('Good job') then 
