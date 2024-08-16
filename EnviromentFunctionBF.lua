@@ -1855,6 +1855,8 @@ function collectAllFruit_Store()
                         _G.CurrentTask = ''
                     end
                 end)
+            elseif _G.ServerData['Inventory Items'][ReturnFruitNameWithId(v)] then 
+                _G.ServerData['Workspace Fruits'][i] = nil
             end
         end
     end
