@@ -1373,7 +1373,9 @@ AutoMeleeFunc = function()
         Tweento(CFrame.new(-12548.8, 332.378, -7617.77)) 
         _G.MeleeTask = '' 
     elseif _G.MeleeTask == 'Find Fire Essence' then  
-        if _G.ServerData['Server Bosses']['Soul Reaper'] then
+        if #_G.ServerData['Workspace Fruits'] > 0 then
+            collectAllFruit_Store()
+        elseif _G.ServerData['Server Bosses']['Soul Reaper'] then
             KillBoss(_G.ServerData['Server Bosses']['Soul Reaper'] )
         elseif _G.ServerData["PlayerBackpack"]['Hallow Essence'] then 
             EquipWeapon('Hallow Essence') 
