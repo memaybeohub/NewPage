@@ -1363,6 +1363,8 @@ AutoMeleeFunc = function()
         elseif _G.ServerData['PlayerData'].Level >= 1450 then
             SetContent('Hopping for Tide Keeper',5)
             HopServer(10,true,"Tide Keeper")
+        else
+            _G.MeleeTask= ''
         end 
     elseif _G.MeleeTask == 'Previous Hero Puzzle' then   
         if not Sea3 then TeleportWorld(3) end
@@ -1626,7 +1628,7 @@ AutoMeleeCheck = function()
                 end) 
                 if (not _G.Config.IceCastleDoorPassed) and (_G.ServerData["PlayerBackpack"]['Library Key'] or _G.ServerData['Server Bosses']['Awakened Ice Admiral'] or _G.ServerData['PlayerData'].Level >= 1450) then 
                     _G.MeleeTask = 'Find Library Key'
-                elseif not _G.Config.WaterkeyPassed and (_G.ServerData["PlayerBackpack"]['Water Key'] or _G.ServerData['Server Bosses']['Tide Keeper'] or _G.ServerData['PlayerData'].Level >= 1450) then 
+                elseif not _G.Config.WaterkeyPassed and (_G.ServerData['Server Bosses']['Tide Keeper'] or _G.ServerData['PlayerData'].Level >= 1450) then 
                     _G.MeleeTask = 'Find Waterkey' 
                 elseif _G.ServerData['PlayerData'].Level >= 1650 and _G.Config.PreviousHeroPassed and not _G.Config.PreviousHeroPassed2 then  
                     if not Sea3 then 
