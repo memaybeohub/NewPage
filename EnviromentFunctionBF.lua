@@ -2100,27 +2100,29 @@ getMeleeLevelValues()
 _G.CheckAllMelee = true
 function ReloadFrutis()    
     SetContent('Checking Server Fruits...')
-    for i,v in pairs(game.workspace:GetChildren()) do 
-        if v.Name:find('Fruit') and not table.find(_G.ServerData['Workspace Fruits'],v) then 
-            pcall(function()
-                local vN = ReturnFruitNameWithId(v)
-                if not _G.ServerData['Inventory Items'][vN] then
-                    print(vN,'new fruit')
-                    table.insert(_G.ServerData['Workspace Fruits'],v)  
-                    local selfs 
-                    selfs = v:GetPropertyChangedSignal('Parent'):Connect(function()
-                        if v.Parent ~= game.workspace then 
-                            _G.ServerData['Workspace Fruits'] = {}
-                            selfs:Disconnect()
-                            ReloadFrutis()
-                        end
-                    end)
-                else
-                    print("Skipped "..tostring(vN).." because already stored.")
-                end
-            end)
-        end 
-    end
+    task.spawn(function()
+        for i,v in pairs(game.workspace:GetChildren()) do 
+            if v.Name:find('Fruit') and not table.find(_G.ServerData['Workspace Fruits'],v) then 
+                pcall(function()
+                    local vN = ReturnFruitNameWithId(v)
+                    if not _G.ServerData['Inventory Items'][vN] then
+                        print(vN,'new fruit')
+                        table.insert(_G.ServerData['Workspace Fruits'],v)  
+                        local selfs 
+                        selfs = v:GetPropertyChangedSignal('Parent'):Connect(function()
+                            if v.Parent ~= game.workspace then 
+                                _G.ServerData['Workspace Fruits'] = {}
+                                selfs:Disconnect()
+                                ReloadFrutis()
+                            end
+                        end)
+                    else
+                        print("Skipped "..tostring(vN).." because already stored.")
+                    end
+                end)
+            end 
+        end
+    end)
 end  
 function CheckAnyPlayersInCFrame(CFrameCheck, MinDistance)
     local CurrentFound
@@ -2138,7 +2140,7 @@ function CheckAnyPlayersInCFrame(CFrameCheck, MinDistance)
     end
     return CurrentFound
 end 
-task.spawn(ReloadFrutis)
+ReloadFrutis() 
 game:GetService("Workspace")["_WorldOrigin"].Locations.ChildAdded:Connect(function(v)
     local AddedTick = tick() 
     if not _G.ServerData then _G.ServerData = {} end
