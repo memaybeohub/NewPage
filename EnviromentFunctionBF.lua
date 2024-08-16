@@ -2138,7 +2138,7 @@ function CheckAnyPlayersInCFrame(CFrameCheck, MinDistance)
     end
     return CurrentFound
 end 
-ReloadFrutis() 
+task.spawn(ReloadFrutis)
 game:GetService("Workspace")["_WorldOrigin"].Locations.ChildAdded:Connect(function(v)
     local AddedTick = tick() 
     if not _G.ServerData then _G.ServerData = {} end
