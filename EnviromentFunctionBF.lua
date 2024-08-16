@@ -1846,7 +1846,7 @@ end
 function collectAllFruit_Store()
     if _G.ServerData['Workspace Fruits'] then 
         for i,v in pairs(_G.ServerData['Workspace Fruits']) do 
-            if v then 
+            if v and not _G.ServerData['Inventory Items'][ReturnFruitNameWithId(v)] then 
                 SetContent('Picking up '..getRealFruit(v))
                 Tweento(v.Handle.CFrame)
                 task.wait(.1) 
@@ -1959,8 +1959,8 @@ local FreeFallTime = {}
 getgenv().Exploiters = {}
 function checkExploiting(playerInstance)
     if not playerInstance or playerInstance.Name == game.Players.LocalPlayer.Character.Name then return end 
-    local humanoid = playerInstance.Character:WaitForChild("Humanoid")
-    if humanoid:GetState() == Enum.HumanoidStateType.Freefall then            
+    local humanoid = playerInstance.Character and playerInstance.Character:WaitForChild("Humanoid")
+    if humanoid and humanoid:GetState() == Enum.HumanoidStateType.Freefall then            
         if not FreeFallTime[playerInstance.Name] then 
             FreeFallTime[playerInstance.Name] = tick()
             repeat
