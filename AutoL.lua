@@ -6,16 +6,6 @@ IsBossDrop = function()
         if _G.BossDropTable then 
             for i,v in _G.BossDropTable do 
                 if _G.ServerData['Server Bosses'][v] then 
-                    --[[
-                    task.spawn(function()
-                        if Sea3 and not _G.LGBTCOLORQUEST then 
-                            _G.LGBTCOLORQUEST = typeof(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("HornedMan")) ~= 'string'
-                            if not _G.LGBTCOLORQUEST then 
-                                game.ReplicatedStorage.Remotes.CommF_:InvokeServer("HornedMan", "Bet")
-                            end
-                        end
-                    end)
-                    ]]
                     return _G.ServerData['Server Bosses'][v]
                 end
             end
@@ -127,6 +117,15 @@ function AutoL()
     elseif Sea2 and _G.ServerData['PlayerData'].Level >= 1425 and not _G.Config.WaterkeyPassed and _G.ServerData['Server Bosses']['Tide Keeper'] then 
         KillBoss(_G.ServerData['Server Bosses']['Tide Keeper'])
     elseif _G.ServerData['PlayerData'].Level >= 200 and BOSSCP then 
+        task.spawn(function()
+            if Sea3 and not _G.LGBTCOLORQUEST then 
+                local faired = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("HornedMan")
+                _G.LGBTCOLORQUEST = typeof(faired) ~= 'string'
+                if not _G.LGBTCOLORQUEST and faired:find(BOSSCP.Name) then 
+                    game.ReplicatedStorage.Remotes.CommF_:InvokeServer("HornedMan", "Bet")
+                end
+            end
+        end)
         KillBoss(BOSSCP)
     elseif not _G.QuestKillPlayer and (_G.ServerData['PlayerData'].Level < 2550 or game.PlaceId ~= 7449423635 ) then
         FarmMobByLevel()
