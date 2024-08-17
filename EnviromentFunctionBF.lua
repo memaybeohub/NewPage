@@ -2352,7 +2352,7 @@ function LoadChest()
     end)
 end
 
-LoadChest() 
+task.spawn(LoadChest) 
 function getNearestChest()
     for i,v in pairs(_G.ServerData['Chest']) do
         return v 
@@ -2635,7 +2635,7 @@ RunService.Heartbeat:Connect(function()
         else
             AddBodyVelocity(false)
         end 
-        if _G.PlayerLastMoveTick and tick()-_G.PlayerLastMoveTick >= 3*60 then 
+        if _G.PlayerLastMoveTick and tick()-_G.PlayerLastMoveTick >= 5*60 then 
             game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)  
         end
         local SetText = ""
