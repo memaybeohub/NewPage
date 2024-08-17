@@ -1299,7 +1299,8 @@ function BringMob(TAR,V5)
             then
                 task.spawn(function() 
                     v.Humanoid:ChangeState(10)
-                    TweenObject(V6,v.PrimaryPart,1000)
+                    v:MoveTo(V6.Position)
+                    --TweenObject(V6,v.PrimaryPart,1000)
                     v.PrimaryPart.CanCollide = false
                     v.Head.CanCollide = false
                     v.Humanoid.WalkSpeed = 0
