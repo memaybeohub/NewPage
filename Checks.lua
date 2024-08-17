@@ -1039,14 +1039,13 @@ AutoTushita = function()
                     for i,v in TushitaQuest.Torches do 
                         if not v then 
                             task.spawn(function()
+                                game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress", "Torch", i)
                                 SetContent('Burning Torch '..tostring(i))
                             end)
-                            game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress", "Torch", i)
                         end
                     end
                     task.wait()
                 until not _G.ServerData["PlayerBackpack"]['Holy Torch'] or TushitaQuest.OpenedDoor
-                task.wait()
                 task.wait()
                 print('Tushita Door Opened:',TushitaQuest.OpenedDoor)
                 if TushitaStartQuestTick then 
