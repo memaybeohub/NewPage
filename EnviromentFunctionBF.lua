@@ -1090,7 +1090,7 @@ function KillNigga(MobInstance)
                                 bbxz = workspace.Characters:FindFirstChild(name__)  
                                 if bbxz then 
                                     if GetDistance(bbxz.PrimaryPart) < 500 then 
-                                        HopServer(10,true,'Cheater nearing')
+                                        HopServer(10,true,'Cheater nearing:'..tostring(bbxz.Name).." "..tostring(GetDistance(bbxz.PrimaryPart)))
                                     end
                                 end
                             end
