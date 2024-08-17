@@ -686,7 +686,6 @@ AutoUseGodChalice = function()
     end
 end
 AutoRaidBoss = function()
-    warn('Auto Raid Boss')
     local RaidBoss = _G.ServerData['Server Bosses']['Darkbeard'] or _G.ServerData['Server Bosses']['rip_indra True Form']
     if RaidBoss then 
         KillBoss(RaidBoss)

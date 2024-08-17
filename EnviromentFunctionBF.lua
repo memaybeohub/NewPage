@@ -153,7 +153,7 @@ function ReCreateMobFolder()
         end
     end
 end
-ReCreateMobFolder()
+task.spawn(ReCreateMobFolder)
 local MobSpawnClone = {}
 local function getMid(vName,gg)
     local total = 0
@@ -1227,7 +1227,7 @@ function getMobSpawnExtra()
         end 
     end
 end 
-getMobSpawnExtra()
+task.spawn(getMobSpawnExtra)
 function getMobSpawnbyList(MobList)
     local Returner = {}
     for i,v in pairs(MobList) do 
@@ -1479,15 +1479,6 @@ function getNearestRaidIsland()
 end 
 function CheckIsRaiding() 
     return _G.ServerData['Nearest Raid Island'] and _G.ServerData['Nearest Raid Island'].Parent
---[[
-    local checkraid2 = _G.ServerData['Nearest Raid Island']
-    local checkraid1 = game.Players.LocalPlayer.PlayerGui.Main.Timer.Visible == true
-    if checkraid1 then 
-        return checkraid1 
-    else 
-        return checkraid2 
-    end
-]] 
 end
 local lplr = game.Players.LocalPlayer
 function FlyBoat(e,b,h)
@@ -1773,7 +1764,9 @@ function FarmMobByLevel(level)
         end
     end
 end
-FruitsID = loadstring(game:HttpGet("https://raw.githubusercontent.com/memaybeohub/NewPage/main/Magnetism.lua"))()
+task.spawn(function()
+    getgenv().FruitsID = loadstring(game:HttpGet("https://raw.githubusercontent.com/memaybeohub/NewPage/main/Magnetism.lua"))()
+end)
 function ReturnFruitNameWithId(v) 
     if not v then return end 
     local SH = v:WaitForChild("Fruit",15):WaitForChild("Fruit",1)
@@ -2244,19 +2237,21 @@ function PickChest(Chest)
         end
     end
 end
-local Raids = require(game:GetService("ReplicatedStorage").Raids).raids
-local AdvancedRaids = require(game:GetService("ReplicatedStorage").Raids).advancedRaids
 local RealRaid = {}
-for i, v in pairs(Raids) do 
-    if v ~= " " and v ~= "" then 
-        table.insert(RealRaid, v) 
+task.spawn(function()
+    local Raids = require(game:GetService("ReplicatedStorage").Raids).raids
+    local AdvancedRaids = require(game:GetService("ReplicatedStorage").Raids).advancedRaids
+    for i, v in pairs(Raids) do 
+        if v ~= " " and v ~= "" then 
+            table.insert(RealRaid, v) 
+        end
     end
-end
-for i, v in pairs(AdvancedRaids) do
-    if v ~= " " and v ~= "" then 
-        table.insert(RealRaid, v) 
-    end
-end 
+    for i, v in pairs(AdvancedRaids) do
+        if v ~= " " and v ~= "" then 
+            table.insert(RealRaid, v) 
+        end
+    end 
+end)
 function CheckMaterialCount(MM) 
     local Count = 0 
     if _G.ServerData['Inventory Items'][MM] and _G.ServerData['Inventory Items'][MM].Count then 
@@ -2271,7 +2266,7 @@ function buyRaidingChip()
         if (((_G.CurrentTask == '' or _G.MeleeTask == 'None') and _G.CurrentTask ~= 'Auto Sea 3') or _G.FragmentNeeded) and not checkFruit1M() and (_G.FragmentNeeded or (not CheckX2Exp() and ((_G.ServerData['PlayerData'].Fragments < 7500 or (_G.ServerData['PlayerData'].Level >= 2550 and _G.ServerData['PlayerData'].Fragments < 25000)) or #_G.ServerData["PlayerBackpackFruits"] > 0))) then 
             wait(1)
             local SelRaid = "Flame"
-            if table.find(Raids,mmb(_G.ServerData['PlayerData'].DevilFruit)) then  
+            if table.find(RealRaid,mmb(_G.ServerData['PlayerData'].DevilFruit)) then  
                 SelRaid = mmb(_G.ServerData['PlayerData'].DevilFruit)
             end
             local bought = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("RaidsNpc","Select",SelRaid) == 1 
