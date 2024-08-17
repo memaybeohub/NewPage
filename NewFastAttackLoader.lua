@@ -37,7 +37,7 @@ game:GetService("RunService").Stepped:Connect(
                 if not _G.CurrentCharHum or not _G.CurrentCharHum.Parent or _G.CurrentCharHum.ClassName ~='Humanoid' then 
                     _G.CurrentCharHum = game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid')
                 end
-                if (_G.UseFAttack or UseFastAttack) and (_G.CurrentCharHum and _G.CurrentCharHum.Parent.Stun.Value == 0) and tick()-lastAttack >= .05 then
+                if (_G.UseFAttack or UseFastAttack) and (_G.CurrentCharHum and _G.CurrentCharHum.Parent.Stun.Value == 0) and tick()-lastAttack >= .12 then
                     lastAttack = tick()
                     com.activeController.hitboxMagnitude = 60
                     com.activeController.active = false
