@@ -24,8 +24,8 @@ RigLib.wrapAttackAnimationAsync = function(p_u_28, p_u_29, p_u_30, p_u_31, p_u_3
         if #v37 > 0 then
             do
                 p_u_32(v37)
-                if true and tick() - v_u_36 > 0.0001  then
-                    game.ReplicatedStorage.RigControllerEvent:FireServer("weaponChange", ac.currentWeaponModel)
+                if true and tick() - v_u_36 > 0.00014 then
+                    ReplicatedStorage.RigControllerEvent:FireServer("weaponChange", tostring(ac.currentWeaponModel))
                 end
             end
         end
