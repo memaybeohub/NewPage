@@ -84,7 +84,7 @@ function AutoL()
                 end
             end
         end
-    elseif not _G.QuestKillPlayer and game.PlaceId == 2753915549 and game.Players.LocalPlayer.Data.Level.Value < 120 and game.Players.LocalPlayer.Data.Level.Value >= 25 then 
+    elseif not _G.QuestKillPlayer and game.PlaceId == 2753915549 and game.Players.LocalPlayer.Data.Level.Value < 120 and game.Players.LocalPlayer.Data.Level.Value >= 15 then 
         KillMobList({"Royal Squad [Lv. 525]", "Shanda [Lv. 475]"}) 
     elseif Sea2 and _G.ServerData["PlayerBackpack"]['Hidden Key'] and not _G.ServerData["Inventory Items"]["Rengoku"] then 
         if game.ReplicatedStorage.Remotes.CommF_:InvokeServer("OpenRengoku") then 
