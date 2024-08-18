@@ -756,9 +756,11 @@ function AddNoknockback(enemy)
         end
     end)
 end 
-getgenv().TushitaQuest = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress")
+task.spawn(function()
+    _G.Ticktp = tick() 
+    getgenv().TushitaQuest = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress")
+end)
 game.workspace.Characters.ChildAdded:Connect(LoadPlayer)
-_G.Ticktp = tick() 
 local tween_s = game:service "TweenService"
 function Tweento(targetCFrame)
     if CheckPlayerAlive() then
@@ -1298,9 +1300,7 @@ function BringMob(TAR,V5)
                     v:FindFirstChildOfClass('Humanoid').MaxHealth < 100000
             then
                 task.spawn(function() 
-                    v.Humanoid:ChangeState(10)
                     v:MoveTo(V6.Position)
-                    --TweenObject(V6,v.PrimaryPart,1000)
                     v.PrimaryPart.CanCollide = false
                     v.Head.CanCollide = false
                     v.Humanoid.WalkSpeed = 0
@@ -1543,11 +1543,12 @@ function EquipAllWeapon()
         end
     end
 end
-local GuideModule = require(game:GetService("ReplicatedStorage").GuideModule)
-local Quest = require(game:GetService("ReplicatedStorage").Quests) 
-local v17 = require(game.ReplicatedStorage:WaitForChild("GuideModule"))
-local CFrameByLevelQuest = {} 
-local UselessQuest = {
+wait()
+getgenv().GuideModule = require(game:GetService("ReplicatedStorage").GuideModule)
+getgenv().Quest = require(game:GetService("ReplicatedStorage").Quests) 
+getgenv().v17 = require(game.ReplicatedStorage:WaitForChild("GuideModule"))
+getgenv().CFrameByLevelQuest = {} 
+getgenv().UselessQuest = {
     "BartiloQuest",
     "Trainees",
     "MarineQuest",
