@@ -793,7 +793,11 @@ AutoSoulGuitar = function()
                     AutoL()
                 end
             else 
-                HopServer(10,true,"Full Moon")
+                if not AutoFullMoon then 
+                    loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/AutoFullMoon.lua'))()
+                else
+                    AutoFullMoon()
+                end
             end 
         elseif not CurrnetPuzzle.Swamp then  
             SetContent("Unlocking Soul Guitar's Puzzle (Swamp: Kill 6 Zombie at same time)",5)
