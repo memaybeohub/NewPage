@@ -12,7 +12,7 @@ IsBossDrop = function()
         end
     end
 end
-function AutoL()
+getgenv().AutoL = function()
     if _G.QuestKillPlayer and not game:GetService("Players").LocalPlayer.PlayerGui.Main:FindFirstChild("Quest").Visible then 
         _G.QuestKillPlayer = false 
     end 
