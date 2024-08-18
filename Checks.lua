@@ -128,7 +128,7 @@ if hookfunction then
                 hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Respawn), function()end)
                 hookfunction(require(game:GetService("ReplicatedStorage"):WaitForChild("GuideModule")).ChangeDisplayedNPC,function() end) 
                 task.spawn(function()
-                    repeat task.wait(1) until game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool')
+                    repeat task.wait(1) until game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool') and (game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool').ToolTip == 'Melee' or game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool').ToolTip == 'Sword')
                     local acc5 = getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2].activeController
                     if not acc5 or not acc5.equipped then 
                         repeat task.wait()
@@ -573,7 +573,20 @@ AutoCDK = function(questTitle)
                             task.wait()
                         until not NearestMob(1500) or tick()-TickTorch >= 5
                         task.wait()
-                        Tweento(CurrentCFrame)
+                        if tick()-TickTorch >= 5 then
+                            local aaa = NearestMob(1500)
+                            if aaa then 
+                                repeat 
+                                    task.wait()
+                                    aaa = NearestMob(1500)
+                                    if aaa then 
+                                        KillNigga(aaa)
+                                    end
+                                until not NearestMob(1500)
+                            end
+                        else 
+                            Tweento(CurrentCFrame)
+                        end
                     else
                         print('Not Torch Dimension yama')
                     end
@@ -662,6 +675,7 @@ AutoCDK = function(questTitle)
             task.wait()
             task.wait()
         until not NearestHazeMob()
+        print('cc')
     elseif questTitle == 'Yama Quest -3' then 
         if FindMobHasHaki() then 
             repeat 
