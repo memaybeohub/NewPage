@@ -46,7 +46,7 @@ function AttackFunction()
 end
 
 task.spawn(function()
-while task.wait() do 
-    task.spawn(AttackFunction)
-end
+    while task.wait() do 
+        task.spawn(AttackFunction)
     end
+end)
