@@ -1297,9 +1297,11 @@ function BringMob(TAR,V5)
                 (isnetworkowner(v.HumanoidRootPart)) and
                 v:FindFirstChildOfClass('Humanoid').MaxHealth < 100000
         then
+            v.PrimaryPart.CanCollide = false
+            v.Head.CanCollide = false
             v.Humanoid.WalkSpeed = 0
             v.Humanoid.JumpPower = 0 
-            v.Humanoid.AutoRotate = false
+            v.Humanoid.AutoRotate = false 
             v:MoveTo(V6.Position)
         end
     end 
@@ -1666,7 +1668,6 @@ function GetQuest(QuestTables)
     end
     if QuestTables.QuestCFrame and GetDistance(QuestTables.QuestCFrame) <= 8 then  
         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", tostring(QuestTables["QuestName"]), QuestTables["QuestId"])
-        table.foreach(QuestTables,print)
         task.wait(.75)
     else
         if GetDistance(QuestTables["QuestCFrame"] * CFrame.new(0,0,-2)) < 1000 then 
