@@ -1102,18 +1102,6 @@ function KillNigga(MobInstance)
                     end
                 end
             end)
-            --[[
-                        
-            for i, v in pairs({
-                "Deandre",
-                "Urban",
-                "Diablo"
-            }) do
-                if v == MobInstance.Name then
-                    KillingBoss = true
-                end
-            end
-            ]]
             local BringMobSuccess
             task.delay(7.5,function() 
                 BringMobSuccess = true
@@ -1173,7 +1161,7 @@ function KillNigga(MobInstance)
             KillingMobTick = 0
             KillingMob = false
             _G.UseFAttack = false  
-            AddBodyVelocity(false)
+            task.spawn(AddBodyVelocity,false)
             return true
         end
     end)
@@ -1299,14 +1287,12 @@ function BringMob(TAR,V5)
                     (isnetworkowner(v.HumanoidRootPart)) and
                     v:FindFirstChildOfClass('Humanoid').MaxHealth < 100000
             then
-                task.spawn(function() 
-                    v:MoveTo(V6.Position)
-                    v.PrimaryPart.CanCollide = false
-                    v.Head.CanCollide = false
-                    v.Humanoid.WalkSpeed = 0
-                    v.Humanoid.JumpPower = 0 
-                    v.Humanoid.AutoRotate = false 
-                end)
+                v.PrimaryPart.CanCollide = false
+                v.Head.CanCollide = false
+                v.Humanoid.WalkSpeed = 0
+                v.Humanoid.JumpPower = 0 
+                v.Humanoid.AutoRotate = false 
+                v:MoveTo(V6.Position)
             end
         end
     end 
