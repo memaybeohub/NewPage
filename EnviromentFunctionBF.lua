@@ -1273,7 +1273,7 @@ function KillBoss(BossInstance)
     if not BossInstance or not BossInstance:FindFirstChild('Humanoid') then return end 
     warn('Killing boss:',BossInstance.Name)
     if not game.Workspace.Enemies:FindFirstChild(BossInstance.Name) then  
-        SetContent('Tweening to boss '..BossInstance.Name)
+        SetContent('Moving to '..BossInstance.Name)
         Tweento(BossInstance.PrimaryPart.CFrame * CFrame.new(0,50,0))
     end
     return KillNigga(BossInstance)
@@ -1973,20 +1973,22 @@ function checkExploiting(playerInstance)
             Exploiters[playerInstance.Name] = true 
         end
     end
-    humanoid.StateChanged:Connect(function(_oldState, newState)
-        if humanoid:GetState() == Enum.HumanoidStateType.Freefall then            
-            if not FreeFallTime[playerInstance.Name] then 
-                FreeFallTime[playerInstance.Name] = tick()
-            end 
-        elseif FreeFallTime[playerInstance.Name] then 
-            if tick()-FreeFallTime[playerInstance.Name] > 20 then 
-                Exploiters[playerInstance.Name] = true 
-                FreeFallTime[playerInstance.Name] = nil
-            else
-                FreeFallTime[playerInstance.Name] = tick()
+    if humanoid then 
+        humanoid.StateChanged:Connect(function(_oldState, newState)
+            if humanoid:GetState() == Enum.HumanoidStateType.Freefall then            
+                if not FreeFallTime[playerInstance.Name] then 
+                    FreeFallTime[playerInstance.Name] = tick()
+                end 
+            elseif FreeFallTime[playerInstance.Name] then 
+                if tick()-FreeFallTime[playerInstance.Name] > 20 then 
+                    Exploiters[playerInstance.Name] = true 
+                    FreeFallTime[playerInstance.Name] = nil
+                else
+                    FreeFallTime[playerInstance.Name] = tick()
+                end
             end
-        end
-    end)    
+        end)  
+    end  
 end
 for i,v in game.Players:GetChildren() do 
     task.spawn(checkExploiting,v)
