@@ -1544,11 +1544,11 @@ function EquipAllWeapon()
     end
 end
 wait()
-getgenv().GuideModule = require(game:GetService("ReplicatedStorage").GuideModule)
-getgenv().Quest = require(game:GetService("ReplicatedStorage").Quests) 
-getgenv().v17 = require(game.ReplicatedStorage:WaitForChild("GuideModule"))
+local GuideModule = require(game:GetService("ReplicatedStorage").GuideModule)
+local Quest = require(game:GetService("ReplicatedStorage").Quests) 
+local v17 = require(game.ReplicatedStorage:WaitForChild("GuideModule"))
 getgenv().CFrameByLevelQuest = {} 
-getgenv().UselessQuest = {
+local UselessQuest = {
     "BartiloQuest",
     "Trainees",
     "MarineQuest",
