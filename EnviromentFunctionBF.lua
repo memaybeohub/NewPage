@@ -1150,7 +1150,6 @@ function KillNigga(MobInstance)
                         TweenKill(MobInstance)  
                         if BringMobSuccess then 
                             MobInstance.Humanoid.AutoRotate = false
-                            MobInstance.Humanoid.PlatformStand = true
                             _G.UseFAttack = true 
                         end  
                     elseif (_G.ServerData["PlayerBackpack"]['Sweet Chalice'] or _G.ServerData["PlayerBackpack"]["God's Chalice"]) and CurrentPlrHum.Health <= (CurrentPlrHum.MaxHealth*30)/100 then 
@@ -1301,7 +1300,6 @@ function BringMob(TAR,V5)
             v.Humanoid.WalkSpeed = 0
             v.Humanoid.JumpPower = 0 
             v.Humanoid.AutoRotate = false
-            v.Humanoid.PlatformStand  = true 
             v:MoveTo(V6.Position)
         end
     end 
