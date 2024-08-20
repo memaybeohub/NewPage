@@ -1289,25 +1289,17 @@ function BringMob(TAR,V5)
     else
         return
     end
-    V6 = TAR.HumanoidRootPart.CFrame
-    if V5 then 
-        V6 = V5 
-    end  
-    if TAR then
-        for i, v in pairs(game.Workspace.Enemies:GetChildren()) do
-            if v.PrimaryPart and
-                v.Name == TAR.Name and
-                    (V6.Position - v.HumanoidRootPart.Position).Magnitude < 340 and
-                    (isnetworkowner(v.HumanoidRootPart)) and
-                    v:FindFirstChildOfClass('Humanoid').MaxHealth < 100000
-            then
-                v.PrimaryPart.CanCollide = false
-                v.Head.CanCollide = false
-                v.Humanoid.WalkSpeed = 0
-                v.Humanoid.JumpPower = 0 
-                v.Humanoid.AutoRotate = false 
-                v:MoveTo(V6.Position)
-            end
+    V6 = V5 or TAR.HumanoidRootPart.CFrame
+    for i, v in pairs(game.Workspace.Enemies:GetChildren()) do
+        if v.Name == TAR.Name and v.PrimaryPart and
+                (V6.Position - v.HumanoidRootPart.Position).Magnitude < 340 and
+                (isnetworkowner(v.HumanoidRootPart)) and
+                v:FindFirstChildOfClass('Humanoid').MaxHealth < 100000
+        then
+            v.Humanoid.WalkSpeed = 0
+            v.Humanoid.JumpPower = 0 
+            v.Humanoid.PlatformStand  = true 
+            v:MoveTo(V6.Position)
         end
     end 
     return true
