@@ -97,10 +97,14 @@ if hookfunction then
                 end 
             end)()
             Nof.Value = v1 
-            return {}
+            local FakeLOL = {}
+            function FakeLOL.Display(p18)
+                return true;
+            end; 
+            function FakeLOL.Dead()
+            end
+            return FakeLOL
         end
-        require(game:GetService("ReplicatedStorage").Notification).Display = function(v61) return true end
-        require(game:GetService("ReplicatedStorage").Notification).Dead = function(v60) return true end
         task.delay(15,function() 
             warn('Disabling effects') 
             if hookfunction and not islclosure(hookfunction) then 
