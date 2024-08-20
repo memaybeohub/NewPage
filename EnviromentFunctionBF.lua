@@ -1,7 +1,6 @@
 local lasttis = 0 
 local JoinedGame = tick() 
 _G.MeleeWait = ''
-print('Ok')
 getgenv().SetContent = function(v1,delayticks)
     if not v1 then v1 = '' end 
     if tick()-lasttis > 0 then
@@ -759,6 +758,21 @@ end
 task.spawn(function()
     _G.Ticktp = tick() 
     getgenv().TushitaQuest = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress")
+    wait(5)
+    if TushitaQuest and not TushitaQuest.OpenDoor and _G.ServerData['PlayerData'].Level >= 2000 then 
+        task.spawn(function()
+            if FindAndJoinServer then  
+                for i = 1,100 do 
+                    FindAndJoinServer('boss','rip',function(v,rt)
+                        return rt-v.FoundOn < 20
+                    end)
+                    task.wait(1)
+                end
+            else
+                loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/FinderServerLoading.lua'))()
+            end
+        end)
+    end
 end)
 game.workspace.Characters.ChildAdded:Connect(LoadPlayer)
 local tween_s = game:service "TweenService"
@@ -2048,13 +2062,10 @@ function getMeleeLevelValues()
     SetContent('Checking all melee')
     task.spawn(function()
         if not _G.Config then repeat task.wait() until _G.Config end
-        if identifyexecutor() == 'Wave' or not _G.Config["Melee Level Values"] then _G.Config["Melee Level Values"] = {} end
         repeat 
             if identifyexecutor() == 'Wave' or not _G.Config["Melee Level Values"] then _G.Config["Melee Level Values"] = {} end
-            print("Melee Values ",_G.Config["Melee Level Values"])
             task.wait()
         until _G.Config["Melee Level Values"]
-        print("Melee Values done ",_G.Config["Melee Level Values"])
         for i,v in pairs(Melee_and_RemoteBuy) do 
             if not _G.Config["Melee Level Values"][i] then 
                 _G.Config["Melee Level Values"][i] = 0 

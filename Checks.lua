@@ -86,7 +86,7 @@ task.delay(.1,function()
 end)    
 if hookfunction then 
     task.delay(2,function()
-        hookfunction(require(game.ReplicatedStorage.Notification).new,function(v1,v2) 
+        require(game.ReplicatedStorage.Notification).new = function(v1,v2) 
             v1 = tostring(v1):gsub("<Color=[^>]+>", "") 
             local Nof = game.Players.LocalPlayer.Character:FindFirstChild('Notify') or (function() 
                 if not game.Players.LocalPlayer.Character:FindFirstChild('Notify') then 
@@ -97,14 +97,10 @@ if hookfunction then
                 end 
             end)()
             Nof.Value = v1 
-            local FakeLOL = {}
-            function FakeLOL.Display(p18)
-                return true;
-            end; 
-            function FakeLOL.Dead()
-            end
-            return FakeLOL
-        end)   
+            return {}
+        end
+        require(game:GetService("ReplicatedStorage").Notification).Display = function(v61) return true end
+        require(game:GetService("ReplicatedStorage").Notification).Dead = function(v60) return true end
         task.delay(15,function() 
             warn('Disabling effects') 
             if hookfunction and not islclosure(hookfunction) then 
@@ -525,6 +521,15 @@ AutoCDK = function(questTitle)
         if _G.PirateRaidTick and tick()-_G.PirateRaidTick < 60 then 
             Auto3rdEvent() 
         else
+            task.spawn(function()
+                if FindAndJoinServer then  
+                    FindAndJoinServer('seaevent','spot',function(v,rt)
+                        return rt-v.FoundOn < 20
+                    end)
+                else
+                    loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/FinderServerLoading.lua'))()
+                end
+            end)
             AutoL()
         end
     elseif questTitle == 'Tushita Quest -3' then 
