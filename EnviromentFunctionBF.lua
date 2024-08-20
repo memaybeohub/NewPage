@@ -1547,7 +1547,7 @@ wait()
 local GuideModule = require(game:GetService("ReplicatedStorage").GuideModule)
 local Quest = require(game:GetService("ReplicatedStorage").Quests) 
 local v17 = require(game.ReplicatedStorage:WaitForChild("GuideModule"))
-getgenv().CFrameByLevelQuest = {} 
+local CFrameByLevelQuest = {} 
 local UselessQuest = {
     "BartiloQuest",
     "Trainees",
@@ -1673,6 +1673,7 @@ function GetQuest(QuestTables)
     end
     if QuestTables.QuestCFrame and GetDistance(QuestTables.QuestCFrame) <= 8 then  
         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", tostring(QuestTables["QuestName"]), QuestTables["QuestId"])
+        table.foreach(QuestTables,print)
         task.wait(.75)
     else
         if GetDistance(QuestTables["QuestCFrame"] * CFrame.new(0,0,-2)) < 1000 then 
