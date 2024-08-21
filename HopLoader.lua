@@ -123,6 +123,8 @@ getgenv().HopServer = function(CountTarget, hoplowallow,reasontohop)
                         }
                         SaveSettings2()
                         game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer("teleport", k)
+                        getgenv().SwitchingServer = true
+                        task.wait(10)
                     elseif tick() - Settings2[k].Time > 60 * 60 then
                         Settings2[k] = nil
                     end
