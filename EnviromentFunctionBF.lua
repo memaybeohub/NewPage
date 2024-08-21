@@ -1171,7 +1171,7 @@ function KillNigga(MobInstance)
                 end 
                 task.wait()
             until not MobInstance or not MobInstance:FindFirstChildOfClass("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or
-            MobInstance.Humanoid.Health <= 0 or not IsPlayerAlive()  
+            MobInstance.Humanoid.Health <= 0 or not IsPlayerAlive() or SwitchingServer
             SetContent('...')
             KillingMobTick = 0
             KillingMob = false
@@ -2590,7 +2590,8 @@ local TOIKHONGBIET = 0
 local CheckFruitStockTick = 0
 local LastCheckTickFruit = 0
 _G.ServerData["Fruits Stock"] = {}
-RunService.Heartbeat:Connect(function()
+local ThisiSW 
+ThisiSW = RunService.Heartbeat:Connect(function()
     if game.PlaceId == 2753915549 then
         Sea1 = true
         Sea2 = false
@@ -2766,6 +2767,16 @@ RunService.Heartbeat:Connect(function()
         local v141, v142 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("ColorsDealer", "1")
         if v141 and v142 and v142 > 5000 then 
             game.ReplicatedStorage.Remotes.CommF_:InvokeServer("ColorsDealer", "2")
+        end
+        if SwitchingServer and ThisiSW then 
+            task.delay(3,function()
+                if SwitchingServer then 
+                    if ThisiSW then 
+                        ThisiSW:Disconnect()
+                        ThisiSW = nil 
+                    end
+                end
+            end)
         end
     end
 end) 
