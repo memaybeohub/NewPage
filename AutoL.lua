@@ -46,7 +46,7 @@ getgenv().AutoL = function()
             ""
         )
         namequest = string.gsub(namequest, " %p(0/1)%p", "") 
-        if #BlackListedKillPlayers >= 6 then 
+        if #BlackListedKillPlayers >= 8 then 
             repeat 
                 warn('Start Hop Server')
                 HopServer(8,false,'Player Hunter Quest') 
@@ -66,7 +66,7 @@ getgenv().AutoL = function()
             end
             if
                 game.Players[namequest].Data.Level.Value < 20 or
-                    game.Players[namequest].Data.Level.Value > game.Players.LocalPlayer.Data.Level.Value +122
+                    game.Players[namequest].Data.Level.Value > game.Players.LocalPlayer.Data.Level.Value +300
             then
                 table.insert(BlackListedKillPlayers, namequest)
                 game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AbandonQuest")

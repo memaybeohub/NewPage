@@ -1099,14 +1099,14 @@ function KillNigga(MobInstance)
                                     HopServer(10,true,'Ping is too high.')
                                 end
                             end)
-                        end
+                        end 
                         local bbxz 
                         if Exploiters then 
                             for name__,v in Exploiters  do 
                                 bbxz = workspace.Characters:FindFirstChild(name__)  
                                 if bbxz then 
                                     if GetDistance(bbxz.PrimaryPart) < 500 then 
-                                        HopServer(10,true,'Cheater nearing:'..tostring(bbxz.Name).." "..tostring(GetDistance(bbxz.PrimaryPart)))
+                                        HopServer(10,true,'Cheater nearing:'..tostring(bbxz.Name).." "..tostring(math.floor(GetDistance(bbxz.PrimaryPart))))
                                     end
                                 end
                             end

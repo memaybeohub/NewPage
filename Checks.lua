@@ -1013,16 +1013,20 @@ AutoSoulGuitar = function()
     elseif _G.ServerData['PlayerData'].Fragments < 5000 then  
         print('Frag < 5000')
         repeat 
-            task.wait() 
-            _G.FragmentNeeded =true 
-            if _G.ServerData["PlayerBackpack"]['Special Microchip'] or _G.ServerData['Nearest Raid Island'] then
-                AutoRaid() 
+            if not Sea3 then 
+                TeleportWorld(3)
             else
-                buyRaidingChip()
-                AutoL()
+                if _G.ServerData["PlayerBackpack"]['Special Microchip'] or _G.ServerData['Nearest Raid Island'] then
+                    AutoRaid() 
+                else
+                    _G.FragmentNeeded =true 
+                    buyRaidingChip()
+                    AutoL()
+                end
             end
+            task.wait() 
         until _G.ServerData['PlayerData'].Fragments >= 5000
-        TeleportWorld(3) 
+        print('req: ',_G.ServerData['PlayerData'].Fragments >= 5000)
         _G.FragmentNeeded =false 
     else
         if not Sea3 then 
