@@ -1177,7 +1177,7 @@ function KillNigga(MobInstance)
                 end 
                 task.wait()
             until not MobInstance or not MobInstance:FindFirstChildOfClass("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or
-            MobInstance.Humanoid.Health <= 0 or not IsPlayerAlive() or SwitchingServer
+            MobInstance.Humanoid.Health <= 0 or not IsPlayerAlive() or _G.SwitchingServer
             SetContent('...')
             KillingMobTick = 0
             KillingMob = false
@@ -2774,9 +2774,9 @@ ThisiSW = RunService.Heartbeat:Connect(function()
         if v141 and v142 and v142 > 5000 then 
             game.ReplicatedStorage.Remotes.CommF_:InvokeServer("ColorsDealer", "2")
         end
-        if SwitchingServer and ThisiSW then 
+        if _G.SwitchingServer and ThisiSW then 
             task.delay(3,function()
-                if SwitchingServer then 
+                if _G.SwitchingServer then 
                     if ThisiSW then 
                         ThisiSW:Disconnect()
                         ThisiSW = nil 
