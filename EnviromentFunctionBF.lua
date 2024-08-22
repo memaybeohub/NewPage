@@ -767,12 +767,13 @@ task.spawn(function()
         task.spawn(function()
             loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/FinderServerLoading.lua'))()
             if FindAndJoinServer then  
-                for i = 1,100 do 
+                for i = 1,120 do 
                     FindAndJoinServer('boss','rip',function(v,rt)
                         return rt-v.FoundOn < 20
                     end)
                     task.wait(1)
                 end
+                print('Didint found any rip indra server in 100s')
             else
                 loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/FinderServerLoading.lua'))()
             end
