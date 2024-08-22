@@ -746,6 +746,10 @@ function AddNoknockback(enemy)
     if not humanoid then return end  -- Nếu enemy không có Humanoid, thoát hàm
 
     humanoid.ChildAdded:Connect(function(child)
+        if child.ClassName == 'BodyVelocity' then 
+            child.Velocity = Vector3.new(0, 0, 0)
+            return
+        end
         if child.ClassName == 'BodyVelocity' or child.ClassName == "BodyPosition" then
             child.MaxForce = Vector3.new(0, 0, 0)
             child.P = 0 
