@@ -765,6 +765,7 @@ task.spawn(function()
     wait(5)
     if TushitaQuest and not TushitaQuest.OpenDoor and _G.ServerData['PlayerData'].Level >= 2000 then 
         task.spawn(function()
+            loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/FinderServerLoading.lua'))()
             if FindAndJoinServer then  
                 for i = 1,100 do 
                     FindAndJoinServer('boss','rip',function(v,rt)
