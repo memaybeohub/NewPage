@@ -21,7 +21,7 @@ getgenv().SetContent = function(v1,delayticks)
     end
 end  
 getgenv().SetMeleeWait = function(v1Name,v1Value)
-    _G.MeleeWait = " | Waitting "..tostring(v1Name).." hit "..tostring(v1Value).." mastery." 
+    _G.MeleeWait = " | Waiting "..tostring(v1Name).." hit "..tostring(v1Value).." mastery." 
 end
 _G.ServerData = {} 
 function Join(v2) 
@@ -1264,7 +1264,7 @@ function KillMobList(MobList)
             for i,v in pairs(MS) do 
                 local isV = CheckMob(MobList)
                 if not isV and v then 
-                    SetContent('Waitting mobs...')
+                    SetContent('Waiting mobs...')
                     Tweento(v * CFrame.new(0,50,0))
                     wait(1)
                 elseif isV then 
@@ -1755,7 +1755,7 @@ function FarmMobByLevel(level)
     elseif CheckMob(CurrentQuestMob) then 
         KillNigga(CheckMob(CurrentQuestMob))
     elseif _G.MobSpawnClone and _G.MobSpawnClone[CurrentQuestMob] then 
-        SetContent('Waitting mob... | '..tostring(CurrentQuestMob))
+        SetContent('Waiting mob... | '..tostring(CurrentQuestMob))
         Tweento(_G.MobSpawnClone[CurrentQuestMob] * CFrame.new(0,60,0))
         for i,v in pairs(game.workspace.MobSpawns:GetChildren()) do 
             if v.Name == CurrentQuestMob and GetDistance(v,_G.MobSpawnClone[CurrentQuestMob]) > 350 and not CheckMob(CurrentQuestMob) then  

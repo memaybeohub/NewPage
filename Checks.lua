@@ -259,9 +259,9 @@ AutoMiragePuzzle = function()
                                 TimeInS = math.floor(TimetoNight%60)
                                 TimeInM = TimetoNight//60
                                 if TimeInM <= 0 then 
-                                    SetContent('Waitting '..tostring(TimeInS).."s to night.")
+                                    SetContent('Waiting '..tostring(TimeInS).."s to night.")
                                 else 
-                                    SetContent("Waitting "..tostring(TimeInM)..":"..tostring(TimeInS).." to night.")
+                                    SetContent("Waiting "..tostring(TimeInM)..":"..tostring(TimeInS).." to night.")
                                 end
                             end
                             Tweento(HighestPoint)
