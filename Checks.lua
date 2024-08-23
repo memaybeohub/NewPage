@@ -490,6 +490,20 @@ AutoCDK = function(questTitle)
                         Tweento(CurrentCFrame * CFrame.new(0,250,0))
                     until not NearestMob(1500) or tick()-TickTorch >= 5
                     Tweento(CurrentCFrame)
+                    if tick()-TickTorch >= 5 then
+                        local aaa = NearestMob(1500)
+                        if aaa then 
+                            repeat 
+                                task.wait()
+                                aaa = NearestMob(1500)
+                                if aaa then 
+                                    KillNigga(aaa)
+                                end
+                            until not NearestMob(1500)
+                        end
+                    else 
+                        Tweento(CurrentCFrame)
+                    end
                 end
             end
             task.wait()
