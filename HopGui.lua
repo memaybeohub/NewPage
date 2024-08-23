@@ -13,7 +13,7 @@ local function createGui(ReasonT,TimeT)
     blur.Enabled = true
     local hopText = Instance.new("TextLabel")
     hopText.Name = "hoptext"
-    hopText.Text = "Starlight Hub - Hop Server"
+    hopText.Text = (_G.HubNameFr or "Starlight Hub") .." - Hop Server"
     hopText.FontFace = Font.new("rbxasset://fonts/families/RobotoMono.json")
     hopText.TextColor3 = Color3.fromRGB(230, 36, 237)
     hopText.TextSize = 45
