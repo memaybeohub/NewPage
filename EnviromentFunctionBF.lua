@@ -2601,7 +2601,10 @@ ThisiSW = RunService.Heartbeat:Connect(function()
         Sea2 = false
         MySea = "Sea 3"
     end
-    if IsPlayerAlive() then  
+    if IsPlayerAlive() then 
+        if Sea3 and not _G.ServerData["Inventory Items"]['Cursed Dual Katana'] and _G.ServerData["Inventory Items"]['Tushita'] and _G.ServerData["Inventory Items"]['Yama'] and _G.ServerData["Inventory Items"]['Tushita'].Mastery >= 350 and _G.ServerData["Inventory Items"]['Yama'].Mastery then 
+            _G.CDKQuest = CheckQuestCDK()  
+        end  
         if game.Players.LocalPlayer.Character:FindFirstChild("RaceEnergy") and game.Players.LocalPlayer.Character.RaceEnergy.Value >= 1 and not game.Players.LocalPlayer.Character.RaceTransformed.Value then 
             SendKey('Y',.5)
         end
@@ -2679,9 +2682,6 @@ ThisiSW = RunService.Heartbeat:Connect(function()
         _G.NextDrop,_G.NextDropParent = getNextBossDropParent()
         game.ReplicatedStorage.Remotes.CommF_:InvokeServer("CakePrinceSpawner")
         game.ReplicatedStorage.Remotes.CommF_:InvokeServer("SetSpawnPoint")
-        if Sea3 and not _G.ServerData["Inventory Items"]['Cursed Dual Katana'] and _G.ServerData["Inventory Items"]['Tushita'] and _G.ServerData["Inventory Items"]['Yama'] and _G.ServerData["Inventory Items"]['Tushita'].Mastery >= 350 and _G.ServerData["Inventory Items"]['Yama'].Mastery then 
-            _G.CDKQuest = CheckQuestCDK()  
-        end 
         if _G.FruitSniping and _G.SnipeFruit and _G.ServerData['PlayerData'].DevilFruit == '' and tick()-LastCheckTickFruit >= 3 then 
             LastCheckTickFruit = tick()
             if tick()-CheckFruitStockTick >= 15*60 then 
