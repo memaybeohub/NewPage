@@ -768,6 +768,12 @@ task.spawn(function()
             loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/FinderServerLoading.lua'))()
             if FindAndJoinServer then  
                 for i = 1,120 do 
+                    if game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress") and game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress").OpenDoor then
+                        break;
+                    end
+                    if _G.Config.OwnedItems['Tushita'] then 
+                        break;
+                    end
                     FindAndJoinServer('boss','rip',function(v,rt)
                         return rt-v.FoundOn < 20
                     end)
