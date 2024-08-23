@@ -1059,7 +1059,9 @@ AutoSoulGuitar = function()
 end
 AutoTushita = function()
     if not _G.Config.OwnedItems["Tushita"] then 
-        getgenv().TushitaQuest = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress");
+        task.spawn(function()
+            getgenv().TushitaQuest = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress");
+        end)
         if _G.ServerData['Server Bosses']['rip_indra True Form'] then
             print('Rip India')
             if TushitaQuest.OpenedDoor then 
@@ -1073,27 +1075,21 @@ AutoTushita = function()
                 TushitaStartQuestTick = tick()
                 SetContent('Getting Holy Torch...')
                 repeat 
+                    game.Players.LocalPlayer.Character.PrimaryPart.Anchored = true
                     game.Players.LocalPlayer.Character.PrimaryPart.CFrame = game:GetService("Workspace").Map.Waterfall.SecretRoom.Room.Door.Door.Hitbox.CFrame
                     task.wait()
                 until _G.ServerData["PlayerBackpack"]['Holy Torch']
                 SetContent('Got Holy Torch.')
-                EquipWeaponName("Holy Torch") 
-                repeat 
-                    task.spawn(function()
-                        EquipWeaponName("Holy Torch") 
-                    end)
-                    task.wait()
-                    TushitaQuest = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress");
+                game.Players.LocalPlayer.Character.PrimaryPart.Anchored = false 
+                task.spawn(function()
                     for i,v in TushitaQuest.Torches do 
                         if not v then 
                             task.spawn(function()
                                 game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress", "Torch", i)
-                                SetContent('Burning Torch '..tostring(i))
                             end)
                         end
                     end
-                    task.wait()
-                until not _G.ServerData["PlayerBackpack"]['Holy Torch'] or TushitaQuest.OpenedDoor
+                end)
                 task.wait()
                 print('Tushita Door Opened:',TushitaQuest.OpenedDoor)
                 if TushitaStartQuestTick then 

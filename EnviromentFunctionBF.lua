@@ -685,6 +685,15 @@ local function LoadPlayer()
                 TweenAccess.Parent = game.Players.LocalPlayer.Character 
                 game.Players.LocalPlayer.Backpack.ChildAdded:Connect(function(v)
                     _G.ServerData["PlayerBackpack"][v.Name] = v 
+                    if v.Name == 'Holy Torch' then 
+                        for i,v in game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress").Torches do 
+                            if not v then 
+                                task.spawn(function()
+                                    game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress", "Torch", i)
+                                end)
+                            end
+                        end
+                    end
                     task.delay(3,function()
                         if v.Name == 'Red Key' then 
                             print('DOugh chip unlocked: ',game.ReplicatedStorage.Remotes.CommF_:InvokeServer("CakeScientist", "Check"))
@@ -1864,12 +1873,32 @@ function LoadBoss(v)
     else
         return
     end 
-    if RemoveLevelTitle(v.Name) == 'rip_indra True Form' then 
-        repeat task.wait() until _G.ServerData['PlayerData'] and _G.ServerData['PlayerData'].Level
-        if _G.ServerData['PlayerData'].Level >= 2000 and not _G.ServerData["Inventory Items"]["Tushita"] then 
-            _G.CurrentTask = 'Getting Tushita'
+    task.spawn(function()
+        if RemoveLevelTitle(v.Name) == 'rip_indra True Form' then 
+            getgenv().TushitaQuest = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress");
+            repeat task.wait() until _G.ServerData['PlayerData'] and _G.ServerData['PlayerData'].Level
+            if TushitaQuest and not TushitaQuest.OpenedDoor then 
+                repeat 
+                    game.Players.LocalPlayer.Character.PrimaryPart.Anchored = true
+                    game.Players.LocalPlayer.Character.PrimaryPart.CFrame = game:GetService("Workspace").Map.Waterfall.SecretRoom.Room.Door.Door.Hitbox.CFrame
+                    task.wait()
+                until game.Players.LocalPlayer.Backpack:FindFirstChild('Holy Torch') 
+                game.Players.LocalPlayer.Character.PrimaryPart.Anchored= false
+                task.spawn(function()
+                    for i,v in game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress").Torches do 
+                        if not v then 
+                            task.spawn(function()
+                                game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress", "Torch", i)
+                            end)
+                        end
+                    end
+                end)
+            end
+            if _G.ServerData['PlayerData'].Level >= 2000 and not _G.ServerData["Inventory Items"]["Tushita"] then 
+                _G.CurrentTask = 'Getting Tushita'
+            end
         end
-    end
+    end)
     if table.find(Elites,RemoveLevelTitle(v.Name)) then 
         print("Found elite:",tostring(v.Name))
         _G.CurrentElite = v 
