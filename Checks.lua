@@ -469,6 +469,10 @@ AutoCDK = function(questTitle)
         local TickTorch
         repeat task.wait()
             if game:GetService("Workspace").Map.HeavenlyDimension.Exit.BrickColor == BrickColor.new("Cloudy grey") then 
+                if _G.KillAuraConnection then 
+                    _G.KillAuraConnection:Disconnect()
+                    _G.KillAuraConnection = nil 
+                end
                 Tweento(game:GetService("Workspace").Map.HeavenlyDimension.Exit.CFrame)
                 wait(2) 
             else
@@ -479,6 +483,20 @@ AutoCDK = function(questTitle)
                     fireproximityprompt(Torch.ProximityPrompt)  
                     CurrentCFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame 
                     TickTorch = tick()
+                    if not _G.KillAuraConnection then 
+                        _G.KillAuraConnection = workspace.Enemies.ChildAdded:Connect(function(v)  
+                            sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 3000+300)   
+                            local V5Hum = v:FindFirstChildOfClass('Humanoid') or v:WaitForChild('Humanoid')
+                            if V5Hum then 
+                                V5Hum.Health = 0 
+                                repeat 
+                                    V5Hum.Health = 0 
+                                    task.wait(1)
+                                until not V5Hum or not V5Hum.Parent or not V5Hum.Parent.Parent
+                
+                            end
+                        end) 
+                    end
                     repeat task.wait()
                         for i,v in pairs(workspace.Enemies:GetChildren()) do 
                             pcall(function()
@@ -490,19 +508,9 @@ AutoCDK = function(questTitle)
                         Tweento(CurrentCFrame * CFrame.new(0,250,0))
                     until not NearestMob(1500) or tick()-TickTorch >= 5
                     Tweento(CurrentCFrame)
-                    if tick()-TickTorch >= 5 then
-                        local aaa = NearestMob(1500)
-                        if aaa then 
-                            repeat 
-                                task.wait()
-                                aaa = NearestMob(1500)
-                                if aaa then 
-                                    KillNigga(aaa)
-                                end
-                            until not NearestMob(1500)
-                        end
-                    else 
-                        Tweento(CurrentCFrame)
+                    if _G.KillAuraConnection then 
+                        _G.KillAuraConnection:Disconnect()
+                        _G.KillAuraConnection = nil 
                     end
                 end
             end
@@ -557,7 +565,13 @@ AutoCDK = function(questTitle)
             if not _G.DoneHell then 
                 if game:GetService("Workspace").Map.HellDimension.Exit.BrickColor == BrickColor.new("Olivine") then 
                     repeat 
-                        Tweento(game:GetService("Workspace").Map.HellDimension.Exit.CFrame)
+                        if GetDistance(game:GetService("Workspace")["_WorldOrigin"].Locations["Hell Dimension"]) < 2000 then 
+                            Tweento(game:GetService("Workspace").Map.HellDimension.Exit.CFrame)
+                        end
+                        if _G.KillAuraConnection then 
+                            _G.KillAuraConnection:Disconnect()
+                            _G.KillAuraConnection = nil 
+                        end
                         _G.DoneHell = true
                         wait(2) 
                     until GetDistance(game:GetService("Workspace")["_WorldOrigin"].Locations["Hell Dimension"]) > 2000 
@@ -571,6 +585,20 @@ AutoCDK = function(questTitle)
                         fireproximityprompt(Torch.ProximityPrompt)  
                         CurrentCFrame = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame 
                         TickTorch = tick()
+                        if not _G.KillAuraConnection then 
+                            _G.KillAuraConnection = workspace.Enemies.ChildAdded:Connect(function(v)  
+                                sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 3000+300)   
+                                local V5Hum = v:FindFirstChildOfClass('Humanoid') or v:WaitForChild('Humanoid')
+                                if V5Hum then 
+                                    V5Hum.Health = 0 
+                                    repeat 
+                                        V5Hum.Health = 0 
+                                        task.wait(1)
+                                    until not V5Hum or not V5Hum.Parent or not V5Hum.Parent.Parent
+                    
+                                end
+                            end) 
+                        end
                         repeat task.wait()
                             for i,v in pairs(workspace.Enemies:GetChildren()) do 
                                 pcall(function()
@@ -582,21 +610,7 @@ AutoCDK = function(questTitle)
                             Tweento(CurrentCFrame * CFrame.new(0,250,0))
                             task.wait()
                         until not NearestMob(1500) or tick()-TickTorch >= 5
-                        task.wait()
-                        if tick()-TickTorch >= 5 then
-                            local aaa = NearestMob(1500)
-                            if aaa then 
-                                repeat 
-                                    task.wait()
-                                    aaa = NearestMob(1500)
-                                    if aaa then 
-                                        KillNigga(aaa)
-                                    end
-                                until not NearestMob(1500)
-                            end
-                        else 
-                            Tweento(CurrentCFrame)
-                        end
+                        Tweento(CurrentCFrame)
                     else
                         print('Not Torch Dimension yama')
                     end
