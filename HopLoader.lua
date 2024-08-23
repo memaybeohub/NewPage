@@ -117,13 +117,15 @@ getgenv().HopServer = function(CountTarget, hoplowallow,reasontohop)
             for k, v in pairs(huhu) do
                 if k ~= game.JobId and v["Count"] <= CountTarget-1 then
                     if not Settings2[k] or tick() - Settings2[k].Time > 60 * 10 then
-                        SetContent('Hopping normal server...')
-                        Settings2[k] = {
-                            Time = tick()
-                        }
-                        SaveSettings2()
-                        game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer("teleport", k)
-                        _G.SwitchingServer = true
+                        task.spawn(function()
+                            SetContent('Hopping normal server...')
+                            Settings2[k] = {
+                                Time = tick()
+                            }
+                            SaveSettings2()
+                            game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer("teleport", k)
+                            _G.SwitchingServer = true
+                        end)
                         task.wait(10)
                     elseif tick() - Settings2[k].Time > 60 * 60 then
                         Settings2[k] = nil
