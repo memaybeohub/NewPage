@@ -47,7 +47,7 @@ task.spawn(function()
     end
 end)
 ]]
-function AttackFunction()
+getgenv().AttackFunction = function()
     local ac = CombatFrameworkR.activeController
     if ac and ac.equipped then
         if not getgenv().CurrentCharHum or not getgenv().CurrentCharHum.Parent or getgenv().CurrentCharHum.ClassName ~='Humanoid' then 
@@ -72,7 +72,6 @@ end
 task.spawn(function()
     while task.wait() do 
         if _G.UseFAttack then 
-            print('Using fat')
             AttackFunction()
         end
     end
