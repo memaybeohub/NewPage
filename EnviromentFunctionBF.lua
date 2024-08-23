@@ -804,7 +804,7 @@ function Tweento(targetCFrame)
             (targetPos -
             game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).Magnitude
         if Distance <= 300 and tick() - _G.Ticktp >= 0.01 then
-            game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = targetCFrame
+            game.Players.LocalPlayer.Character:MoveTo(targetCFrame.Position)
             _G.Ticktp = tick()
             return
         end
