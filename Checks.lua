@@ -1389,20 +1389,9 @@ AutoMeleeFunc = function()
             game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true) 
         elseif _G.ServerData['Server Bosses']['Tide Keeper'] then 
             KillBoss(_G.ServerData['Server Bosses']['Tide Keeper']) 
-            local ABC,XYZ = pcall(function()
-                if type(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)) ~='string' then   
-                    _G.MeleeTask = '' 
-                end
-            end)
-            task.wait(1) 
-            repeat 
-                ABC,XYZ = pcall(function()
-                    if type(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)) ~='string' then   
-                        _G.MeleeTask = '' 
-                    end
-                end)
-                task.wait(1)
-            until ABC
+            if type(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)) ~='string' or _G.ServerData['PlayerData'].Level < 1450 then   
+                _G.MeleeTask = '' 
+            end
         elseif _G.ServerData['PlayerData'].Level >= 1450 then
             SetContent('Hopping for Tide Keeper',5)
             HopServer(10,true,"Tide Keeper")
