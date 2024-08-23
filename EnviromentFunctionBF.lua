@@ -891,7 +891,7 @@ local function TweenKill(v)
                     _G.tween:Cancel()
                     _G.tween = nil 
                 end
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = v.HumanoidRootPart.CFrame * GetCFrameADD() 
+                game.Players.LocalPlayer.Character:MoveTo((v.HumanoidRootPart.CFrame * GetCFrameADD()).Position)
             else 
                 _G.tween =
                     tween_s:Create(
@@ -1081,26 +1081,7 @@ function KillNigga(MobInstance)
                 KillingBoss = true
             end 
             local N_Name = MobInstance.Name
-            --[[
-                        
-            if string.find(N_Name, "Boss") or table.find(Elites, N_Name) then
-                if not string.find(N_Name, "Boss") then
-                    for i, v in pairs(Elites) do
-                        if RemoveLevelTitle(v) == RemoveLevelTitle(N_Name) then
-                            KillingBoss = true
-                        end
-                    end
-                else
-                    KillingBoss = true
-                end
-            end
-            ]]
             SetContent('Killing '..tostring(N_Name))
-            --[[
-            if IsBoss(MobInstance) then 
-                KillingBoss = true 
-            end
-            ]]
             
             task.spawn(function()
                 if not KillingBoss and CheckEnabling and (CheckEnabling('High Ping Hop') or CheckEnabling("Player Nearing Hop")) then 
