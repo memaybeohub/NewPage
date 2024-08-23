@@ -72,6 +72,7 @@ end
 task.spawn(function()
     while task.wait() do 
         if _G.UseFAttack then 
+            print('Using fat')
             AttackFunction()
         end
     end
