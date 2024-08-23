@@ -127,19 +127,6 @@ if hookfunction then
                 hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Death), function()end)
                 hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Respawn), function()end)
                 hookfunction(require(game:GetService("ReplicatedStorage"):WaitForChild("GuideModule")).ChangeDisplayedNPC,function() end) 
-                task.spawn(function()
-                    repeat task.wait(1) until game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool') and (game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool').ToolTip == 'Melee' or game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool').ToolTip == 'Sword')
-                    local acc5 = getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2].activeController
-                    if not acc5 or not acc5.equipped then 
-                        repeat task.wait()
-                        until acc5 and acc5.equipped
-                    end
-                    for i,v in pairs(acc5.data) do  
-                        if typeof(v) == 'function' then 
-                            hookfunction(v,function() end )
-                        end
-                    end
-                end)
                 task.delay(0.1,function()
                     for i,v2 in pairs(game.ReplicatedStorage.Effect.Container:GetDescendants()) do 
                         pcall(function()
@@ -866,6 +853,7 @@ AutoSoulGuitar = function()
                 end
             end
         elseif not CurrnetPuzzle.Gravestones then 
+            print(game.ReplicatedStorage.Remotes["CommF_"]:InvokeServer("GuitarPuzzleProgress", "Gravestones"))
             SetContent("Unlocking Soul Guitar's Puzzle (Grave Stones: Clicking Signs)")
             if not Sea3 then 
                 TeleportWorld(3)
@@ -886,6 +874,7 @@ AutoSoulGuitar = function()
                 end
             end  
         elseif not CurrnetPuzzle.Ghost then 
+            print(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("GuitarPuzzleProgress", "Ghost"))
             SetContent("Unlocking Soul Guitar's Puzzle (Ghost: Talking to the ghost)") 
             if not Sea3 then 
                 TeleportWorld(3)
@@ -895,6 +884,7 @@ AutoSoulGuitar = function()
                 wait(3)
             end 
         elseif not CurrnetPuzzle.Trophies then 
+            print(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("GuitarPuzzleProgress", "Trophies"))
             SetContent("Unlocking Soul Guitar's Puzzle (Trophies: Unlock the Trophies's Puzzle)") 
             if not Sea3 then 
                 TeleportWorld(3)
@@ -928,6 +918,7 @@ AutoSoulGuitar = function()
                 end
             end 
         elseif not CurrnetPuzzle.Pipes then 
+            print(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("GuitarPuzzleProgress", "Pipes"))
             SetContent("Unlocking Soul Guitar's Puzzle (Pipes)") 
             if not Sea3 then 
                 TeleportWorld(3)

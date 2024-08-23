@@ -31,6 +31,7 @@ RigLib.wrapAttackAnimationAsync = function(p_u_28, p_u_29, p_u_30, p_u_31, p_u_3
         end
     end
 end
+--[[
 task.spawn(function()
     repeat task.wait(1) until game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool') and (game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool').ToolTip == 'Melee' or game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool').ToolTip == 'Sword')
     print('found tool',game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool').Name)
@@ -45,6 +46,7 @@ task.spawn(function()
         end
     end
 end)
+]]
 function AttackFunction()
     local ac = CombatFrameworkR.activeController
     if ac and ac.equipped then
