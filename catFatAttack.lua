@@ -32,17 +32,20 @@ RigLib.wrapAttackAnimationAsync = function(p_u_28, p_u_29, p_u_30, p_u_31, p_u_3
     end
 end
 task.spawn(function()
-    repeat task.wait(1) until game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool') and (game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool').ToolTip == 'Melee' or game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool').ToolTip == 'Sword')
-    print('found tool',game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool').Name)
-    local acc5 = getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2].activeController
-    if not acc5 or not acc5.equipped then 
-        repeat task.wait()
-        until acc5 and acc5.equipped
-    end
-    for i,v in pairs(acc5.data) do  
-        if typeof(v) == 'function' then 
-            hookfunction(v,function() end )
+    for i = 1,5 do 
+        repeat task.wait(1) until game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool') and (game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool').ToolTip == 'Melee' or game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool').ToolTip == 'Sword')
+        print('found tool',game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool').Name)
+        local acc5 = getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2].activeController
+        if not acc5 or not acc5.equipped then 
+            repeat task.wait()
+            until acc5 and acc5.equipped
         end
+        for i,v in pairs(acc5.data) do  
+            if typeof(v) == 'function' then 
+                hookfunction(v,function() end )
+            end
+        end
+        wait(1+2)
     end
 end)
 getgenv().AttackFunction = function()
