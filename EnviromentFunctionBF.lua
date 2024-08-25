@@ -735,7 +735,6 @@ local function LoadPlayer()
                         end
                     end 
                 end)
-                wait(5)
                 game.Players.LocalPlayer.Character.PrimaryPart:GetPropertyChangedSignal("Position"):Connect(function()
                     _G.PlayerLastMoveTick = tick()
                 end)
