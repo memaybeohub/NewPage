@@ -1554,7 +1554,10 @@ local UselessQuest = {
 }
 for i,v in pairs(GuideModule["Data"].NPCList) do
 	for i1,v1 in pairs(v["Levels"]) do
-		CFrameByLevelQuest[v1] = i.CFrame 
+		CFrameByLevelQuest[v1] = i.CFrame
+        if v1 == 0 then 
+            CFrameByLevelQuest[v1] = CFrame.new(1059.37195, 15.4495068, 1550.4231, 0.939700544, -0, -0.341998369, 0, 1, -0, 0.341998369, 0, 0.939700544)
+        end 
 	end
 end
 function IsHavingQuest()
