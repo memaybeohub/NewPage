@@ -1175,10 +1175,8 @@ function KillNigga(MobInstance)
             until not MobInstance or not MobInstance:FindFirstChildOfClass("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or
             MobInstance.Humanoid.Health <= 0 or not IsPlayerAlive() or _G.SwitchingServer
             SetContent('...')
-            KillingMobTick = 0
             KillingMob = false
             _G.UseFAttack = false  
-            task.spawn(AddBodyVelocity,false)
             return true
         end
     end)
@@ -1279,7 +1277,7 @@ function KillBoss(BossInstance)
         SetContent('Moving to '..BossInstance.Name)
         Tweento(BossInstance.PrimaryPart.CFrame * CFrame.new(0,50,0))
     end
-    return KillNigga(BossInstance)
+    KillNigga(BossInstance)
 end
 function BringMob(TAR,V5)
     if not TAR then 
