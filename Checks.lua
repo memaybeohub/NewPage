@@ -145,6 +145,7 @@ _G.rejoin = game:GetService("CoreGui").RobloxPromptGui.promptOverlay.ChildAdded:
     child)
     if not _G.SwitchingServer and child.Name == 'ErrorPrompt' and child:FindFirstChild('MessageArea') and child.MessageArea:FindFirstChild("ErrorFrame") then
         wait()
+        print('not _G.SwitchingServer',not _G.SwitchingServer)
         local CurrentErrorTitle = child.TitleFrame.ErrorTitle.Text
         local CurrentErrorMessage = child.MessageArea.ErrorFrame.ErrorMessage.Text 
         if CurrentErrorTitle ~= 'Teleport Failed' and not Hopping then 

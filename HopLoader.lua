@@ -125,8 +125,8 @@ getgenv().HopServer = function(CountTarget, hoplowallow,reasontohop)
                                 Time = tick()
                             }
                             SaveSettings2()
-                            game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer("teleport", k)
                             _G.SwitchingServer = true
+                            game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer("teleport", k)
                             task.wait(10)
                         else
                             wait(10)
