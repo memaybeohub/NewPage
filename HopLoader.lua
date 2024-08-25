@@ -86,8 +86,13 @@ getgenv().HopServer = function(CountTarget, hoplowallow,reasontohop)
     if not reasontohop then 
         reasontohop = 'None'
     end
-    HopGuiCreation(reasontohop,delay)
-    local timeplased = tick()+delay
+    HopGuiCreation(reasontohop,delay) 
+    repeat 
+        game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer, game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer(math.random(1, 100))[math.random(1, 100)])
+        task.wait()
+    until 1 < 0
+    --[[
+local timeplased = tick()+delay
     if hoplowallow and _G.TimeTryHopLow < 3 then
         for i = 1, 3 - _G.TimeTryHopLow do
             if _G.TimeTryHopLow < 3 then
@@ -169,6 +174,6 @@ getgenv().HopServer = function(CountTarget, hoplowallow,reasontohop)
     end
     SaveSettings2()
     return Hop()
-    
+    ]]
 end
 print('Hub: Loaded Hop.')
