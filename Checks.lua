@@ -143,7 +143,7 @@ if hookfunction then
 end
 _G.rejoin = game:GetService("CoreGui").RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(
     child)
-    if child.Name == 'ErrorPrompt' and child:FindFirstChild('MessageArea') and child.MessageArea:FindFirstChild("ErrorFrame") then
+    if not _G.SwitchingServer and child.Name == 'ErrorPrompt' and child:FindFirstChild('MessageArea') and child.MessageArea:FindFirstChild("ErrorFrame") then
         wait()
         local CurrentErrorTitle = child.TitleFrame.ErrorTitle.Text
         local CurrentErrorMessage = child.MessageArea.ErrorFrame.ErrorMessage.Text 
@@ -1299,17 +1299,11 @@ AutoRaid = function()
         SetContent('Firing raid remote...',3)
         _G.NextRaidIslandId = 1
         if Sea2 then 
-            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
-                "requestEntrance",
-                Vector3.new(-12463.8740234375, 374.9144592285156, -7523.77392578125)
-            )
+            Tweento(CFrame.new(-12463.8740234375, 374.9144592285156, -7523.77392578125))
             fireclickdetector(Workspace.Map.CircleIsland.RaidSummon2.Button.Main.ClickDetector)  
-        elseif Sea3 then
+        elseif Sea3 then 
+            Tweento(CFrame.new(923.21252441406, 126.9760055542, 32852.83203125))
             fireclickdetector(Workspace.Map["Boat Castle"].RaidSummon2.Button.Main.ClickDetector) 
-            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
-                "requestEntrance",
-                Vector3.new(923.21252441406, 126.9760055542, 32852.83203125)
-            )
         end
         if _G.ServerData["PlayerBackpack"]['Special Microchip'] then 
             _G.ServerData["PlayerBackpack"]['Special Microchip'] = nil 
