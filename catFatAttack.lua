@@ -16,7 +16,7 @@ local RigLib = require(waitforobj(game.ReplicatedStorage.CombatFramework, "RigLi
 local VU = get.VirtualUser
 require(Client.PlayerScripts.CombatFramework.Particle).play = function() end
 require(game.ReplicatedStorage.Util.CameraShaker):Stop()
-RigLib.wrapAttackAnimationAsync = function(p_u_28, p_u_29, p_u_30, p_u_31, p_u_32)
+hookfunction(RigLib.wrapAttackAnimationAsync,function(p_u_28, p_u_29, p_u_30, p_u_31, p_u_32)
     local ac = CombatFrameworkR.activeController
     local v_u_36 = tick()
     if ac and ac.equipped then
@@ -30,7 +30,7 @@ RigLib.wrapAttackAnimationAsync = function(p_u_28, p_u_29, p_u_30, p_u_31, p_u_3
             end
         end
     end
-end
+end)
 task.spawn(function()
     for i = 1,5 do 
         repeat task.wait(1) until game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool') and (game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool').ToolTip == 'Melee' or game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool').ToolTip == 'Sword')
