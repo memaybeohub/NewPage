@@ -116,7 +116,7 @@ getgenv().HopServer = function(CountTarget, hoplowallow,reasontohop)
             end
             local huhu = game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer(i)
             for k, v in pairs(huhu) do
-                if k ~= game.JobId and v["Count"] <= CountTarget-2 then
+                if k ~= game.JobId and v["Count"] <= 6 then
                     if not Settings2[k] or tick() - Settings2[k].Time > 60 * 10 then
                         if tick()-_G.LastHopTick >= 10 then 
                             print('Found Sv:',k)
