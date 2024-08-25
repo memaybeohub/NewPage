@@ -18,7 +18,7 @@ getgenv().refreshTask = function()
     if not _G.Config.OwnedItems then 
         _G.Config.OwnedItems = {}
     end
-    if _G.CurrentTask == '' then  
+    if _G.CurrentTask == '' and _G.Config.OwnedItems.LoadedFr then  
         if _G.ServerData["PlayerBackpack"]['Special Microchip'] or CheckIsRaiding() then 
             _G.CurrentTask = 'Auto Raid'
         elseif _G.ServerData['PlayerData'].DevilFruit == '' and _G.SnipeFruit and _G.FruitSniping and _G.CanEatFruit then 
@@ -1389,7 +1389,7 @@ AutoMeleeFunc = function()
             game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true) 
         elseif _G.ServerData['Server Bosses']['Tide Keeper'] then 
             KillBoss(_G.ServerData['Server Bosses']['Tide Keeper']) 
-            if type(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)) ~='string' or _G.ServerData['PlayerData'].Level < 1450 then   
+            if (not _G.ServerData['Server Bosses']['Tide Keeper'] or _G.ServerData['Server Bosses']['Tide Keeper'].Humanoid.Health <= 0) and type(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)) ~='string' or _G.ServerData['PlayerData'].Level < 1450 then   
                 _G.MeleeTask = '' 
             end
         elseif _G.ServerData['PlayerData'].Level >= 1450 then

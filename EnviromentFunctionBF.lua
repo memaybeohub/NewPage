@@ -2706,6 +2706,21 @@ ThisiSW = RunService.Heartbeat:Connect(function()
         end
         if KillingMob or tick()-TOIKHONGBIET < 3 then return end   
         TOIKHONGBIET = tick() 
+        for i,v in pairs(game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("getInventory")) do 
+            if v and typeof(v) == 'table' and v.Name and v.Name ~= '' then 
+                _G.ServerData["Inventory Items"][v.Name] = v  
+            end
+            if _G.Config and v.Type ~= 'Fruit' and not v.Value then 
+                if not _G.Config then 
+                    _G.Config = {}
+                end
+                if not _G.Config.OwnedItems then 
+                    _G.Config.OwnedItems = {}
+                end
+                _G.Config.OwnedItems[v.Name] = true 
+            end
+        end
+        _G.Config.OwnedItems.LoadedFr = true
         _G.HavingX2 =CheckX2Exp()
         UpdateBossDropTable()
         _G.NextDrop,_G.NextDropParent = getNextBossDropParent()
@@ -2761,20 +2776,6 @@ ThisiSW = RunService.Heartbeat:Connect(function()
             game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyHaki","Soru")  
             -- Buy Ken 
             game.ReplicatedStorage.Remotes.CommF_:InvokeServer("KenTalk", "Buy")
-        end
-        for i,v in pairs(game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("getInventory")) do 
-            if v and typeof(v) == 'table' and v.Name and v.Name ~= '' then 
-                _G.ServerData["Inventory Items"][v.Name] = v  
-            end
-            if _G.Config and v.Type ~= 'Fruit' and not v.Value then 
-                if not _G.Config then 
-                    _G.Config = {}
-                end
-                if not _G.Config.OwnedItems then 
-                    _G.Config.OwnedItems = {}
-                end
-                _G.Config.OwnedItems[v.Name] = true 
-            end
         end
         if not _G.ServerData['PlayerData']["Elite Hunted"] or _G.ServerData['PlayerData']["Elite Hunted"] < 30 then 
             _G.ServerData['PlayerData']["Elite Hunted"] = tonumber(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("EliteHunter", "Progress")) or 0 
