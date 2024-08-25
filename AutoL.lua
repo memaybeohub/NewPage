@@ -23,7 +23,7 @@ getgenv().AutoL = function()
     if not BOSSCP then 
         BOSSCP = IsBossDrop()
     end
-    if game.PlaceId == 2753915549 and not _G.QuestKillPlayer and game.Players.LocalPlayer.Data.Level.Value >= 35 and game.ReplicatedStorage.Remotes["CommF_"]:InvokeServer("PlayerHunter") ~="I don't have anything for you right now. Come back later." then 
+    if game.PlaceId == 2753915549 and not _G.QuestKillPlayer and game.Players.LocalPlayer.Data.Level.Value >= 50 and game.ReplicatedStorage.Remotes["CommF_"]:InvokeServer("PlayerHunter") ~="I don't have anything for you right now. Come back later." then 
         namequest =
             string.gsub(
             game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text,
