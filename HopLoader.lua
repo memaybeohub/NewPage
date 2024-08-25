@@ -92,7 +92,15 @@ getgenv().HopServer = function(CountTarget, hoplowallow,reasontohop)
         for i = 1, 3 - _G.TimeTryHopLow do
             if _G.TimeTryHopLow < 3 then
                 local a2,b2 = pcall(function()
-                    game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer, game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer(math.random(40, 100))[math.random(1, 100)])
+                    local FoundId
+                    repeat 
+                        task.wait()
+                        FoundId = game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer(math.random(1, 100))[math.random(1, 100)] 
+                        task.wait(1)
+                    until FoundId and game.JobId ~= FoundId and not Settings2[FoundId] or tick()-Settings2[FoundId] >= 60*60 
+                    Settings2[FoundId] = tick() 
+                    SaveSettings2()
+                    game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer, FoundId)
                 end)
                 _G.TimeTryHopLow = _G.TimeTryHopLow + 1
                 warn('Hop low times: ',_G.TimeTryHopLow)
