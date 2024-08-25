@@ -3,7 +3,7 @@ local get = setmetatable({}, {
         return game:GetService(b) or game[b]
     end
 })
-
+_G.FastAttackDelay = _G.FastAttackDelay or 0.0014691234 
 local Players = get.Players
 local CharactersFolder = workspace.Characters
 local Client = Players.localPlayer;
@@ -24,7 +24,7 @@ RigLib.wrapAttackAnimationAsync = function(p_u_28, p_u_29, p_u_30, p_u_31, p_u_3
         if #v37 > 0 then
             do
                 p_u_32(v37)
-                if true and tick() - v_u_36 > 0.0014691234  then
+                if true and tick() - v_u_36 > _G.FastAttackDelay  then
                     ReplicatedStorage.RigControllerEvent:FireServer("weaponChange", tostring(ac.currentWeaponModel))
                 end
             end
