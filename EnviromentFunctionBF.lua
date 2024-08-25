@@ -678,7 +678,6 @@ local function LoadPlayer()
             end
         end  
         if not game.Players.LocalPlayer.Character:FindFirstChild("Teleport Access") then 
-            wait(1)
             if not game.Players.LocalPlayer.Character:FindFirstChild("Teleport Access") then
                 local TweenAccess = Instance.new("IntValue")
                 TweenAccess.Name = "Teleport Access"
