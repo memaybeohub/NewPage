@@ -1271,7 +1271,10 @@ function KillMobList(MobList)
     end
 end
 function KillBoss(BossInstance)
-    if not BossInstance or not BossInstance:FindFirstChild('Humanoid') then return end 
+    if not BossInstance or not BossInstance:FindFirstChildOfClass('Humanoid') or BossInstance:FindFirstChildOfClass('Humanoid').Health <= 0 then
+        task.wait(.1)
+        return 
+    end 
     warn('Killing boss:',BossInstance.Name)
     if not game.Workspace.Enemies:FindFirstChild(BossInstance.Name) then  
         SetContent('Moving to '..BossInstance.Name)
