@@ -87,19 +87,13 @@ getgenv().HopServer = function(CountTarget, hoplowallow,reasontohop)
         reasontohop = 'None'
     end
     HopGuiCreation(reasontohop,delay) 
-    repeat 
-        game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer, game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer(math.random(1, 100))[math.random(1, 100)])
-        task.wait()
-    until 1 < 0
-    --[[
-local timeplased = tick()+delay
+    local timeplased = tick()+delay
     if hoplowallow and _G.TimeTryHopLow < 3 then
         for i = 1, 3 - _G.TimeTryHopLow do
             if _G.TimeTryHopLow < 3 then
                 local a2,b2 = pcall(function()
-                    HopLow()
+                    game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer, game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer(math.random(1, 100))[math.random(1, 100)])
                 end)
-                if not a2 then print('hop fail',b2) end
                 _G.TimeTryHopLow = _G.TimeTryHopLow + 1
                 warn('Hop low times: ',_G.TimeTryHopLow)
                 SetContent('Low Server hopping times: '..tostring(_G.TimeTryHopLow))
@@ -121,7 +115,7 @@ local timeplased = tick()+delay
             end
             local huhu = game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer(i)
             for k, v in pairs(huhu) do
-                if k ~= game.JobId and v["Count"] <= 6 then
+                if k ~= game.JobId and v["Count"] <= 10 then
                     if not Settings2[k] or tick() - Settings2[k].Time > 60 * 10 then
                         if tick()-_G.LastHopTick >= 10 then 
                             print('Found Sv:',k)
@@ -174,6 +168,5 @@ local timeplased = tick()+delay
     end
     SaveSettings2()
     return Hop()
-    ]]
 end
 print('Hub: Loaded Hop.')
