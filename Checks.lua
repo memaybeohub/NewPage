@@ -73,9 +73,8 @@ getgenv().refreshTask = function()
     end
 end 
 local rF1,rF2 
-task.delay(.1,function()
+task.spawn(function()
     while task.wait(.5) do 
-        task.wait()
         rF1,rF2  = pcall(function()
             refreshTask() 
         end)
