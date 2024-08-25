@@ -49,7 +49,7 @@ getgenv().AutoL = function()
         if #BlackListedKillPlayers >= 8 then 
             repeat 
                 warn('Start Hop Server')
-                HopServer(8,false,'Player Hunter Quest') 
+                HopServer(10,false,'Player Hunter Quest') 
                 CancelKillPlayer() 
                 task.wait(5) 
             until 5 > 6
