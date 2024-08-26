@@ -773,7 +773,7 @@ task.spawn(function()
     if TushitaQuest and not TushitaQuest.OpenDoor and _G.ServerData['PlayerData'].Level >= 2000 then 
         task.spawn(function()
             loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/FinderServerLoading.lua'))()
-            if FindAndJoinServer then  
+            if AutoRipIndraHop then  
                 for i = 1,120 do 
                     if game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress") and game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress").OpenDoor then
                         break;
@@ -781,9 +781,7 @@ task.spawn(function()
                     if _G.Config.OwnedItems['Tushita'] then 
                         break;
                     end
-                    FindAndJoinServer('boss','rip',function(v,rt)
-                        return rt-v.FoundOn < 20
-                    end)
+                    AutoRipIndraHop()
                     task.wait(1)
                 end
                 print('Didint found any rip indra server in 100s')
@@ -1861,20 +1859,22 @@ function LoadBoss(v)
     local Root = v.PrimaryPart or v:WaitForChild('HumanoidRootPart',3)
     local Hum = v:WaitForChild('Humanoid',3)
     task.spawn(function()
+        local IsElite = table.find(Elites,RemoveLevelTitle(v.Name))
+        if Hum and Root and v:FindFirstChildOfClass('Humanoid') and v.Humanoid.Health > 0 and (v.Humanoid.DisplayName:find('Boss') or RemoveLevelTitle(v.Name) == 'Core' or IsElite) and not _G.ServerData['Server Bosses'][v.Name] then 
+            if not IsElite then 
+                SetContent('Loaded boss '..tostring(v.Name))
+                _G.ServerData['Server Bosses'][v.Name] = v  
+            end
+        else
+            return
+        end 
+    end)
+    task.spawn(function()
         AddNoknockback(v)
         if Sea3 and Hum and Root and v:FindFirstChildOfClass('Humanoid') and v:FindFirstChildOfClass('Humanoid').Health > 0 and GetDistance(v.PrimaryPart,CastleCFrame) <= 1500 and (v.Name ~='rip_indra True Form' and not v.Name:find('Friend')) then  
             _G.PirateRaidTick = tick() 
         end
     end)
-    local IsElite = table.find(Elites,RemoveLevelTitle(v.Name))
-    if Hum and Root and v:FindFirstChildOfClass('Humanoid') and v.Humanoid.Health > 0 and (v.Humanoid.DisplayName:find('Boss') or RemoveLevelTitle(v.Name) == 'Core' or IsElite) and not _G.ServerData['Server Bosses'][v.Name] then 
-        if not IsElite then 
-            SetContent('Loaded boss '..tostring(v.Name))
-            _G.ServerData['Server Bosses'][v.Name] = v  
-        end
-    else
-        return
-    end 
     task.spawn(function()
         if RemoveLevelTitle(v.Name) == 'rip_indra True Form' then 
             getgenv().TushitaQuest = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress");
@@ -1948,9 +1948,7 @@ for i,v in pairs(game.workspace.Enemies:GetChildren()) do
     task.spawn(LoadBoss,v)
 end
 for i,v in pairs(game.ReplicatedStorage:GetChildren()) do 
-    if v:FindFirstChildOfClass('Humanoid') then 
-        LoadBoss(v)
-    end
+    task.spawn(LoadBoss,v)
 end 
 function CheckRaceVer()
     local v113 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "1")
