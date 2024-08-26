@@ -1168,7 +1168,7 @@ AutoYama = function()
     end
 end
 AutoElite = function() 
-    if _G.CurrentElite then  
+    if _G.CurrentElite and _G.CurrentElite.Parent then  
         if
             not string.find(
                 game.Players.LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text,
@@ -1187,6 +1187,7 @@ AutoElite = function()
             _G.CurrentTask = ''
         end
     else
+        _G.CurrentElite = nil
         _G.CurrentTask = ''
     end
 end
