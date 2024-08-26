@@ -1186,6 +1186,8 @@ AutoElite = function()
             KillBoss(_G.CurrentElite)
             _G.CurrentTask = ''
         end
+    else
+        _G.CurrentTask = ''
     end
 end
 AutoSea3 = function()
