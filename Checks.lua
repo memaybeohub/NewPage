@@ -1077,8 +1077,16 @@ AutoTushita = function()
                 TushitaStartQuestTick = tick()
                 SetContent('Getting Holy Torch...')
                 repeat 
-                    game.Players.LocalPlayer.Character.PrimaryPart.Anchored = true
-                    game.Players.LocalPlayer.Character.PrimaryPart.CFrame = game:GetService("Workspace").Map.Waterfall.SecretRoom.Room.Door.Door.Hitbox.CFrame
+                    for i,v in game:GetService("Workspace").Map.Waterfall.SecretRoom:GetDescendants() do 
+                        if v.ClassName == 'Part' then  
+                            v.CFrame =  game.Players.LocalPlayer.Character.PrimaryPart.CFrame
+                            for i2,v2 in getconnections(v.Touched) do 
+                                print(v:GetFullName())
+                                v2.Function(game.Players.LocalPlayer.Character.PrimaryPart)
+                            end
+                        end
+                    end
+                    
                     task.wait()
                 until _G.ServerData["PlayerBackpack"]['Holy Torch']
                 SetContent('Got Holy Torch.')
@@ -1317,14 +1325,12 @@ AutoRaid = function()
     if not _G.KillAuraConnection then 
         _G.KillAuraConnection = workspace.Enemies.ChildAdded:Connect(function(v)  
             sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 3000+300)   
-            local V5Hum = v:FindFirstChildOfClass('Humanoid') or v:WaitForChild('Humanoid')
+            local V5Hum = v:FindFirstChildOfClass('Humanoid') or v:WaitForChild('Humanoid',3)
             if V5Hum then 
-                V5Hum.Health = 0 
                 repeat 
                     V5Hum.Health = 0 
                     task.wait(1)
                 until not V5Hum or not V5Hum.Parent or not V5Hum.Parent.Parent
-
             end
         end) 
     end
