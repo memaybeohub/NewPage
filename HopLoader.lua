@@ -100,6 +100,7 @@ getgenv().HopServer = function(CountTarget, hoplowallow,reasontohop)
     end
     HopGuiCreation(reasontohop,delay) 
     local timeplased = tick()+delay
+    --[[
     if hoplowallow and _G.TimeTryHopLow < 3 then
         for i = 1, 3 - _G.TimeTryHopLow do
             if _G.TimeTryHopLow < 3 then
@@ -110,7 +111,7 @@ getgenv().HopServer = function(CountTarget, hoplowallow,reasontohop)
                         task.wait()
                         FoundId = getRandomIndex(game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer(math.random(1, 100)))
                         task.wait(1)
-                    until FoundId and game.JobId ~= FoundId and (not Settings2[FoundId] or tick()-Settings2[FoundId] >= 60*60 )
+                    until FoundId and game.JobId ~= FoundId and (not Settings2[FoundId] or tick()-Settings2[FoundId] >= 60*60)
                     SetContent('Found Low Player Server: '..tostring(FoundId))
                     Settings2[FoundId] = tick() 
                     SaveSettings2()
@@ -125,6 +126,7 @@ getgenv().HopServer = function(CountTarget, hoplowallow,reasontohop)
             end
         end
     end
+    ]]
     if not CountTarget then
         CountTarget = 10
     end
