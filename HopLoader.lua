@@ -106,10 +106,12 @@ getgenv().HopServer = function(CountTarget, hoplowallow,reasontohop)
                 local a2,b2 = pcall(function()
                     local FoundId = game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer(math.random(1, 100))[math.random(1, 100)] 
                     repeat 
+                        SetContent('Finding Low Sever...')
                         task.wait()
                         FoundId = getRandomIndex(game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer(math.random(1, 100)))
                         task.wait(1)
                     until FoundId and game.JobId ~= FoundId and (not Settings2[FoundId] or tick()-Settings2[FoundId] >= 60*60 )
+                    SetContent('Found Low Player Server: '..tostring(FoundId))
                     Settings2[FoundId] = tick() 
                     SaveSettings2()
                     game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer, FoundId)
@@ -120,14 +122,12 @@ getgenv().HopServer = function(CountTarget, hoplowallow,reasontohop)
                 _G.TimeTryHopLow = _G.TimeTryHopLow + 1
                 warn('Hop low times: ',_G.TimeTryHopLow)
                 SetContent('Low Server hopping times: '..tostring(_G.TimeTryHopLow))
-                wait(delay/2)
             end
         end
     end
     if not CountTarget then
         CountTarget = 10
     end
-    wait(delay)
     local function Hop()
         for i = 1, 100 do
             if ChooseRegion == nil or ChooseRegion == "" then
