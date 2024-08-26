@@ -1948,7 +1948,9 @@ for i,v in pairs(game.workspace.Enemies:GetChildren()) do
     task.spawn(LoadBoss,v)
 end
 for i,v in pairs(game.ReplicatedStorage:GetChildren()) do 
-    task.spawn(LoadBoss,v)
+    if v:FindFirstChildOfClass('Humanoid') then 
+        LoadBoss(v)
+    end
 end 
 function CheckRaceVer()
     local v113 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "1")
