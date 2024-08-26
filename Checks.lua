@@ -1077,16 +1077,9 @@ AutoTushita = function()
                 TushitaStartQuestTick = tick()
                 SetContent('Getting Holy Torch...')
                 repeat 
-                    for i,v in game:GetService("Workspace").Map.Waterfall.SecretRoom:GetDescendants() do 
-                        if v.ClassName == 'Part' then  
-                            v.CFrame =  game.Players.LocalPlayer.Character.PrimaryPart.CFrame
-                            for i2,v2 in getconnections(v.Touched) do 
-                                print(v:GetFullName())
-                                v2.Function(game.Players.LocalPlayer.Character.PrimaryPart)
-                            end
-                        end
-                    end
-                    
+                    game.Players.LocalPlayer.Character.PrimaryPart.Anchored = false
+                    game.Players.LocalPlayer.Character.PrimaryPart.CFrame = game:GetService("Workspace").Map.Waterfall.SecretRoom.Room.Door.Door.Hitbox.CFrame
+                    game.Players.LocalPlayer.Character.PrimaryPart.Anchored = false
                     task.wait()
                 until _G.ServerData["PlayerBackpack"]['Holy Torch']
                 SetContent('Got Holy Torch.')
