@@ -770,12 +770,12 @@ task.spawn(function()
     _G.Ticktp = tick() 
     getgenv().TushitaQuest = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress")
     wait(5)
-    if TushitaQuest and not TushitaQuest.OpenDoor and _G.ServerData['PlayerData'].Level >= 2000 then 
+    if CheckEnabling('Cursed Dual Katana') and TushitaQuest and not TushitaQuest.OpenedDoor and _G.ServerData['PlayerData'].Level >= 2000 then 
         task.spawn(function()
             loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/FinderServerLoading.lua'))()
             if AutoRipIndraHop then  
                 for i = 1,120 do 
-                    if game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress") and game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress").OpenDoor then
+                    if game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress") and game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress").OpenedDoor then
                         break;
                     end
                     if _G.Config.OwnedItems['Tushita'] then 
