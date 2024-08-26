@@ -873,7 +873,7 @@ function GetCFrameADD(v2)
     if game.Players.LocalPlayer.Character.Humanoid.Sit then 
         SendKey('Space',.5) 
     end
-    return CFrame.new(0,40,0)
+    return CFrame.new(0,30,0)
 end 
 local TweenK
 local function TweenKill(v)
