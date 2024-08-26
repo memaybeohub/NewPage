@@ -1301,10 +1301,10 @@ AutoRaid = function()
         SetContent('Firing raid remote...',3)
         _G.NextRaidIslandId = 1
         if Sea2 then 
-            Tweento(CFrame.new(-12463.8740234375, 374.9144592285156, -7523.77392578125))
+            --Tweento(CFrame.new(-12463.8740234375, 374.9144592285156, -7523.77392578125))
             fireclickdetector(Workspace.Map.CircleIsland.RaidSummon2.Button.Main.ClickDetector)  
         elseif Sea3 then 
-            Tweento(CFrame.new(923.21252441406, 126.9760055542, 32852.83203125))
+            --Tweento(CFrame.new(923.21252441406, 126.9760055542, 32852.83203125))
             fireclickdetector(Workspace.Map["Boat Castle"].RaidSummon2.Button.Main.ClickDetector) 
         end
         if _G.ServerData["PlayerBackpack"]['Special Microchip'] then 
