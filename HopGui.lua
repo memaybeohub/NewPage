@@ -131,4 +131,4 @@ local function createGui(ReasonT,TimeT)
     handleDoubleClick()
     return screenGui
 end
-return createGui
+return function() end
