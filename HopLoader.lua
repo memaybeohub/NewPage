@@ -76,6 +76,18 @@ getgenv().HopLow = function()
             )
         end
     end
+end 
+
+
+function getRandomIndex(tab)
+    local keys = {}
+    local keysc = 0 
+    for k, v in pairs(tab) do
+            keysc +=1
+            table.insert(keys, k)
+    end
+    -- Chọn ngẫu nhiên một index từ bảng keys
+    return keysc > 0 and keys[math.random(1,keysc)] or nil
 end
 local Settings2 = ReadSetting2()
 _G.TimeTryHopLow = 0
@@ -95,7 +107,7 @@ getgenv().HopServer = function(CountTarget, hoplowallow,reasontohop)
                     local FoundId = game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer(math.random(1, 100))[math.random(1, 100)] 
                     repeat 
                         task.wait()
-                        FoundId = game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer(math.random(1, 100))[math.random(1, 100)] 
+                        FoundId = getRandomIndex(game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer(math.random(1, 100)))
                         task.wait(1)
                     until FoundId and game.JobId ~= FoundId and (not Settings2[FoundId] or tick()-Settings2[FoundId] >= 60*60 )
                     Settings2[FoundId] = tick() 
