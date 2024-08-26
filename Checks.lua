@@ -1077,9 +1077,7 @@ AutoTushita = function()
                 TushitaStartQuestTick = tick()
                 SetContent('Getting Holy Torch...')
                 repeat 
-                    game.Players.LocalPlayer.Character.PrimaryPart.Anchored = false
                     game.Players.LocalPlayer.Character.PrimaryPart.CFrame = game:GetService("Workspace").Map.Waterfall.SecretRoom.Room.Door.Door.Hitbox.CFrame
-                    game.Players.LocalPlayer.Character.PrimaryPart.Anchored = false
                     task.wait()
                 until _G.ServerData["PlayerBackpack"]['Holy Torch']
                 SetContent('Got Holy Torch.')

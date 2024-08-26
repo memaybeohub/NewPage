@@ -1881,7 +1881,7 @@ function LoadBoss(v)
             repeat task.wait() until _G.ServerData['PlayerData'] and _G.ServerData['PlayerData'].Level
             if TushitaQuest and not TushitaQuest.OpenedDoor then 
                 repeat 
-                    game.Players.LocalPlayer.Character.PrimaryPart.CFrame = game:GetService("Workspace").Map.Waterfall.SecretRoom.Room.Door.Door.Hitbox.CFrame
+                    --game.Players.LocalPlayer.Character.PrimaryPart.CFrame = game:GetService("Workspace").Map.Waterfall.SecretRoom.Room.Door.Door.Hitbox.CFrame
                     task.wait()
                 until game.Players.LocalPlayer.Backpack:FindFirstChild('Holy Torch') 
                 game.Players.LocalPlayer.Character.PrimaryPart.Anchored= false
