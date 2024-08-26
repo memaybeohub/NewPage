@@ -1871,7 +1871,7 @@ function LoadBoss(v)
     end)
     task.spawn(function()
         AddNoknockback(v)
-        if Sea3 and Hum and Root and v:FindFirstChildOfClass('Humanoid') and v:FindFirstChildOfClass('Humanoid').Health > 0 and GetDistance(v.PrimaryPart,CastleCFrame) <= 1500 and (v.Name ~='rip_indra True Form' and not v.Name:find('Friend')) then  
+        if Sea3 and Hum and Root and v:FindFirstChildOfClass('Humanoid') and v:FindFirstChildOfClass('Humanoid').Health > 0 and GetDistance(v.PrimaryPart,CastleCFrame) <= 1500 and (RemoveLevelTitle(v.Name) ~='rip_indra True Form' and not v.Name:find('Friend')) then  
             _G.PirateRaidTick = tick() 
         end
     end)
