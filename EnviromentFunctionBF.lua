@@ -1855,14 +1855,14 @@ function collectAllFruit_Store()
 end 
 _G.CurrentElite = false
 function LoadBoss(v)  
+    if not v or v.ClassName ~= 'Model' then return end
     local CastleCFrame = CFrame.new(-5543.5327148438, 313.80062866211, -2964.2585449219)
     local Root = v.PrimaryPart or v:WaitForChild('HumanoidRootPart',3)
     local Hum = v:WaitForChild('Humanoid',3)
+    local IsElite = table.find(Elites,RemoveLevelTitle(v.Name))
     task.spawn(function()
-        local IsElite = table.find(Elites,RemoveLevelTitle(v.Name))
         if Hum and Root and v:FindFirstChildOfClass('Humanoid') and v.Humanoid.Health > 0 and (v.Humanoid.DisplayName:find('Boss') or RemoveLevelTitle(v.Name) == 'Core' or IsElite) and not _G.ServerData['Server Bosses'][v.Name] then 
             if not IsElite then 
-                SetContent('Loaded boss '..tostring(v.Name))
                 _G.ServerData['Server Bosses'][v.Name] = v  
             end
         else
@@ -1906,6 +1906,9 @@ function LoadBoss(v)
     end 
     v.Humanoid:GetPropertyChangedSignal('Health'):Connect(function()
         if v.Humanoid.Health <= 0 then  
+            if _G.CurrentElite == v then 
+                _G.CurrentElite = nil 
+            end
             if table.find(Elites,RemoveLevelTitle(v.Name)) then 
                 _G.CurrentElite = nil
             end
