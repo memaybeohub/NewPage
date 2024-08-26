@@ -1881,7 +1881,6 @@ function LoadBoss(v)
             repeat task.wait() until _G.ServerData['PlayerData'] and _G.ServerData['PlayerData'].Level
             if TushitaQuest and not TushitaQuest.OpenedDoor then 
                 repeat 
-                    game.Players.LocalPlayer.Character.PrimaryPart.Anchored = true
                     game.Players.LocalPlayer.Character.PrimaryPart.CFrame = game:GetService("Workspace").Map.Waterfall.SecretRoom.Room.Door.Door.Hitbox.CFrame
                     task.wait()
                 until game.Players.LocalPlayer.Backpack:FindFirstChild('Holy Torch') 
@@ -1949,11 +1948,9 @@ for i,v in pairs(game.workspace.Enemies:GetChildren()) do
     task.spawn(LoadBoss,v)
 end
 for i,v in pairs(game.ReplicatedStorage:GetChildren()) do 
-    task.spawn(function()
-        if v:FindFirstChild('Humanoid') then 
-            LoadBoss(v)
-        end
-    end)
+    if v:FindFirstChildOfClass('Humanoid') then 
+        LoadBoss(v)
+    end
 end 
 function CheckRaceVer()
     local v113 = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "1")
