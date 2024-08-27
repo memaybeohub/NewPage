@@ -140,7 +140,6 @@ if hookfunction then
         end)
     end)
 end
---[[
 _G.rejoin = game:GetService("CoreGui").RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(
     child)
     if not _G.SwitchingServer and child.Name == 'ErrorPrompt' and child:FindFirstChild('MessageArea') and child.MessageArea:FindFirstChild("ErrorFrame") then
@@ -154,7 +153,6 @@ _G.rejoin = game:GetService("CoreGui").RobloxPromptGui.promptOverlay.ChildAdded:
         end
     end
 end)
-]]
 local Tiers = {
     "Soul Guitar",  
     'Cursed Dual Katana',
