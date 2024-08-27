@@ -769,8 +769,8 @@ end
 task.spawn(function()
     _G.Ticktp = tick() 
     getgenv().TushitaQuest = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress")
-    wait(5)
     if CheckEnabling('Cursed Dual Katana') and TushitaQuest and not TushitaQuest.OpenedDoor and _G.ServerData['PlayerData'].Level >= 2000 then 
+        print('PRo')
         task.spawn(function()
             loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/FinderServerLoading.lua'))()
             if AutoRipIndraHop then  
@@ -781,6 +781,7 @@ task.spawn(function()
                     if _G.Config.OwnedItems['Tushita'] then 
                         break;
                     end
+                    print('Finding Rip india sv...')
                     AutoRipIndraHop()
                     task.wait(1)
                 end
@@ -1169,11 +1170,10 @@ function KillNigga(MobInstance)
                 end 
                 task.wait()
             until not MobInstance or not MobInstance:FindFirstChildOfClass("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or
-            MobInstance.Humanoid.Health <= 0 or _G.SwitchingServer
-            SetContent('...')
+            MobInstance.Humanoid.Health <= 0
+            SetContent('Kill success')
             KillingMob = false
             _G.UseFAttack = false  
-            return true
         end
     end)
     if not LS then print('ls',LS2) end
