@@ -24,7 +24,7 @@ hookfunction(RigLib.wrapAttackAnimationAsync,function(p_u_28, p_u_29, p_u_30, p_
         if #v37 > 0 then
             do
                 p_u_32(v37)
-                if true and tick() - v_u_36 > _G.FastAttackDelay  then
+                if true and tick() - v_u_36 >= _G.FastAttackDelay  then
                     ReplicatedStorage.RigControllerEvent:FireServer("weaponChange", tostring(ac.currentWeaponModel))
                 end
             end
