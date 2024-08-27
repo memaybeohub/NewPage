@@ -375,7 +375,7 @@ local hok = hookfunction or debug.hookfunction
 local req = require or debug.require
 Window:SelectTab(1)
 Fluent:Notify({
-    Title = "Starlight",
+    Title = _G.HubNameFr or "Starlight",
     Content = "The script has been loaded.",
     Duration = 8
 })
