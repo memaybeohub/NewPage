@@ -2348,7 +2348,7 @@ end
 
 function LoadChest()
     for _, v in pairs(workspace:GetDescendants()) do
-        if string.find(v.Name, 'Chest') and v.Parent then
+        if string.find(v.Name, 'Chest') and v.Parent and GetDistance(v,CFrame.new(-1.4128437, 0.292379826, -6.53605461, 0.999743819, -1.41806034e-09, -0.0226347167, 4.24517754e-09, 1, 1.2485377e-07, 0.0226347167, -1.24917875e-07, 0.999743819)) > 10 then
             task.spawn(function()
                 AddChest(v)
                 local parentFullName = tostring(v.Parent:GetFullName())
