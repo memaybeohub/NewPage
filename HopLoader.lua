@@ -98,6 +98,7 @@ getgenv().HopServer = function(CountTarget, hoplowallow,reasontohop)
     if not reasontohop then 
         reasontohop = 'None'
     end
+    SetContent(reasontohop)
     HopGuiCreation(reasontohop,delay) 
     local timeplased = tick()+delay
     --[[
