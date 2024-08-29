@@ -1,10 +1,14 @@
 local JoinedGame = tick()
+local PlaceId = game.PlaceId
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
 local VirtualUser = game:GetService("VirtualUser")
+local TweenService = game:GetService("TweenService")
+local VirtualInputManager = game:GetService("VirtualInputManager")
 local LocalPlayer = Players.LocalPlayer
 local FinderServerLoading = loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/FinderServerLoading.lua'))
+local World = placeId == 2753915549 and 1 or placeId == 4442272183 and 2 or placeId == 7449423635 and 3
 
 local Remotes = ReplicatedStorage.Remotes
 local CommF_ = Remotes.CommF_
@@ -14,6 +18,7 @@ local Quest = require(ReplicatedStorage.Quests)
 local v17 = require(ReplicatedStorage:WaitForChild("GuideModule"))
 local Raids = require(ReplicatedStorage.Raids).raids
 local AdvancedRaids = require(ReplicatedStorage.Raids).advancedRaids
+
 local AllMobInGame = {}
 local RealRaid = {}
 local MobSpawnClone = {}
@@ -24,12 +29,14 @@ local l1 = {}
 local FruitStocks = {}
 local FreeFallTime = {}
 local CFrameByLevelQuest = {}
+local TableLocations = {}
 
 local Elites = {
 	"Deandre",
 	"Urban",
 	"Diablo"
 }
+
 local UselessQuest = {
 	"BartiloQuest",
 	"Trainees",
@@ -42,7 +49,9 @@ local TOIKHONGBIET = 0
 local CheckFruitStockTick = 0
 local LastCheckTickFruit = 0
 local MobUsingSkill = false
+local cancelKill = false
 local KillingBoss
+local chooseis
 
 _G.MobFarest = {}
 _G.ChestsConnection = {}
@@ -57,59 +66,56 @@ _G.ServerData['Skill Loaded'] = {}
 _G.ServerData['Workspace Fruits'] = {}
 _G.ServerData['Server Bosses'] = {}
 _G.ServerData["PlayerBackpack"] = {}
+_G.ServerData["PlayerBackpackFruits"] = {}
 
 _G.MeleeWait = ''
 
+_G.AttackedSafe = false
+_G.CurrentElite = false
+_G.CDK_Yama = false
 _G.SavedConfig = type(_G.SavedConfig) == 'table' and _G.SavedConfig or {}
 
 getgenv().Exploiters = {}
 
 local Melee_and_Price = {
-	["Black Leg"] = {
-		Beli = 150000,
-		Fragment = 0
-	},
-	["Fishman Karate"] = {
-		Beli = 750000,
-		Fragment = 0
-	},
-	["Electro"] = {
-		Beli = 500000,
-		Fragment = 0
-	},
-	["Dragon Claw"] = {
-		Beli = 0,
-		Fragment = 1500
-	},
-	["Superhuman"] = {
-		Beli = 3000000,
-		Fragment = 0
-	},
-	["Sharkman Karate"] = {
-		Beli = 2500000,
-		Fragment = 5000
-	},
-	["Death Step"] = {
-		Beli = 2500000,
-		Fragment = 5000
-	},
-	["Dragon Talon"] = {
-		Beli = 3000000,
-		Fragment = 5000
-	},
-	["Godhuman"] = {
-		Beli = 5000000,
-		Fragment = 5000
-	},
-	["Electric Claw"] = {
-		Beli = 3000000,
-		Fragment = 5000
-	},
-	["Sanguine Art"] = {
-		Beli = 5000000,
-		Fragment = 5000
-	},
+    ["Black Leg"]       = {Beli = 150000,  Fragment = 0},
+    ["Electro"]         = {Beli = 500000,  Fragment = 0},
+    ["Fishman Karate"]  = {Beli = 750000,  Fragment = 0},
+    ["Superhuman"]      = {Beli = 3000000, Fragment = 0},
+    ["Dragon Claw"]     = {Beli = 0,       Fragment = 1500},
+    ["Sharkman Karate"] = {Beli = 2500000, Fragment = 5000},
+    ["Death Step"]      = {Beli = 2500000, Fragment = 5000},
+    ["Dragon Talon"]    = {Beli = 3000000, Fragment = 5000},
+    ["Electric Claw"]   = {Beli = 3000000, Fragment = 5000},
+    ["Godhuman"]        = {Beli = 5000000, Fragment = 5000},
+    ["Sanguine Art"]    = {Beli = 5000000, Fragment = 5000},
 }
+
+if World == 3 then
+    TableLocations = {
+        ["Castle On The Sea"] = Vector3.new(-5058.77490234375, 314.5155029296875, -3155.88330078125),
+        ["Hydra"] = Vector3.new(5756.83740234375, 610.4240112304688, - 253.9253692626953),
+        ["Mansion"] = Vector3.new(- 12463.8740234375, 374.9144592285156, - 7523.77392578125),
+        ["Great Tree"] = Vector3.new(28282.5703125, 14896.8505859375, 105.1042709350586),
+        ["Ngu1"] = Vector3.new(- 11993.580078125, 334.7812805175781, - 8844.1826171875),
+        ["ngu2"] = Vector3.new(5314.58203125, 25.419387817382812, - 125.94227600097656),
+        ["Temple Of Time"] = Vector3.new(2957.833740234375, 2286.495361328125, - 7217.05078125)
+    }
+elseif World == 2 then
+    TableLocations = {
+        ["Mansion"] = Vector3.new(- 288.46246337890625, 306.130615234375, 597.9988403320312),
+        ["Flamingo"] = Vector3.new(2284.912109375, 15.152046203613281, 905.48291015625),
+        ["122"] = Vector3.new(923.21252441406, 126.9760055542, 32852.83203125),
+        ["3032"] = Vector3.new(- 6508.5581054688, 89.034996032715, - 132.83953857422)
+    }
+elseif World == 1 then
+    TableLocations = {
+        ["1"] = Vector3.new(- 7894.6201171875, 5545.49169921875, - 380.2467346191406),
+        ["2"] = Vector3.new(- 4607.82275390625, 872.5422973632812, - 1667.556884765625),
+        ["3"] = Vector3.new(61163.8515625, 11.759522438049316, 1819.7841796875),
+        ["4"] = Vector3.new(3876.280517578125, 35.10614013671875, - 1939.3201904296875)
+    }
+end
 
 local Melee_and_RemoteBuy = {
 	["Black Leg"] = "BuyBlackLeg",
@@ -199,18 +205,18 @@ function Join(v2)
 	end
 end
 if not LocalPlayer.Team then
-	repeat
-		pcall(function()
-			if LocalPlayer.PlayerGui:WaitForChild("Main"):FindFirstChild("ChooseTeam") then
-				Join(_G.Team)
-			end
-		end)
-		wait()
-	until LocalPlayer.Team ~= nil
+    repeat
+        pcall(function()
+            if LocalPlayer.PlayerGui:WaitForChild("Main"):FindFirstChild("ChooseTeam") then
+                Join(_G.Team)
+            end
+        end)
+        wait()
+    until LocalPlayer.Team ~= nil
 end
 print('Loaded Team')
 function RemoveLevelTitle(v)
-	return tostring(tostring(v):gsub(" %pLv. %d+%p", ""):gsub(" %pRaid Boss%p", ""):gsub(" %pBoss%p", ""))
+    return tostring(v:gsub(" %pLv. %d+%p", ""):gsub(" %pRaid Boss%p", ""):gsub(" %pBoss%p", ""))
 end
 if workspace:FindFirstChild("MobSpawns") then
 	workspace.MobSpawns:Destroy()
@@ -222,7 +228,8 @@ MobSpawnsFolder.ChildAdded:Connect(function(v)
 	v.Name = RemoveLevelTitle(v.Name)
 end)
 function GetDistance(target1, target2)
-	target2 = target2 or LocalPlayer.Character.HumanoidRootPart
+    local PrimaryPart = LocalPlayer.Character.PrimaryPart
+	target2 = target2 or PrimaryPart
 	local success, a, a2 = pcall(function()
 		return target1.Position, target2.Position
 	end)
@@ -311,7 +318,7 @@ end
 _G.MobSpawnClone = MobSpawnClone
 function GetMobSpawnList(a)
 	local a = RemoveLevelTitle(a)
-	k = {}
+	local k = {}
 	for i, v in workspace.MobSpawns:GetChildren() do
 		if v.Name == a then
 			table.insert(k, v)
@@ -320,37 +327,8 @@ function GetMobSpawnList(a)
 	return k
 end
 function CheckNearestTeleporter(vcs)
-	vcspos = vcs.Position
-	min = math.huge
-	min2 = math.huge
-	local placeId = game.PlaceId
-    local World = placeId == 2753915549 and 1 or placeId == 4442272183 and 2 or placeId == 7449423635 and 3
-    local chooseis
-    if World == 3 then
-        TableLocations = {
-            ["Castle On The Sea"] = Vector3.new(-5058.77490234375, 314.5155029296875, -3155.88330078125),
-            ["Hydra"] = Vector3.new(5756.83740234375, 610.4240112304688, - 253.9253692626953),
-            ["Mansion"] = Vector3.new(- 12463.8740234375, 374.9144592285156, - 7523.77392578125),
-            ["Great Tree"] = Vector3.new(28282.5703125, 14896.8505859375, 105.1042709350586),
-            ["Ngu1"] = Vector3.new(- 11993.580078125, 334.7812805175781, - 8844.1826171875),
-            ["ngu2"] = Vector3.new(5314.58203125, 25.419387817382812, - 125.94227600097656),
-            ["Temple Of Time"] = Vector3.new(2957.833740234375, 2286.495361328125, - 7217.05078125)
-        }
-    elseif World == 2 then
-        TableLocations = {
-            ["Mansion"] = Vector3.new(- 288.46246337890625, 306.130615234375, 597.9988403320312),
-            ["Flamingo"] = Vector3.new(2284.912109375, 15.152046203613281, 905.48291015625),
-            ["122"] = Vector3.new(923.21252441406, 126.9760055542, 32852.83203125),
-            ["3032"] = Vector3.new(- 6508.5581054688, 89.034996032715, - 132.83953857422)
-        }
-    elseif World == 1 then
-        TableLocations = {
-            ["1"] = Vector3.new(- 7894.6201171875, 5545.49169921875, - 380.2467346191406),
-            ["2"] = Vector3.new(- 4607.82275390625, 872.5422973632812, - 1667.556884765625),
-            ["3"] = Vector3.new(61163.8515625, 11.759522438049316, 1819.7841796875),
-            ["4"] = Vector3.new(3876.280517578125, 35.10614013671875, - 1939.3201904296875)
-        }
-    end
+    local PrimaryPart = LocalPlayer.Character.PrimaryPart
+	local min, min2, vcspos, choose = math.huge, math.huge, vcs.Position
 	local mmbb = {}
 	for i2, v2 in TableLocations do
 		if not table.find(BlackListLocation, i2) then
@@ -374,16 +352,16 @@ function CheckNearestTeleporter(vcs)
 			chooseis = i
 		end
 	end
-	min3 = (vcspos - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude
-	if min2 + 100 <= min3 then
+	if min2 + 100 <= (vcspos - PrimaryPart.Position).Magnitude then
 		return choose, chooseis
 	end
 end
 function requestEntrance(vector3, fr)
+    local PrimaryPart = LocalPlayer.Character.PrimaryPart
 	if not fr or fr ~= "Temple Of Time" and fr ~= "Dismension" then
 		CommF_:InvokeServer("requestEntrance", vector3)
-		oldcframe = LocalPlayer.Character.HumanoidRootPart.CFrame
-		LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(oldcframe.X, oldcframe.Y + 50, oldcframe.Z)
+		local oldcframe = PrimaryPart.CFrame
+		PrimaryPart.CFrame = CFrame.new(oldcframe.X, oldcframe.Y + 50, oldcframe.Z)
 	else
 		pcall(
             function()
@@ -405,9 +383,9 @@ function requestEntrance(vector3, fr)
 					TempleMysteriousNPC2 = v
 				end
 			end
-			LocalPlayer.Character.HumanoidRootPart.CFrame = TempleMysteriousNPC2.HumanoidRootPart.CFrame
+			PrimaryPart.CFrame = TempleMysteriousNPC2.PrimaryPart.CFrame
 			wait(0.3)
-			if (TempleMysteriousNPC2.HumanoidRootPart.Position - LocalPlayer.Character.HumanoidRootPart.Position).Magnitude < 15 then
+			if (TempleMysteriousNPC2.PrimaryPart.Position - PrimaryPart.Position).Magnitude < 15 then
 				CommF_:InvokeServer("RaceV4Progress", "TeleportBack")
 			end
 			wait(0.75)
@@ -415,8 +393,8 @@ function requestEntrance(vector3, fr)
 	end
 end
 function AntiLowHealth(NewY)
-	LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(
-        LocalPlayer.Character.HumanoidRootPart.CFrame.X, NewY, LocalPlayer.Character.HumanoidRootPart.CFrame.Z)
+    local PrimaryPart = LocalPlayer.Character.PrimaryPart
+	PrimaryPart.CFrame = CFrame.new(PrimaryPart.CFrame.X, NewY, PrimaryPart.CFrame.Z)
 	wait()
 end
 function GetMidPoint(MobName, b2)
@@ -426,11 +404,11 @@ function GetMidPoint(MobName, b2)
 	local totalpos
 	allid = 0
 	for i, v in workspace.Enemies:GetChildren() do
-		if v.Name == MobName and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and v:FindFirstChild("HumanoidRootPart") and (b2 and GetDistance(v.HumanoidRootPart, b2) <= 475) then
+		if v.Name == MobName and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 and v:FindFirstChild("HumanoidRootPart") and (b2 and GetDistance(v.PrimaryPart, b2) <= 475) then
 			if not totalpos then
-				totalpos = v.HumanoidRootPart.Position
+				totalpos = v.PrimaryPart.Position
 			elseif totalpos then
-				totalpos = totalpos + v.HumanoidRootPart.Position
+				totalpos = totalpos + v.PrimaryPart.Position
 			end
 			allid = allid + 1
 		end
@@ -443,9 +421,8 @@ function TweenObject(TweenCFrame, obj, ts)
 	if not ts then
 		ts = 350
 	end
-	local tween_s = game:service"TweenService"
 	local info = TweenInfo.new((TweenCFrame.Position - obj.Position).Magnitude / ts, Enum.EasingStyle.Linear)
-	_G.TweenObject = tween_s:Create(
+	_G.TweenObject = TweenService:Create(
             obj, info, {
 		CFrame = TweenCFrame
 	})
@@ -589,13 +566,14 @@ function checkFruittoEat(fruitsSnipes, includedInventory)
 	end
 end 
 function eatFruit(fruitsSnipes, includedInventory)
+    local PrimaryPart = LocalPlayer.Character.PrimaryPart
 	function l4432()
 		for i, v in fruitsSnipes do
 			for Ind, Inst in _G.ServerData['PlayerBackpack'] do
 				if Ind:find('Fruit') and Inst then
 					if Inst:GetAttribute("OriginalName") and tostring(Inst:GetAttribute("OriginalName")) == v then
 						spawn(function()
-							Tweento(CFrame.new(LocalPlayer.Character.PrimaryPart.CFrame.X, LocalPlayer.Character.PrimaryPart.CFrame.Y + 2000, LocalPlayer.Character.PrimaryPart.CFrame.Z))
+							Tweento(CFrame.new(PrimaryPart.CFrame.X, PrimaryPart.CFrame.Y + 2000, PrimaryPart.CFrame.Z))
 						end)
 						repeat
 							wait()
@@ -628,7 +606,7 @@ end
 function NearestMob(distanc)
 	for i, v in workspace.Enemies:GetChildren() do
 		local vhum = v:FindFirstChildOfClass('Humanoid') or v:WaitForChild('Humanoid')
-		if vhum and vhum.Parent and vhum.ClassName == 'Humanoid' and vhum.Health >= 0 and vhum.Parent.PrimaryPart and (vhum.Parent.PrimaryPart.Position - LocalPlayer.Character.PrimaryPart.Position).Magnitude <= distanc then
+		if vhum and vhum.Parent and vhum.ClassName == 'Humanoid' and vhum.Health >= 0 and vhum.Parent.PrimaryPart and (vhum.Parent.PrimaryPart.Position - PrimaryPart.Position).Magnitude <= distanc then
 			return v
 		end
 	end
@@ -695,12 +673,8 @@ local function LoadPlayer()
 		until IsPlayerAlive()
 	end
 	if IsPlayerAlive() then
-		_G.ServerData["PlayerBackpackFruits"] = {}
-		_G.ServerData["PlayerBackpack"] = {}
+        local PrimaryPart = LocalPlayer.Character.PrimaryPart
 		spawn(function()
-			repeat
-				wait()
-			until loadSkills
 			loadSkills()
 		end)
 		for i, v in LocalPlayer.Character:GetChildren() do
@@ -826,7 +800,7 @@ local function LoadPlayer()
 						end
 					end
 				end)
-				LocalPlayer.Character.PrimaryPart:GetPropertyChangedSignal("Position"):Connect(function()
+				PrimaryPart:GetPropertyChangedSignal("Position"):Connect(function()
 					_G.PlayerLastMoveTick = tick()
 				end)
 			end
@@ -837,7 +811,7 @@ local function LoadPlayer()
 	end
 end
 function AddNoknockback(enemy)
-	local humanoid = enemy.PrimaryPart or enemy:WaitForChild('HumanoidRootPart', 3)
+	local humanoid = enemy.PrimaryPart or enemy:WaitForChild("HumanoidRootPart", 3)
 	if not humanoid then
 		return
 	end
@@ -874,7 +848,7 @@ spawn(function()
 					AutoRipIndraHop()
 					wait(1)
 				end
-				print('Didint found any rip indra server in 100s')
+				print('Did not found any rip indra server in 100s')
 			else
 				FinderServerLoading()
 			end
@@ -882,11 +856,10 @@ spawn(function()
 	end
 end)
 workspace.Characters.ChildAdded:Connect(LoadPlayer)
-local tween_s = game:service"TweenService"
 function Tweento(targetCFrame)
 	if CheckPlayerAlive() then
 		if not LocalPlayer.Character:FindFirstChild("Teleport Access") then
-			return warn('I cant tween right now: Teleport Perm Missing')
+			return warn('Unavailable tween right now: Teleport Perm Missing')
 		end
 		if not TweenSpeed or type(TweenSpeed) ~= "number" then
 			TweenSpeed = 325
@@ -924,17 +897,17 @@ function Tweento(targetCFrame)
 			if not _G.SavedConfig['Same Y Tween'] then
 				return
 			end
-			if (LocalPlayer.Character.PrimaryPart.CFrame.Y < targetCFrame.Y - 5 or LocalPlayer.Character.PrimaryPart.CFrame.Y > targetCFrame.Y + 5) and (not bmg) then
+			if (PrimaryPart.CFrame.Y < targetCFrame.Y - 5 or PrimaryPart.CFrame.Y > targetCFrame.Y + 5) and (not bmg) then
 				if _G.tween then
 					_G.tween:Cancel()
 					_G.tween = nil
 				end
-				LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(LocalPlayer.Character.PrimaryPart.CFrame.X, (targetCFrame.Y > 20 and targetCFrame.Y or targetCFrame.Y + 30), LocalPlayer.Character.PrimaryPart.CFrame.Z)
+				PrimaryPart.CFrame = CFrame.new(PrimaryPart.CFrame.X, (targetCFrame.Y > 20 and targetCFrame.Y or targetCFrame.Y + 30), PrimaryPart.CFrame.Z)
 			end
 		end)
 		local tweenfunc = {}
 		local info = TweenInfo.new((targetPos - LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).Magnitude / TweenSpeed, Enum.EasingStyle.Linear)
-		_G.tween = tween_s:Create(
+		_G.tween = TweenService:Create(
             LocalPlayer.Character["HumanoidRootPart"], info, {
 			CFrame = targetCFrame
 		})
@@ -961,24 +934,23 @@ local function TweenKill(v)
 		return
 	end
 	if v and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
-		local DISCC = GetDistance(v.HumanoidRootPart)
+		local DISCC = GetDistance(v.PrimaryPart)
 		if DISCC > 1000 then
-			Tweento(v.HumanoidRootPart.CFrame * GetCFrameADD())
+			Tweento(v.PrimaryPart.CFrame * GetCFrameADD())
 		elseif DISCC > 3 then
 			local tweenfunc = {}
-			local tween_s = game:service"TweenService"
 			local info = TweenInfo.new(
-                GetDistance(v.HumanoidRootPart) / 300, Enum.EasingStyle.Linear)
-			if GetDistance(v.HumanoidRootPart) < 200 then
+                GetDistance(v.PrimaryPart) / 300, Enum.EasingStyle.Linear)
+			if GetDistance(v.PrimaryPart) < 200 then
 				if _G.tween then
 					_G.tween:Cancel()
 					_G.tween = nil
 				end
-				LocalPlayer.Character:MoveTo((v.HumanoidRootPart.CFrame * GetCFrameADD()).Position)
+				LocalPlayer.Character:MoveTo((v.PrimaryPart.CFrame * GetCFrameADD()).Position)
 			else
-				_G.tween = tween_s:Create(
+				_G.tween = TweenService:Create(
                     LocalPlayer.Character["HumanoidRootPart"], info, {
-					CFrame = v.HumanoidRootPart.CFrame * GetCFrameADD()
+					CFrame = v.PrimaryPart.CFrame * GetCFrameADD()
 				})
 				_G.tween:Play()
 			end
@@ -1122,7 +1094,7 @@ function addCheckSkill(v)
 						_G.tween:Cancel()
 						_G.tween = nil
 					end
-                    --LocalPlayer.Character.PrimaryPart.CFrame = LocalPlayer.Character.PrimaryPart.CFrame * CFrame.new(0,300,0)
+                    --PrimaryPart.CFrame = PrimaryPart.CFrame * CFrame.new(0,300,0)
 					warn('Dogde Skill Please sirrrr', anitrack.TimePosition, math.floor(realTimePos) + 1, anitrack.Animation.AnimationId)
 				end
 			end)
@@ -1131,25 +1103,19 @@ function addCheckSkill(v)
 end
 
 getgenv().GetPing = function()
-	local ping = game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString()
-	ping = ping:gsub("CV", "")
-	ping = ping:gsub("%%d", "")
-	ping = ping:gsub(" ", "")
-	ping = ping:gsub("(%d%)", "")
-	ping = ping:split("(")[1]
-	return tonumber(ping)
+	return tonumber(game:GetService("Stats").Network.ServerStatsItem["Data Ping"]:GetValueString():match("%d+%.%d+"))
 end
 
 function KillNigga(MobInstance)
 	local LS, LS2 = pcall(function()
 		if IsPlayerAlive() and MobInstance and MobInstance:FindFirstChild("Humanoid") and MobInstance.Humanoid.Health > 0 then
-			local mmas = GetMidPoint(MobInstance.Name, MobInstance.HumanoidRootPart)
+			local mmas = GetMidPoint(MobInstance.Name, MobInstance.PrimaryPart)
 			local LockCFrame
 			local KillingBoss
 			if mmas and not string.find(MobInstance:FindFirstChildOfClass('Humanoid').DisplayName, "Boss") and MobInstance.Humanoid.MaxHealth < 130000 then
 				LockCFrame = CFrame.new(mmas)
 			else
-				LockCFrame = MobInstance.HumanoidRootPart.CFrame
+				LockCFrame = MobInstance.PrimaryPart.CFrame
 				KillingBoss = true
 			end
 			local N_Name = MobInstance.Name
@@ -1219,11 +1185,11 @@ function KillNigga(MobInstance)
 							_G.UseFAttack = true
 						end
 					elseif (_G.ServerData["PlayerBackpack"]['Sweet Chalice'] or _G.ServerData["PlayerBackpack"]["God's Chalice"]) and CurrentPlrHum.Health <= (CurrentPlrHum.MaxHealth * 30) / 100 then
-						local OldCFrame = LocalPlayer.Character.PrimaryPart.CFrame
+						local OldCFrame = PrimaryPart.CFrame
 						repeat
 							wait()
 							_G.UseFAttack = false
-							LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(LocalPlayer.Character.PrimaryPart.CFrame.X, math.random(1000, 10000), LocalPlayer.Character.PrimaryPart.CFrame.Z + 30)
+							PrimaryPart.CFrame = CFrame.new(PrimaryPart.CFrame.X, math.random(1000, 10000), PrimaryPart.CFrame.Z + 30)
 						until not CurrentPlrHum or not CurrentPlrHum.Parent or CurrentPlrHum.Health >= (CurrentPlrHum.MaxHealth * 70) / 100 or not MobInstance or not MobInstance:FindFirstChildOfClass("Humanoid") or not MobInstance:FindFirstChild("HumanoidRootPart") or MobInstance.Humanoid.Health <= 0 or not IsPlayerAlive()
 						Tweento(OldCFrame)
 					end
@@ -1355,9 +1321,9 @@ function BringMob(TAR, V5)
 	else
 		return
 	end
-	V6 = V5 or TAR.HumanoidRootPart.CFrame
+	V6 = V5 or TAR.PrimaryPart.CFrame
 	for i, v in workspace.Enemies:GetChildren() do
-		if v.Name == TAR.Name and v.PrimaryPart and (V6.Position - v.HumanoidRootPart.Position).Magnitude < 340 and (isnetworkowner(v.HumanoidRootPart)) and v:FindFirstChildOfClass('Humanoid').MaxHealth < 100000 then
+		if v.Name == TAR.Name and v.PrimaryPart and (V6.Position - v.PrimaryPart.Position).Magnitude < 340 and (isnetworkowner(v.PrimaryPart)) and v:FindFirstChildOfClass('Humanoid').MaxHealth < 100000 then
 			v.PrimaryPart.CanCollide = false
 			v.Head.CanCollide = false
 			v.Humanoid.WalkSpeed = 0
@@ -1371,7 +1337,7 @@ end
 function GetNearestPlayer(pos)
 	local ner = math.huge
 	local ner2
-	for i, v in game.Players:GetChildren() do
+	for i, v in Players:GetChildren() do
 		if v.Character and v.Character.PrimaryPart and (v.Character.PrimaryPart.Position - pos).Magnitude < ner then
 			ner = (v.Character.PrimaryPart.Position - pos).Magnitude
 			ner2 = v.Name
@@ -1382,35 +1348,32 @@ function GetNearestPlayer(pos)
 	end
 end
 if not isnetworkowner or identifyexecutor() == 'Delta' then
-	function isnetworkowner2(p1)
-		local A = gethiddenproperty(LocalPlayer, "SimulationRadius")
-		local B = LocalPlayer.Character or Wait(LocalPlayer.CharacterAdded)
-		local C = game.WaitForChild(B, "HumanoidRootPart", 300)
-		if C then
-			if p1.Anchored then
-				return false
-			end
-			if game.IsDescendantOf(p1, B) or (C.Position - p1.Position).Magnitude <= A and GetNearestPlayer(p1.Position) then
-				return true
-			end
-		end
-	end
-	isnetworkowner = function(part)
-		if isnetworkowner2(part) then
-			return isnetworkowner2(part)
-		end
-		return part.ReceiveAge == 0 and GetNearestPlayer(part.Position)
-	end
+    function isnetworkowner2(p1)
+        local A = gethiddenproperty(LocalPlayer, "SimulationRadius")
+        local B = LocalPlayer.Character or Wait(LocalPlayer.CharacterAdded)
+        local C = B:WaitForChild("HumanoidRootPart", 300)
+        if C then
+            if p1.Anchored then
+                return false
+            end
+            if p1:IsDescendantOf(B) or (C.Position - p1.Position).Magnitude <= A and GetNearestPlayer(p1.Position) then
+                return true
+            end
+        end
+    end
+    isnetworkowner = function(part)
+        if isnetworkowner2(part) then
+            return isnetworkowner2(part)
+        end
+        return part.ReceiveAge == 0 and GetNearestPlayer(part.Position)
+    end
 else
-	isnetworkowner2 = isnetworkowner
-	warn("already isnetworkowner 😎😎😎") -- bruh
+    isnetworkowner2 = isnetworkowner
 end
 function Click()
 	VirtualUser:CaptureController()
 	VirtualUser:ClickButton1(Vector2.new(851, 158), workspaceCamera.CFrame)
 end
-local cancelKill = false  
-_G.AttackedSafe = false 
 function CancelKillPlayer()
 	cancelKill = true 
 end 
@@ -1431,7 +1394,7 @@ function KillPlayer(PlayerName)
 	warn('KillPlayer', PlayerName)
 	SetContent('Start killing ' .. tostring(PlayerName))
 	local t = workspaceCharacters:FindFirstChild(PlayerName)
-	local tRoot = t.PrimaryPart or t:FindFirstChild('HumanoidRootPart')
+	local tRoot = t.PrimaryPart or t:FindFirstChild("HumanoidRootPart")
 	local tHumanoid = t:FindFirstChild('Humanoid')
 	local getNeartick = tick() - 5555
 	local totRoot = GetDistance(tRoot)
@@ -1446,29 +1409,29 @@ function KillPlayer(PlayerName)
 				CommF_:InvokeServer("EnablePvp")
 			end
 			totRoot = GetDistance(tRoot)
-			LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(LocalPlayer.Character.PrimaryPart.CFrame.X, tRoot.CFrame.Y, LocalPlayer.Character.PrimaryPart.CFrame.Z)
+			PrimaryPart.CFrame = CFrame.new(PrimaryPart.CFrame.X, tRoot.CFrame.Y, PrimaryPart.CFrame.Z)
 			if totRoot < 50 then
 				if tick() - getNeartick > 100 then
 					getNeartick = tick()
 					repeat
 						SetContent('Bypassing Anti-Killing')
 						wait()
-						LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0, 100, 10)
+						PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0, 100, 10)
 						_G.UseFAttack = false
 					until tick() - getNeartick > 3 and tick() - getNeartick < 100
-					LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0, 0, 10)
+					PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0, 0, 10)
 				elseif tick() - getNeartick > 3 and tick() - getNeartick < 100 then
 					KillingMob = true
 					EquipWeapon()
 					FastMob = false
 					if t:FindFirstChildOfClass('Tool') and t:FindFirstChildOfClass('Tool'):FindFirstChild('Holding') and t:FindFirstChildOfClass('Tool'):FindFirstChild('Holding').Value then
 						SetContent(PlayerName .. ' holding skill...')
-						LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0, 50, 15)
+						PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0, 50, 15)
 						SendKey('Z')
 						SendKey('X')
 					else
 						spawn(function()
-							LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0, 2, 2.5)
+							PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0, 2, 2.5)
 						end)
 						spawn(function()
 							for i, v in workspace.Enemies:GetChildren() do
@@ -1509,9 +1472,9 @@ function getNearestRaidIsland()
 		local Nears = math.huge
 		local ChildSet
 		for i, v in workspace["_WorldOrigin"].Locations:GetChildren() do
-			if v.Name == 'Island ' .. vId and (LocalPlayer.Character.HumanoidRootPart.Position - v.Position).Magnitude <= 4500 then
+			if v.Name == 'Island ' .. vId and (PrimaryPart.Position - v.Position).Magnitude <= 4500 then
 				ChildSet = v
-				Nears = (LocalPlayer.Character.HumanoidRootPart.Position - v.Position).Magnitude
+				Nears = (PrimaryPart.Position - v.Position).Magnitude
 			end
 		end
 		return ChildSet
@@ -1627,9 +1590,9 @@ function CheckQuestByLevel(cq)
 		["QuestName"] = "",
 		["QuestId"] = 0,
 	}
-	if game.PlaceId == 2753915549 then
+	if PlaceId == 2753915549 then
 		LevelMaxReq = 699
-	elseif game.PlaceId == 4442272183 then
+	elseif PlaceId == 4442272183 then
 		LevelMaxReq = 1475
 	end
 	for i, v in Quest do
@@ -1674,7 +1637,6 @@ function CheckQuestByLevel(cq)
 end
 local function TweenKillInstant(POS)
 	local tweenfunc = {}
-	local tween_s = game:service"TweenService"
 	local info = TweenInfo.new(
         GetDistance(POS) / 300, Enum.EasingStyle.Linear)
 	if GetDistance(POS) < 200 then
@@ -1682,9 +1644,9 @@ local function TweenKillInstant(POS)
 			_G.tween:Cancel()
 			_G.tween = nil
 		end
-		LocalPlayer.Character.HumanoidRootPart.CFrame = POS
+		PrimaryPart.CFrame = POS
 	else
-		_G.tween = tween_s:Create(
+		_G.tween = TweenService:Create(
             LocalPlayer.Character["HumanoidRootPart"], info, {
 			CFrame = POS
 		})
@@ -1855,13 +1817,12 @@ end
 function SendKey(key, holdtime, mmb)
 	if key and (not mmb or (mmb)) then
 		if not holdtime then
-			game:service("VirtualInputManager"):SendKeyEvent(true, key, false, game)
-			wait()
-			game:service("VirtualInputManager"):SendKeyEvent(false, key, false, game)
+			VirtualInputManager:SendKeyEvent(true, key, false, game)
+			VirtualInputManager:SendKeyEvent(false, key, false, game)
 		elseif holdtime then
-			game:service("VirtualInputManager"):SendKeyEvent(true, key, false, game)
+			VirtualInputManager:SendKeyEvent(true, key, false, game)
 			wait(holdtime)
-			game:service("VirtualInputManager"):SendKeyEvent(false, key, false, game)
+			VirtualInputManager:SendKeyEvent(false, key, false, game)
 		end
 	end
 end
@@ -1871,7 +1832,6 @@ function collectAllFruit_Store()
 			if v and not _G.ServerData['Inventory Items'][ReturnFruitNameWithId(v)] then
 				SetContent('Picking up ' .. getRealFruit(v))
 				Tweento(v.Handle.CFrame)
-				wait(.1)
 				delay(3, function()
 					if _G.CurrentTask == 'Collect Fruit' then
 						_G.CurrentTask = ''
@@ -1883,13 +1843,12 @@ function collectAllFruit_Store()
 		end
 	end
 end 
-_G.CurrentElite = false
 function LoadBoss(v)
 	if not v or v.ClassName ~= 'Model' then
 		return
 	end
 	local CastleCFrame = CFrame.new(- 5543.5327148438, 313.80062866211, - 2964.2585449219)
-	local Root = v.PrimaryPart or v:WaitForChild('HumanoidRootPart', 3)
+	local Root = v.PrimaryPart or v:WaitForChild("HumanoidRootPart", 3)
 	local Hum = v:WaitForChild('Humanoid', 3)
 	local IsElite = table.find(Elites, RemoveLevelTitle(v.Name))
 	spawn(function()
@@ -1915,10 +1874,10 @@ function LoadBoss(v)
 			until _G.ServerData['PlayerData'] and _G.ServerData['PlayerData'].Level
 			if TushitaQuest and not TushitaQuest.OpenedDoor then
 				repeat
-					LocalPlayer.Character.PrimaryPart.CFrame = workspace.Map.Waterfall.SecretRoom.Room.Door.Door.Hitbox.CFrame
+					PrimaryPart.CFrame = workspace.Map.Waterfall.SecretRoom.Room.Door.Door.Hitbox.CFrame
 					wait()
 				until LocalPlayer.Backpack:FindFirstChild('Holy Torch') or not v or not v.Parent or not v.Humanoid or v.Humanoid.Health <= 0
-				LocalPlayer.Character.PrimaryPart.Anchored = false
+				PrimaryPart.Anchored = false
 				spawn(function()
 					for i, v in CommF_:InvokeServer("TushitaProgress").Torches do
 						if not v then
@@ -2035,10 +1994,10 @@ function checkExploiting(playerInstance)
 		end)
 	end  
 end
-for i, v in game.Players:GetChildren() do
+for i, v in Players:GetChildren() do
 	spawn(checkExploiting, v)
 end
-game.Players.ChildAdded:Connect(checkExploiting)
+Players.ChildAdded:Connect(checkExploiting)
 function BuyMelee(MeleeN)
 	if IsPlayerAlive() and not KillingMob then
 		if _G.ServerData["PlayerBackpack"][MeleeN] then
@@ -2050,17 +2009,12 @@ function BuyMelee(MeleeN)
 		local RemoteArg = Melee_and_RemoteBuy[MeleeN]
 		if type(RemoteArg) == "string" then
 			local Loser = CommF_:InvokeServer(RemoteArg, true)
-			local BeliPassed = _G.ServerData['PlayerData'].Beli >= Melee_and_Price[MeleeN].Beli
-			local FragmentPassed = _G.ServerData['PlayerData'].Fragments >= Melee_and_Price[MeleeN].Fragment
+			-- local BeliPassed = _G.ServerData['PlayerData'].Beli >= Melee_and_Price[MeleeN].Beli
+			-- local FragmentPassed = _G.ServerData['PlayerData'].Fragments >= Melee_and_Price[MeleeN].Fragment
 			CommF_:InvokeServer(RemoteArg)
-
-            --end
 		else
-			pcall(
-                function()
-				LocalPlayer.Character.Humanoid:UnequipTools()
-				RemoteArg()
-			end)
+			LocalPlayer.Character.Humanoid:UnequipTools()
+			RemoteArg()
 		end
 	end
 end
@@ -2068,9 +2022,7 @@ function getMeleeLevelValues()
 	SetContent('Checking all melee')
 	spawn(function()
 		if not _G.Config then
-			repeat
-				wait()
-			until _G.Config
+			repeat wait() until _G.Config
 		end
 		repeat
 			if identifyexecutor() == 'Wave' or not _G.Config["Melee Level Values"] then
@@ -2132,11 +2084,11 @@ function ReloadFrutis()
 end  
 function CheckAnyPlayersInCFrame(CFrameCheck, MinDistance)
 	local CurrentFound
-	for i, v in game.Players:GetChildren() do
+	for i, v in Players:GetChildren() do
 		pcall(
             function()
-			if v.Name ~= LocalPlayer.Name and GetDistance(v.Character.HumanoidRootPart, CFrameCheck) < MinDistance then
-				CurrentFound = GetDistance(v.Character.HumanoidRootPart, gggggggggggggg)
+			if v.Name ~= LocalPlayer.Name and GetDistance(v.Character.PrimaryPart, CFrameCheck) < MinDistance then
+				CurrentFound = GetDistance(v.Character.PrimaryPart, gggggggggggggg)
 			end
 		end)
 	end
@@ -2151,12 +2103,12 @@ workspace["_WorldOrigin"].Locations.ChildAdded:Connect(function(v)
 	if v.Name == 'Island 1' then
 		repeat
 			wait()
-		until tick() - AddedTick > 60 or (LocalPlayer.Character.HumanoidRootPart.Position - v.Position).Magnitude <= 1000
+		until tick() - AddedTick > 60 or (PrimaryPart.Position - v.Position).Magnitude <= 1000
 		if tick() - AddedTick > 60 then
 			return
 		end
 	end
-	if (LocalPlayer.Character.HumanoidRootPart.Position - v.Position).Magnitude <= 4500 then
+	if (PrimaryPart.Position - v.Position).Magnitude <= 4500 then
 		if v.Name:find('Island') then
 			v:GetPropertyChangedSignal('Parent'):Connect(function()
 				if not v.Parent or v.Parent ~= workspace["_WorldOrigin"].Locations then
@@ -2229,11 +2181,11 @@ function PickChest(Chest)
 				Tweento(Chest.CFrame)
 				if GetDistance(Chest) <= 10 then
 					spawn(function()
-						firetouchinterest(Chest, LocalPlayer.Character.HumanoidRootPart, 0)
-						firetouchinterest(Chest, LocalPlayer.Character.HumanoidRootPart, 1)
+						firetouchinterest(Chest, PrimaryPart, 0)
+						firetouchinterest(Chest, PrimaryPart, 1)
 					end)
-                    --firetouchinterest(LocalPlayer.Character.HumanoidRootPart, TouchTrans, 0)
-                    --firetouchinterest(LocalPlayer.Character.HumanoidRootPart, TouchTrans, 1)
+                    --firetouchinterest(PrimaryPart, TouchTrans, 0)
+                    --firetouchinterest(PrimaryPart, TouchTrans, 1)
 				end
 			end)
 		until not Chest or not Chest.Parent or tick() - StartPick >= 60
@@ -2284,29 +2236,16 @@ function buyRaidingChip()
 	_G.LastBuyChipTick = tick()
 end 
 function SortChest()
-	local LOROOT = LocalPlayer.Character.PrimaryPart or LocalPlayer.Character:WaitForChild('HumanoidRootPart')
-	if LOROOT then
-		table.sort(_G.ServerData['Chest'], function(chestA, chestB)
-			local distanceA
-			local distanceB
-			if chestA:IsA('Model') then
-				distanceA = (Vector3.new(chestA:GetModelCFrame()) - LOROOT.Position).Magnitude
-			end
-			if chestB:IsA('Model') then
-				distanceB = (Vector3.new(chestB:GetModelCFrame()) - LOROOT.Position).Magnitude
-			end
-			if not distanceA then
-				distanceA = (chestA.Position - LOROOT.Position).Magnitude
-			end
-			if not distanceB then
-				distanceB = (chestB.Position - LOROOT.Position).Magnitude
-			end
-			return distanceA < distanceB -- Sắp xếp giảm dần
-		end)
-	end
+    local PrimaryPart = LocalPlayer.Character.PrimaryPart or LocalPlayer.Character:WaitForChild("HumanoidRootPart")
+    if PrimaryPart then
+        table.sort(_G.ServerData['Chest'], function(chestA, chestB)
+            local distanceA = chestA:IsA('Model') and (chestA:GetModelCFrame().Position - PrimaryPart.Position).Magnitude or (chestA.Position - PrimaryPart.Position).Magnitude
+            local distanceB = chestB:IsA('Model') and (chestB:GetModelCFrame().Position - PrimaryPart.Position).Magnitude or (chestB.Position - PrimaryPart.Position).Magnitude
+            return distanceA < distanceB
+        end)
+    end
 end
 function AddChest(chest)
-	wait()
 	if table.find(_G.ServerData['Chest'], chest) or not chest.Parent then
 		return
 	end
@@ -2328,46 +2267,29 @@ function AddChest(chest)
 		SortChest()
 	end)
 end
-
 function LoadChest()
-	for _, v in workspace:GetDescendants() do
-		if string.find(v.Name, 'Chest') and v.Parent and GetDistance(v, CFrame.new(- 1.4128437, 0.292379826, - 6.53605461, 0.999743819, - 1.41806034e-09, - 0.0226347167, 4.24517754e-09, 1, 1.2485377e-07, 0.0226347167, - 1.24917875e-07, 0.999743819)) > 10 then
-			spawn(function()
-				AddChest(v)
-				local parentFullName = tostring(v.Parent:GetFullName())
-				if not _G.ChestsConnection[parentFullName] then
-					_G.ChestsConnection[parentFullName] = v.Parent.ChildAdded:Connect(AddChest)
-				end
-			end)
+	for _, v in workspace:GetChildren() do
+		if string.find(v.Name, 'Chest') then
+			AddChest(v)
 		end
 	end
-	delay(3, function()
-		print('Loaded total', # _G.ServerData['Chest'], 'chests')
-		SortChest()
-	end)
+	print('Loaded total', # _G.ServerData['Chest'], 'chests')
+	SortChest()
 end
-
-spawn(LoadChest) 
+spawn(LoadChest)
 function getNearestChest()
-	for i, v in _G.ServerData['Chest'] do
-		return v
-	end
+    return _G.ServerData['Chest'][1]
 end 
 function advancedSkills(v2)
-	if v2:IsA("Frame") then
-		if v2.Name ~= 'Template' then
-			v2.Cooldown:GetPropertyChangedSignal('Size'):Connect(function()
-				if v2.Name ~= "Template" and v2.Title.TextColor3 == Color3.new(1, 1, 1) and (v2.Cooldown.Size == UDim2.new(0, 0, 1, -1) or v2.Cooldown.Size == UDim2.new(1, 0, 1, -1)) then
-					_G.ServerData['Skill Loaded'][v2.Parent.Name][v2.Name] = true
-				elseif v2.Name ~= 'Template' then
-					_G.ServerData['Skill Loaded'][v2.Parent.Name][v2.Name] = false
-				end
-			end)
-		end
-		if v2.Name ~= "Template" and v2.Title.TextColor3 == Color3.new(1, 1, 1) and (v2.Cooldown.Size == UDim2.new(0, 0, 1, -1) or v2.Cooldown.Size == UDim2.new(1, 0, 1, -1)) then
-			_G.ServerData['Skill Loaded'][v2.Parent.Name][v2.Name] = true
-		end
-	end
+    if v2:IsA("Frame") and v2.Name ~= 'Template' then
+        v2.Cooldown:GetPropertyChangedSignal('Size'):Connect(function()
+            if v2.Title.TextColor3 == Color3.new(1, 1, 1) and (v2.Cooldown.Size == UDim2.new(0, 0, 1, -1) or v2.Cooldown.Size == UDim2.new(1, 0, 1, -1)) then
+                _G.ServerData['Skill Loaded'][v2.Parent.Name][v2.Name] = true
+            else
+                _G.ServerData['Skill Loaded'][v2.Parent.Name][v2.Name] = false
+            end
+        end)
+    end
 end
 function addSkills(v)
 	if not table.find({
@@ -2392,8 +2314,7 @@ end
 function CheckTorchDimension(DimensionName)
 	DimensionName = DimensionName == "Yama" and "HellDimension" or "HeavenlyDimension"
 	if workspace.Map:FindFirstChild(DimensionName) then
-		v3 = workspace.Map:FindFirstChild(DimensionName):GetChildren()
-		for i, v in v3 do
+		for i, v in workspace.Map:FindFirstChild(DimensionName):GetChildren() do
 			if string.find(v.Name, "Torch") then
 				if v.ProximityPrompt.Enabled == true then
 					return v
@@ -2403,14 +2324,14 @@ function CheckTorchDimension(DimensionName)
 	end
 end  
 function CheckQuestCDK()
-	if not Sea3 then
+	if World ~= 3 then
 		return
 	end
 	local CDK_LevelQuest = {
 		Good = 666,
 		Evil = 666
 	}
-	Check, CheckValue = pcall(function()
+	local Check, CheckValue = pcall(function()
 		for i, v in CommF_:InvokeServer("CDKQuest", "Progress", "Good") do
 			CDK_LevelQuest[i] = v
 		end
@@ -2461,7 +2382,10 @@ function CheckQuestCDK()
 end  
 function CheckHazeMob()
 	for i, v in workspace.Enemies:GetChildren() do
-		if RemoveLevelTitle(v.Name) == NearestHazeMob() and v:IsA("Model") and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
+        if not v:IsA("Model") then
+			goto continue
+        end
+		if RemoveLevelTitle(v.Name) == NearestHazeMob() and v:FindFirstChild("HumanoidRootPart") and v:FindFirstChild("Humanoid") and v.Humanoid.Health > 0 then
 			return v
 		end
 	end
@@ -2592,17 +2516,17 @@ function UpdateBossDropTable()
 end
 local ThisiSW 
 ThisiSW = RunService.Heartbeat:Connect(function()
-	if game.PlaceId == 2753915549 then
+	if PlaceId == 2753915549 then
 		Sea1 = true
 		Sea2 = false
 		Sea3 = false
 		MySea = "Sea 1"
-	elseif game.PlaceId == 4442272183 then
+	elseif PlaceId == 4442272183 then
 		Sea2 = true
 		Sea1 = false
 		Sea3 = false
 		MySea = "Sea 2"
-	elseif game.PlaceId == 7449423635 then
+	elseif PlaceId == 7449423635 then
 		Sea3 = true
 		Sea1 = false
 		Sea2 = false
@@ -2631,7 +2555,7 @@ ThisiSW = RunService.Heartbeat:Connect(function()
 			AddBodyVelocity(false)
 		end
 		if _G.PlayerLastMoveTick and tick() - _G.PlayerLastMoveTick >= 300 then
-			game:GetService("TeleportService"):TeleportToPlaceInstance(game.PlaceId, game.JobId, LocalPlayer)
+			game:GetService("TeleportService"):TeleportToPlaceInstance(PlaceId, game.JobId, LocalPlayer)
 		end
 		local SetText = ""
 		if _G.LocalPlayerStatusParagraph then
