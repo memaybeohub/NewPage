@@ -21,7 +21,8 @@ RigLib.wrapAttackAnimationAsync = function(p_u_28, p_u_29, p_u_30, p_u_31, p_u_3
     if ac and ac.equipped then
         local v37 = RigLib.getBladeHits(p_u_29, p_u_30, p_u_31)
         if #v37 > 0 then
-            p_u_32(v37)
+            p_u_32(v37) 
+            game:GetService("ReplicatedStorage").RigControllerEvent:FireServer("weaponChange",tostring(ac.currentWeaponModel))
         end
     end
 end
