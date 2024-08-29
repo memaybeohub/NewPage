@@ -104,7 +104,7 @@ if hookfunction then
             end
             return FakeLOL
         end
-        task.delay(15,function() 
+        task.delay(3,function() 
             warn('Disabling effects') 
             if hookfunction and not islclosure(hookfunction) then 
                 for i,v in pairs(require(game.ReplicatedStorage.Effect.Container.Misc.Damage)) do 
@@ -534,15 +534,13 @@ AutoCDK = function(questTitle)
         if _G.PirateRaidTick and tick()-_G.PirateRaidTick < 60 then 
             Auto3rdEvent() 
         else
-            task.spawn(function()
-                if FindAndJoinServer then  
-                    FindAndJoinServer('seaevent','spot',function(v,rt)
-                        return rt-v.FoundOn < 20
-                    end)
-                else
-                    loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/FinderServerLoading.lua'))()
-                end
-            end)
+            if FindAndJoinServer then  
+                FindAndJoinServer('seaevent','spot',function(v,rt)
+                    return rt-v.FoundOn < 20
+                end)
+            else
+                loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/FinderServerLoading.lua'))()
+            end
             AutoL()
         end
     elseif questTitle == 'Tushita Quest -3' then 
