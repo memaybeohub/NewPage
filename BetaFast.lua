@@ -25,7 +25,6 @@ RigLib.wrapAttackAnimationAsync = function(p_u_28, p_u_29, p_u_30, p_u_31, p_u_3
         end
     end
 end
---[[
 task.spawn(function()
     for i = 1,5 do 
         repeat task.wait(1) until game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool') and (game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool').ToolTip == 'Melee' or game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool').ToolTip == 'Sword')
@@ -43,7 +42,6 @@ task.spawn(function()
         wait(1+2)
     end
 end)
-]]
 local abc = require(game:GetService("ReplicatedStorage").CombatFramework.RigLib)
 local plr = game.Players.LocalPlayer
 
@@ -91,8 +89,8 @@ end
 task.spawn(function()
     while task.wait() do 
         if _G.UseFAttack then 
-            task.spawn(AttackHit)
             task.spawn(AttackFunction)
+            task.spawn(AttackHit)
             task.wait(.15)
         end
     end
