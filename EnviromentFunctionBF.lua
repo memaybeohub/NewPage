@@ -172,14 +172,14 @@ end
 local lss = 0
 for i,v in pairs(game.Workspace.MobSpawns:GetChildren()) do 
     if not MobSpawnClone[v.Name] then 
-        MobSpawnClone[v.Name] = CFrame.new(getMid(v.Name,game.Workspace.MobSpawns:GetChildren()))
+        MobSpawnClone[RemoveLevelTitle(v.Name)] = CFrame.new(getMid(v.Name,game.Workspace.MobSpawns:GetChildren()))
         lss = lss +1
     end 
 end
 _G.MobSpawnClone = MobSpawnClone
 function GetMobSpawnList(a)
     local a = RemoveLevelTitle(a)
-    k = {}
+    k = {}  
     for i, v in pairs(game.Workspace.MobSpawns:GetChildren()) do
         if v.Name == a then
             table.insert(k, v)
