@@ -93,6 +93,7 @@ task.spawn(function()
         if _G.UseFAttack then 
             task.spawn(AttackHit)
             task.spawn(AttackFunction)
+            task.wait(.15)
         end
     end
 end)
