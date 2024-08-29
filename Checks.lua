@@ -522,7 +522,11 @@ AutoCDK = function(questTitle)
             repeat task.wait()
                 KillBoss(_G.ServerData['Server Bosses']['Cake Queen'])  
                 wait(1)
-            until GetDistance(game:GetService("Workspace")["_WorldOrigin"].Locations["Heavenly Dimension"]) <= 2000
+                CDKTICK = tick()
+            until GetDistance(game:GetService("Workspace")["_WorldOrigin"].Locations["Heavenly Dimension"]) <= 2000 or tick()-CDKTICK >= 30
+            if tick()-CDKTICK >= 30 then 
+                return 
+            end
             wait(1)
         elseif not _G.DimensionLoading then
             wait(1)
