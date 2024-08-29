@@ -535,6 +535,7 @@ AutoCDK = function(questTitle)
             Auto3rdEvent() 
         else
             task.spawn(function()
+                print('Trying to find sv')
                 if FindAndJoinServer then  
                     FindAndJoinServer('seaevent','spot',function(v,rt)
                         return rt-v.FoundOn < 20
