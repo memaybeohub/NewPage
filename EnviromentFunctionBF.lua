@@ -1906,21 +1906,23 @@ function LoadBoss(v)
         print("Found elite:",tostring(v.Name))
         _G.CurrentElite = v 
     end 
-    v.Humanoid:GetPropertyChangedSignal('Health'):Connect(function()
-        if v.Humanoid.Health <= 0 then  
-            if _G.CurrentElite == v then 
-                _G.CurrentElite = nil 
+    if Hum then 
+        v.Humanoid:GetPropertyChangedSignal('Health'):Connect(function()
+            if v.Humanoid.Health <= 0 then  
+                if _G.CurrentElite == v then 
+                    _G.CurrentElite = nil 
+                end
+                if table.find(Elites,RemoveLevelTitle(v.Name)) then 
+                    _G.CurrentElite = nil
+                end
+                local index = _G.ServerData['Server Bosses'][v.Name]
+                if index then
+                    _G.ServerData['Server Bosses'][v.Name] = nil
+                end            
+                return
             end
-            if table.find(Elites,RemoveLevelTitle(v.Name)) then 
-                _G.CurrentElite = nil
-            end
-            local index = _G.ServerData['Server Bosses'][v.Name]
-            if index then
-                _G.ServerData['Server Bosses'][v.Name] = nil
-            end            
-            return
-        end
-    end)
+        end)
+    end
 end  
 function TeleportWorld(world)
     if typeof(world) == "string" then
@@ -2334,6 +2336,9 @@ function AddChest(chest)
     wait()
     if table.find(_G.ServerData['Chest'], chest) or not chest.Parent then return end 
     if not string.find(chest.Name,'Chest') and not (chest:IsA('Part') or chest:IsA('BasePart')) then return end
+    if GetDistance(v,CFrame.new(-1.4128437, 0.292379826, -6.53605461, 0.999743819, -1.41806034e-09, -0.0226347167, 4.24517754e-09, 1, 1.2485377e-07, 0.0226347167, -1.24917875e-07, 0.999743819)) <= 10 then 
+        return 
+    end 
     local CallSuccess,Returned = pcall(function()
         return GetDistance(chest)
     end)
@@ -2350,7 +2355,7 @@ end
 
 function LoadChest()
     for _, v in pairs(workspace:GetDescendants()) do
-        if string.find(v.Name, 'Chest') and v.Parent and GetDistance(v,CFrame.new(-1.4128437, 0.292379826, -6.53605461, 0.999743819, -1.41806034e-09, -0.0226347167, 4.24517754e-09, 1, 1.2485377e-07, 0.0226347167, -1.24917875e-07, 0.999743819)) > 10 then
+        if string.find(v.Name, 'Chest') and v.Parent then
             task.spawn(function()
                 AddChest(v)
                 local parentFullName = tostring(v.Parent:GetFullName())
