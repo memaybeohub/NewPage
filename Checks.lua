@@ -1410,6 +1410,8 @@ AutoMeleeFunc = function()
             if not game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("OpenLibrary") and _G.ServerData['PlayerData'].Level >= 1450 then
                 SetContent('Hopping for Ice Admiral',5)
                 HopServer(10,true,"Ice Admiral")
+            elseif _G.ServerData['PlayerData'].Level < 1450 then 
+                _G.MeleeTask = '' 
             end
         elseif _G.ServerData['PlayerData'].Level >= 1450 and not game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("OpenLibrary") then
             SetContent('Hopping for Ice Admiral',5)
