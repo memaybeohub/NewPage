@@ -1782,6 +1782,9 @@ AutoBartiloQuest = function()
         SetContent('First Bartilo task...')
         if game.Players.LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text:find("Swan Pirate") and game.Players.LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text:find("50") and game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible then 
             KillMobList({"Swan Pirate"})
+            repeat 
+                KillMobList({"Swan Pirate"})
+            until not (game.Players.LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text:find("Swan Pirate") and game.Players.LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text:find("50") and game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible)
         else
             Tweento(CFrame.new(-456.28952, 73.0200958, 299.895966))
             if GetDistance(CFrame.new(-456.28952, 73.0200958, 299.895966)) < 10 then 
