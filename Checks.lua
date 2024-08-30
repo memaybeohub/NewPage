@@ -2,6 +2,7 @@ repeat task.wait() until _G.EnLoaded
 _G.CurrentTask = ""  
 _G.TaskUpdateTick = tick()  
 _G.PirateRaidTick = 0
+local COmmm = game:GetService("ReplicatedStorage"):WaitForChild('Remotes'):WaitForChild('CommF_')
 getgenv().CheckEnabling = function(taskName)
     return _G.SavedConfig and _G.SavedConfig['Actions Allowed'] and (_G.SavedConfig['Actions Allowed'][taskName] or _G.SavedConfig[taskName])
 end
@@ -10,7 +11,7 @@ getgenv().refreshTask = function()
         _G.CurrentTask = ''
     end
     if not SaberQuest or not SaberQuest.KilledShanks then 
-        getgenv().SaberQuest = game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("ProQuestProgress")
+        getgenv().SaberQuest = COmmm:InvokeServer("ProQuestProgress")
     end
     if not _G.Config then 
         _G.Config = {}
@@ -58,7 +59,7 @@ getgenv().refreshTask = function()
             _G.CurrentTask = 'Cake Prince Raid Boss Event'
         elseif (Sea2 or Sea3) and (_G.ServerData['Server Bosses']['Core'] or (Sea3 and _G.PirateRaidTick and tick()-_G.PirateRaidTick < 60)) then 
             _G.CurrentTask = '3rd Sea Event'
-        elseif Sea2 and _G.ServerData['PlayerData'].Level >= 850 and game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BartiloQuestProgress", "Bartilo") ~= 3 then
+        elseif Sea2 and _G.ServerData['PlayerData'].Level >= 850 and COmmm:InvokeServer("BartiloQuestProgress", "Bartilo") ~= 3 then
             _G.CurrentTask = 'Bartilo Quest'
         elseif Sea2 and _G.ServerData['PlayerData'].Level >= 1500 and game.ReplicatedStorage.Remotes.CommF_:InvokeServer("ZQuestProgress", "Zou") ~= 0 then 
             _G.CurrentTask = 'Auto Sea 3' 
@@ -206,7 +207,7 @@ AutoMiragePuzzle = function()
             if _G.RaceV4Progress==1 then 
                 SetContent(tostring(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("RaceV4Progress", "Begin")))
             elseif _G.RaceV4Progress == 2 then 
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+                COmmm:InvokeServer(
                     "requestEntrance",
                     Vector3.new(28282.5703125, 14896.8505859375, 105.1042709350586)
                 )
@@ -384,10 +385,10 @@ AutoDoughKing = function()
                 ) or
                     not game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible
                 then
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+                COmmm:InvokeServer(
                     "AbandonQuest"
                 )
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+                COmmm:InvokeServer(
                     "EliteHunter"
                 )
             end
@@ -440,7 +441,7 @@ AutoV3 = function()
             if CheckAgain and CheckAgain == 1 then 
                 local FruitBelow1M = getFruitBelow1M()
                 if FruitBelow1M then 
-                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("LoadFruit", FruitBelow1M) 
+                    COmmm:InvokeServer("LoadFruit", FruitBelow1M) 
                     game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "3") 
                 end 
             end 
@@ -592,7 +593,7 @@ AutoCDK = function(questTitle)
                     [2] = "BoatQuest",
                     [3] = workspace.NPCs:FindFirstChild("Luxury Boat Dealer")
                 }
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+                COmmm:InvokeServer(unpack(args))
             end
         end
     elseif questTitle == 'Yama Dimension' then 
@@ -1189,10 +1190,10 @@ AutoYama = function()
                 ) or
                     not game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible
                 then
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+                COmmm:InvokeServer(
                     "AbandonQuest"
                 )
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+                COmmm:InvokeServer(
                     "EliteHunter"
                 )
             end
@@ -1212,10 +1213,10 @@ AutoElite = function()
             ) or
                 not game:GetService("Players").LocalPlayer.PlayerGui.Main.Quest.Visible
             then
-            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+            COmmm:InvokeServer(
                 "AbandonQuest"
             )
-            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+            COmmm:InvokeServer(
                 "EliteHunter"
             )
         else
@@ -1289,7 +1290,7 @@ AutoSea3 = function()
                     0.956294656
                 )
                 if GetDistance(RedHeadCFrame) <= 50 then
-                    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("ZQuestProgress", "Begin")
+                    COmmm:InvokeServer("ZQuestProgress", "Begin")
                 else
                     Tweento(RedHeadCFrame)
                 end
@@ -1302,7 +1303,7 @@ AutoSea3 = function()
                         local args = {
                             [1] = "TravelZou"
                         }
-                        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+                        COmmm:InvokeServer(unpack(args))
                     end
                 end)
                 repeat 
@@ -1746,7 +1747,7 @@ AutoRaceV2 = function()
         until Sea2 
     end
     if _G.ServerData["PlayerBackpack"]['Flower 1'] and _G.ServerData["PlayerBackpack"]['Flower 2'] and _G.ServerData["PlayerBackpack"]['Flower 3'] then 
-        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Alchemist", "3")
+        COmmm:InvokeServer("Alchemist", "3")
         wait(5)
         _G.CurrentTask = '' 
         SetContent('Upgraded V2 Race | Returning task...')
@@ -1777,7 +1778,7 @@ AutoRaceV2 = function()
 end
 
 AutoBartiloQuest = function()
-    local QuestBartiloId = game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BartiloQuestProgress", "Bartilo")
+    local QuestBartiloId = COmmm:InvokeServer("BartiloQuestProgress", "Bartilo")
     if QuestBartiloId == 0 then 
         SetContent('First Bartilo task...')
         if game.Players.LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text:find("Swan Pirate") and game.Players.LocalPlayer.PlayerGui.Main.Quest.Container.QuestTitle.Title.Text:find("50") and game.Players.LocalPlayer.PlayerGui.Main.Quest.Visible then 
@@ -1793,7 +1794,7 @@ AutoBartiloQuest = function()
                     [2] = "BartiloQuest",
                     [3] = 1
                 }
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+                COmmm:InvokeServer(unpack(args))
             end
         end 
     elseif QuestBartiloId == 1 then 
@@ -1879,7 +1880,7 @@ AutoSea2 = function()
             KillBoss(_G.ServerData['Server Bosses']['Ice Admiral']) 
             refreshTask()
             task.delay(5,function()
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("TravelDressrosa") 
+                COmmm:InvokeServer("TravelDressrosa") 
             end)
             _G.CurrentTask = ''
         elseif _G.ServerData['PlayerData'].Level >= 700 then
@@ -1970,7 +1971,7 @@ AutoSaber = loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeoh
                     SetContent('Feeding sick man...')
                     Tweento(CFrame.new(1457.8768310547, 88.377502441406, -1390.6892089844))
                     if GetDistance(CFrame.new(1457.8768310547, 88.377502441406, -1390.6892089844)) < 10 then 
-                        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+                        COmmm:InvokeServer(
                             "ProQuestProgress",
                             "SickMan"
                         )
