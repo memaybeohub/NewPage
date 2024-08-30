@@ -1,4 +1,4 @@
-if _G.AttackFunction2 then return end
+if _G.AttackFunction2 or getgenv().AttackFunction or AttackFunction then return end
 task.spawn(function()
 	_G.FastAttackDelay = _G.FastAttackDelay or 0.05
 	if hookfunction and not islclosure(hookfunction) then
