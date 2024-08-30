@@ -1,6 +1,7 @@
 local lasttis = 0 
 local JoinedGame = tick() 
 _G.MeleeWait = ''
+local RemoteCommF = game:GetService("ReplicatedStorage"):WaitForChild('Remotes'):WaitForChild('CommF_')
 getgenv().SetContent = function(v1,delayticks)
     if not v1 then v1 = '' end 
     if tick()-lasttis > 0 then
@@ -269,7 +270,7 @@ function requestEntrance(vector3, fr)
     else
         pcall(
             function()
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+                RemoteCommF:InvokeServer(
                     "requestEntrance",
                     Vector3.new(28282.5703125, 14896.8505859375, 105.1042709350586)
                 )
@@ -402,7 +403,7 @@ function CheckPlayerAlive()
     if a2 then return b2 end 
 end   
 local FruitStocks = {}
-for i,v in pairs(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+for i,v in pairs(RemoteCommF:InvokeServer(
     "GetFruits",
     game:GetService("Players").LocalPlayer.PlayerGui.Main.FruitShop:GetAttribute("Shop2")
 )) do 
@@ -415,7 +416,7 @@ function SnipeFruit(fruitsSnipes)
         for i = #fruitsSnipes,1,1 do 
             local f = fruitsSnipes[i]
             if FruitStocks[f] then 
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("PurchaseRawFruit", f, game:GetService("Players").LocalPlayer.PlayerGui.Main.FruitShop:GetAttribute("Shop2"))
+                RemoteCommF:InvokeServer("PurchaseRawFruit", f, game:GetService("Players").LocalPlayer.PlayerGui.Main.FruitShop:GetAttribute("Shop2"))
                 return 
             end
         end  
@@ -485,7 +486,7 @@ function checkFruit1M(in5)
             end
         end 
         if FOUNDDF then 
-            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("LoadFruit", FOUNDDF) 
+            RemoteCommF:InvokeServer("LoadFruit", FOUNDDF) 
             wait(.5)
             if fruitsea3bp() then return fruitsea3bp() end
         end
@@ -535,7 +536,7 @@ function eatFruit(fruitsSnipes,includedInventory)
     if includedInventory then 
         for i,v in pairs(fruitsSnipes) do 
             if _G.ServerData["Inventory Items"][v] then 
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("LoadFruit", v) 
+                RemoteCommF:InvokeServer("LoadFruit", v) 
                 l4432()
             end
         end
@@ -543,7 +544,7 @@ function eatFruit(fruitsSnipes,includedInventory)
 end 
 function Storef(v) 
     if _G.CurrentTask ~= 'Eat Fruit' and _G.CurrentTask ~= 'Auto Sea 3' then 
-        return game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+        return RemoteCommF:InvokeServer(
             "StoreFruit",
             tostring(v:GetAttribute("OriginalName")),
             v
@@ -950,7 +951,7 @@ function EnableBuso()
         local args = {
             [1] = "Buso"
         }
-        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+        RemoteCommF:InvokeServer(unpack(args))
     end
 end  
 function GetWeapon(wptype)
@@ -972,7 +973,7 @@ function LoadItem(d)
         return
     end
     print('Loaditem',d)
-    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("LoadItem", d)
+    RemoteCommF:InvokeServer("LoadItem", d)
 end 
 function EquipWeapon(ToolSe)
     if _G.WeaponType == "" or _G.WeaponType == nil then
@@ -1389,7 +1390,7 @@ function KillPlayer(PlayerName)
             EquipWeapon() 
             IsSafeZone = CheckSafeZone(t)
             if game.Players.LocalPlayer.PlayerGui.Main.PvpDisabled.Visible then 
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("EnablePvp")
+                RemoteCommF:InvokeServer("EnablePvp")
             end
             totRoot = GetDistance(tRoot)
             game.Players.LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(game.Players.LocalPlayer.Character.PrimaryPart.CFrame.X,tRoot.CFrame.Y,game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Z)
@@ -1670,7 +1671,7 @@ function GetQuest(QuestTables)
         QuestTables = CheckQuestByLevel()
     end
     if QuestTables.QuestCFrame and GetDistance(QuestTables.QuestCFrame) <= 8 then  
-        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("StartQuest", tostring(QuestTables["QuestName"]), QuestTables["QuestId"])
+        RemoteCommF:InvokeServer("StartQuest", tostring(QuestTables["QuestName"]), QuestTables["QuestId"])
         task.wait(.75)
     else
         if GetDistance(QuestTables["QuestCFrame"] * CFrame.new(0,0,-2)) < 1000 then 
@@ -1694,7 +1695,7 @@ function GetNPC(npc)
     end
 end  
 local function FireAddPoint(PointName,num) 
-    game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("AddPoint",PointName,num)
+    RemoteCommF:InvokeServer("AddPoint",PointName,num)
 end
 function autoStats() 
     if IsPlayerAlive() and game:GetService("Players").LocalPlayer.Data.Points.Value > 0 then
@@ -1809,7 +1810,7 @@ function CheckNatural(v)
     return v and not v:GetAttribute("OriginalName")
 end
 function getPriceFruit(z5)
-    for i,v in pairs(game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(
+    for i,v in pairs(RemoteCommF:InvokeServer(
         "GetFruits",
         game:GetService("Players").LocalPlayer.PlayerGui.Main.FruitShop:GetAttribute("Shop2")
     )) do 
@@ -1932,17 +1933,17 @@ function TeleportWorld(world)
         local args = {
             [1] = "TravelMain"
         }
-        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+        RemoteCommF:InvokeServer(unpack(args))
     elseif world == 2 then
         local args = {
             [1] = "TravelDressrosa"
         }
-        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+        RemoteCommF:InvokeServer(unpack(args))
     elseif world == 3 then
         local args = {
             [1] = "TravelZou"
         }
-        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+        RemoteCommF:InvokeServer(unpack(args))
     end
 end
 _G.ServerData["Inventory Items"] = {}
@@ -2296,7 +2297,7 @@ function buyRaidingChip()
                 local below1MFruit = getFruitBelow1M()
                 if below1MFruit then 
                     SetContent('Getting '..tostring(below1MFruit)..' from inventory to buy chips...')
-                    if game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("LoadFruit", below1MFruit) then 
+                    if RemoteCommF:InvokeServer("LoadFruit", below1MFruit) then 
                         buyRaidingChip() 
                         _G.ServerData['Inventory Items'][below1MFruit] = nil 
                     else 
@@ -2552,7 +2553,7 @@ function HasColor(BrickColorName)
     if not _G.ServerData['PlayerData']['Colors'][RealColorName] then
         return false 
     else
-        game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("activateColor", RealColorName) 
+        RemoteCommF:InvokeServer("activateColor", RealColorName) 
         return true
     end
 end     
@@ -2775,11 +2776,11 @@ ThisiSW = RunService.Heartbeat:Connect(function()
             _G.RaceV4Progress = game.ReplicatedStorage.Remotes.CommF_:InvokeServer("RaceV4Progress", "Check") 
         end
         if _G.ServerData["PlayerData"].Beli >= 5500000 then 
-            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyHaki","Geppo")
+            RemoteCommF:InvokeServer("BuyHaki","Geppo")
             -- Buy Buso Haki
-            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyHaki","Buso")
+            RemoteCommF:InvokeServer("BuyHaki","Buso")
             -- Buy Soru
-            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyHaki","Soru")  
+            RemoteCommF:InvokeServer("BuyHaki","Soru")  
             -- Buy Ken 
             game.ReplicatedStorage.Remotes.CommF_:InvokeServer("KenTalk", "Buy")
         end
