@@ -50,7 +50,7 @@ task.spawn(function()
         end
     end)
 	local old = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework)
-	local com = getupvalue(old, 2)
+	local com = debug.getupvalue(old, 2)
 	require(game.ReplicatedStorage.Util.CameraShaker):Stop()
 	spawn(function()
 		game:GetService("RunService").Stepped:Connect(function()
@@ -60,6 +60,7 @@ task.spawn(function()
 				end
 				com.activeController.hitboxMagnitude = 60
 				if (_G.UseFAttack) and (getgenv().CurrentCharHum and getgenv().CurrentCharHum.Parent.Stun.Value <= 0) then
+					print(12345)
 					com.activeController.hitboxMagnitude = 60
 					com.activeController.active = false
 					com.activeController.blocking = false
