@@ -1357,7 +1357,8 @@ function CancelKillPlayer()
     cancelKill = true 
 end 
 function CheckSafeZone(p)
-    for i, v in pairs(game:GetService("Workspace")["_WorldOrigin"].SafeZones:GetChildren()) do
+    --[[
+        for i, v in pairs(game:GetService("Workspace")["_WorldOrigin"].SafeZones:GetChildren()) do
         if v:IsA("Part") then
             if
                 GetDistance(v,p.PrimaryPart) <= 200 and
@@ -1367,6 +1368,7 @@ function CheckSafeZone(p)
             end
         end
     end
+    ]]
     if _G.AttackedSafe then 
         _G.AttackedSafe = false 
         return true 
