@@ -83,7 +83,43 @@ task.spawn(function()
         end
     end
 end)    
-if hookfunction then 
+if hookfunction then  
+    task.spawn(function()
+        local gameNgu = {}
+        if game.PlaceId == 2753915549 then  
+            gameNgu = {
+                Workspace.Map.SkyArea1.PathwayTemple.Entrance,
+                Workspace.Map.TeleportSpawn.Entrance,
+                Workspace.Map.TeleportSpawn.Exit,
+                Workspace.Map.SkyArea2.PathwayHouse.Exit,
+            }
+            
+        elseif game.PlaceId == 4442272183 then 
+            gameNgu = {
+                Workspace.Map.Dressrosa.FlamingoExit,
+                Workspace.Map.Dressrosa.FlamingoEntrance,
+                Workspace.Map.GhostShip.Teleport,
+                Workspace.Map.GhostShipInterior.Teleport,
+            }
+        else
+            gameNgu = {
+                Workspace.Map.Turtle.Entrance.Door.BossDoor.Hitbox,
+                Workspace.Map.Turtle.MapTeleportB.Hitbox,
+                Workspace.Map.Turtle.Cursed.EntranceTouch,
+                Workspace.Map.Waterfall.MapTeleportA.Hitbox,
+                Workspace.Map.Waterfall.BossRoom.Door.BossDoor.Hitbox,
+                Workspace.Map['Boat Castle'].MapTeleportB.Hitbox,
+                Workspace.Map['Boat Castle'].MapTeleportA.Hitbox,
+                Workspace.Map['Temple of Time'].ClockRoomExit,
+            }  
+        end
+        table.foreach(gameNgu,function(i,v)
+            for i2,v2 in getconnections(v.Touched) do 
+                v2:Disable()
+                print('Disabled:',v)
+            end
+        end)
+    end)
     task.delay(2,function()
         require(game.ReplicatedStorage.Notification).new = function(v1,v2) 
             v1 = tostring(v1):gsub("<Color=[^>]+>", "") 
