@@ -1,4 +1,5 @@
 task.spawn(function()
+	_G.FastAttackDelay = _G.FastAttackDelay or 0.05
 	if hookfunction and not islclosure(hookfunction) then
 		for i, v in pairs(game.ReplicatedStorage.Assets.GUI:GetChildren()) do
 			v.Enabled = false
@@ -52,7 +53,7 @@ task.spawn(function()
 	local old = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework)
 	local com = debug.getupvalue(old, 2)
 	require(game.ReplicatedStorage.Util.CameraShaker):Stop()
-	while task.wait(.05) do 
+	while task.wait(_G.FastAttackDelay) do 
 		task.spawn(pcall,function()
 			if not getgenv().CurrentCharHum or not getgenv().CurrentCharHum.Parent or getgenv().CurrentCharHum.ClassName ~= 'Humanoid' then
 				getgenv().CurrentCharHum = game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid')
