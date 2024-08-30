@@ -54,7 +54,7 @@ task.spawn(function()
 	local old = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework)
 	local com = debug.getupvalue(old, 2)
 	require(game.ReplicatedStorage.Util.CameraShaker):Stop()
-	while task.wait(.1) do 
+	while task.wait(_G.FastAttackDelay) do 
 		task.spawn(pcall,function()
 			if not getgenv().CurrentCharHum or not getgenv().CurrentCharHum.Parent or getgenv().CurrentCharHum.ClassName ~= 'Humanoid' then
 				getgenv().CurrentCharHum = game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid')
