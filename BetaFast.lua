@@ -52,26 +52,24 @@ task.spawn(function()
 	local old = require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework)
 	local com = debug.getupvalue(old, 2)
 	require(game.ReplicatedStorage.Util.CameraShaker):Stop()
-	spawn(function()
-		game:GetService("RunService").Stepped:Connect(function()
-			pcall(function()
-				if not getgenv().CurrentCharHum or not getgenv().CurrentCharHum.Parent or getgenv().CurrentCharHum.ClassName ~= 'Humanoid' then
-					getgenv().CurrentCharHum = game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid')
-				end
+	while task.wait(.05) do 
+		task.spawn(pcall,function()
+			if not getgenv().CurrentCharHum or not getgenv().CurrentCharHum.Parent or getgenv().CurrentCharHum.ClassName ~= 'Humanoid' then
+				getgenv().CurrentCharHum = game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid')
+			end
+			com.activeController.hitboxMagnitude = 60
+			if (_G.UseFAttack) and (getgenv().CurrentCharHum and getgenv().CurrentCharHum.Parent.Stun.Value <= 0) then
 				com.activeController.hitboxMagnitude = 60
-				if (_G.UseFAttack) and (getgenv().CurrentCharHum and getgenv().CurrentCharHum.Parent.Stun.Value <= 0) then
-					com.activeController.hitboxMagnitude = 60
-					com.activeController.active = false
-					com.activeController.blocking = false
-					com.activeController.focusStart = 0
-					com.activeController.hitSound = nil
-					com.activeController.increment = 0
-					com.activeController.timeToNextAttack = 0
-					com.activeController.timeToNextBlock = 0
-					com.activeController:attack()
-				end
-			end)
+				com.activeController.active = false
+				com.activeController.blocking = false
+				com.activeController.focusStart = 0
+				com.activeController.hitSound = nil
+				com.activeController.increment = 0
+				com.activeController.timeToNextAttack = 0
+				com.activeController.timeToNextBlock = 0
+				com.activeController:attack()
+			end
 		end)
-	end)
+	end
 end)
 getgenv().AttackFunction = true
