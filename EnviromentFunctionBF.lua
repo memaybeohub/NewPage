@@ -836,8 +836,7 @@ function Tweento(targetCFrame)
         end
         task.spawn(function()
             if not _G.SavedConfig['Same Y Tween'] then return end
-            if (game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Y < targetCFrame.Y-5 or game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Y > targetCFrame.Y+5) 
-            and (not bmg)  then 
+            if (game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Y < targetCFrame.Y-5 or game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Y > targetCFrame.Y+5)  then 
                 if _G.tween then 
                     _G.tween:Cancel()
                     _G.tween = nil 
@@ -1757,7 +1756,7 @@ function FarmMobByLevel(level)
     elseif _G.MobSpawnClone and _G.MobSpawnClone[CurrentQuestMob] then 
         SetContent('Waiting mob... | '..tostring(CurrentQuestMob))
         Tweento(_G.MobSpawnClone[CurrentQuestMob] * CFrame.new(0,60,0))
-        for i,v in pairs(game.workspace.MobSpawns:GetChildren()) do 
+        for i,v in next,(game.workspace.MobSpawns:GetChildren()) do 
             if v.Name == CurrentQuestMob and GetDistance(v,_G.MobSpawnClone[CurrentQuestMob]) > 350 and not CheckMob(CurrentQuestMob) then  
                 Tweento(v.CFrame* CFrame.new(0,30,0))
             end
