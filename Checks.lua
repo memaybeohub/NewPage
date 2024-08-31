@@ -466,21 +466,6 @@ AutoCDK = function(questTitle)
     end
     LoadItem('Tushita')
     if questTitle == 'The Final Boss' then  
-        if not _G.KillAuraConnection then 
-            _G.KillAuraConnection = workspace.Enemies.ChildAdded:Connect(function(v)  
-                wait(3)
-                sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 3000+300)   
-                local V5Hum = v:FindFirstChildOfClass('Humanoid') or v:WaitForChild('Humanoid')
-                if V5Hum then 
-                    V5Hum.Health = 0 
-                    repeat 
-                        V5Hum.Health = 0 
-                        task.wait(1)
-                    until not V5Hum or not V5Hum.Parent or not V5Hum.Parent.Parent
-    
-                end
-            end) 
-        end
         repeat 
             task.wait()
             if GetDistance(game:GetService("Workspace").Map.Turtle.Cursed.Pedestal3) > 10 and game:GetService("Workspace").Map.Turtle.Cursed.PlacedGem.Transparency ~= 0 then
@@ -489,7 +474,7 @@ AutoCDK = function(questTitle)
             if game:GetService("Workspace").Map.Turtle.Cursed.PlacedGem.Transparency == 0 then 
                 if not _G.ServerData['Server Bosses']['Cursed Skeleton Boss'] then
                     Tweento(CFrame.new(-12341.66796875, 603.3455810546875, -6550.6064453125),true)
-                    --game.Players.LocalPlayer.Character.Humanoid.MoveToPoint = CFrame.new(-12341.66796875, 603.3455810546875, -6550.6064453125).Position
+                    game.ReplicatedStorage.Remotes.CommF_:InvokeServer("CDKQuest", "SpawnBoss")
                 else
                     KillBoss(_G.ServerData['Server Bosses']['Cursed Skeleton Boss'])
                     _G.CurrentTask = ''
