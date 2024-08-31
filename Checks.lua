@@ -468,6 +468,7 @@ AutoCDK = function(questTitle)
     if questTitle == 'The Final Boss' then  
         if not _G.KillAuraConnection then 
             _G.KillAuraConnection = workspace.Enemies.ChildAdded:Connect(function(v)  
+                wait(3)
                 sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 3000+300)   
                 local V5Hum = v:FindFirstChildOfClass('Humanoid') or v:WaitForChild('Humanoid')
                 if V5Hum then 
@@ -487,7 +488,8 @@ AutoCDK = function(questTitle)
             end 
             if game:GetService("Workspace").Map.Turtle.Cursed.PlacedGem.Transparency == 0 then 
                 if not _G.ServerData['Server Bosses']['Cursed Skeleton Boss'] then
-                    game.Players.LocalPlayer.Character.Humanoid.WalkToPoint = CFrame.new(-12341.66796875, 603.3455810546875, -6550.6064453125).Position
+                    Tweento(CFrame.new(-12341.66796875, 603.3455810546875, -6550.6064453125),true)
+                    --game.Players.LocalPlayer.Character.Humanoid.MoveToPoint = CFrame.new(-12341.66796875, 603.3455810546875, -6550.6064453125).Position
                 else
                     KillBoss(_G.ServerData['Server Bosses']['Cursed Skeleton Boss'])
                     _G.CurrentTask = ''
