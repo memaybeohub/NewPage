@@ -797,7 +797,7 @@ task.spawn(function()
 end)
 game.workspace.Characters.ChildAdded:Connect(LoadPlayer)
 local tween_s = game:service "TweenService"
-function Tweento(targetCFrame)
+function Tweento(targetCFrame,dontmove)
     if CheckPlayerAlive() then
         if not game.Players.LocalPlayer.Character:FindFirstChild("Teleport Access") then
             return warn('I cant tween right now: Teleport Perm Missing')
@@ -812,7 +812,7 @@ function Tweento(targetCFrame)
         local Distance =
             (targetPos -
             game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).Magnitude
-        if Distance <= 300 and tick() - _G.Ticktp >= 0.01 then
+        if not dontmove and Distance <= 300 and tick() - _G.Ticktp >= 0.01 then
             game.Players.LocalPlayer.Character:MoveTo(targetCFrame.Position)
             _G.Ticktp = tick()
             return
