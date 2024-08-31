@@ -482,7 +482,14 @@ AutoCDK = function(questTitle)
             else 
                 if GetDistance(game:GetService("Workspace").Map.Turtle.Cursed.Pedestal3) < 10 and game:GetService("Workspace").Map.Turtle.Cursed.Pedestal3.ProximityPrompt.Enabled then 
                     fireproximityprompt(game:GetService("Workspace").Map.Turtle.Cursed.Pedestal3.ProximityPrompt) 
-                    wait(10)
+                    wait(1)
+                    for i,v in pairs(game.workspace.Enemies:GetChildren()) do 
+                        pcall(function()
+                            if v and v.PrimaryPart and GetDistance(v.PrimaryPart) <= 1000 and v:FindFirstChildOfClass('Humanoid') and v:FindFirstChildOfClass('Humanoid').Health > 0 then 
+                                v:FindFirstChildOfClass('Humanoid').Health = 0 
+                            end
+                        end)
+                    end
                 end
             end 
         until _G.Config.OwnedItems["Cursed Dual Katana"]
