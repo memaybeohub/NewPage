@@ -10,7 +10,7 @@ local Client = Players.localPlayer;
 
 local findobj, findobjofclass, waitforobj = get.FindFirstChild, get.FindFirstChildOfClass, get.WaitForChild
 local CombatFramework = require(waitforobj(Client.PlayerScripts, "CombatFramework"))
-local CombatFrameworkR = getupvalues(CombatFramework)[2]
+local CombatFrameworkR = debug.getupvalues(CombatFramework)[2]
 local RigLib = require(waitforobj(game.ReplicatedStorage.CombatFramework, "RigLib"))
 
 local VU = get.VirtualUser
@@ -35,7 +35,7 @@ task.spawn(function()
     for i = 1,5 do 
         repeat task.wait(1) until game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool') and (game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool').ToolTip == 'Melee' or game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool').ToolTip == 'Sword')
         print('found tool',game.Players.LocalPlayer.Character:FindFirstChildOfClass('Tool').Name)
-        local acc5 = getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2].activeController
+        local acc5 = debug.getupvalues(require(game:GetService("Players").LocalPlayer.PlayerScripts.CombatFramework))[2].activeController
         if not acc5 or not acc5.equipped then 
             repeat task.wait()
             until acc5 and acc5.equipped
