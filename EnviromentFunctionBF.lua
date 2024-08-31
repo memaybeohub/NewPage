@@ -2337,7 +2337,7 @@ end
 function AddChest(chest)
     wait()
     if table.find(_G.ServerData['Chest'], chest) or not chest.Parent then return end 
-    if not string.find(chest.Name,'Chest') and not (chest:IsA('Part') or chest:IsA('BasePart')) then return end
+    if not string.find(chest.Name,'Chest') or not (chest.ClassName == ('Part') or chest.ClassName == ('BasePart')) then return end
     if (chest.Position-CFrame.new(-1.4128437, 0.292379826, -6.53605461, 0.999743819, -1.41806034e-09, -0.0226347167, 4.24517754e-09, 1, 1.2485377e-07, 0.0226347167, -1.24917875e-07, 0.999743819).Position).Magnitude <= 10 then 
         return 
     end 
