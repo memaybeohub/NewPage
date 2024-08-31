@@ -487,7 +487,7 @@ AutoCDK = function(questTitle)
             end 
             if game:GetService("Workspace").Map.Turtle.Cursed.PlacedGem.Transparency == 0 then 
                 if not _G.ServerData['Server Bosses']['Cursed Skeleton Boss'] then
-                    game.Players.LocalPlayer.Character.Humanoid.MoveToPoint = CFrame.new(-12341.66796875, 603.3455810546875, -6550.6064453125).Position
+                    game.Players.LocalPlayer.Character.Humanoid.WalkToPoint = CFrame.new(-12341.66796875, 603.3455810546875, -6550.6064453125).Position
                 else
                     KillBoss(_G.ServerData['Server Bosses']['Cursed Skeleton Boss'])
                     _G.CurrentTask = ''
