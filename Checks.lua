@@ -466,6 +466,20 @@ AutoCDK = function(questTitle)
     end
     LoadItem('Tushita')
     if questTitle == 'The Final Boss' then  
+        if not _G.KillAuraConnection then 
+            _G.KillAuraConnection = workspace.Enemies.ChildAdded:Connect(function(v)  
+                sethiddenproperty(game.Players.LocalPlayer, "SimulationRadius", 3000+300)   
+                local V5Hum = v:FindFirstChildOfClass('Humanoid') or v:WaitForChild('Humanoid')
+                if V5Hum then 
+                    V5Hum.Health = 0 
+                    repeat 
+                        V5Hum.Health = 0 
+                        task.wait(1)
+                    until not V5Hum or not V5Hum.Parent or not V5Hum.Parent.Parent
+    
+                end
+            end) 
+        end
         repeat 
             task.wait()
             if GetDistance(game:GetService("Workspace").Map.Turtle.Cursed.Pedestal3) > 10 and game:GetService("Workspace").Map.Turtle.Cursed.PlacedGem.Transparency ~= 0 then
