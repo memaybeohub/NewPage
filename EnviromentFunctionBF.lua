@@ -1,7 +1,6 @@
 local lasttis = 0 
 local JoinedGame = tick() 
 _G.MeleeWait = ''
-local game.ReplicatedStorage.Remotes.CommF_ = game:GetService("ReplicatedStorage"):WaitForChild('Remotes'):WaitForChild('CommF_')
 getgenv().SetContent = function(v1,delayticks)
     if not v1 then v1 = '' end 
     if tick()-lasttis > 0 then
