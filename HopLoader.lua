@@ -93,7 +93,6 @@ local Settings2 = ReadSetting2()
 _G.TimeTryHopLow = 0
 _G.LastHopTick = 0
 getgenv().HopServer = function(CountTarget, hoplowallow,reasontohop)
-    SetContent('Start hopping...') 
     delay = 3 
     if not reasontohop then 
         reasontohop = 'None'
@@ -143,7 +142,6 @@ getgenv().HopServer = function(CountTarget, hoplowallow,reasontohop)
             for k, v in pairs(huhu) do
                 if k ~= game.JobId and v["Count"] <= 10 then
                     if not Settings2[k] or tick() - Settings2[k].Time > 60 * 10 then
-                        print('Found Sv:',k)
                         SetContent('Hopping normal server...')
                         Settings2[k] = {
                             Time = tick()
