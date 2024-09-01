@@ -1115,7 +1115,7 @@ function KillNigga(MobInstance)
             task.spawn(function()
                 if not KillingBoss and CheckEnabling and (CheckEnabling('High Ping Hop') or CheckEnabling("Player Nearing Hop")) then 
                     if MobInstance.Humanoid.MaxHealth < 100000 and not _G.ServerData["PlayerBackpack"]['Sweet Chalice'] and not _G.ServerData["PlayerBackpack"]["God's Chalice"] and not _G.PirateRaidTick or tick()-_G.PirateRaidTick >= 90 then 
-                        if GetPing and GetPing() >= 1000 then 
+                        if CheckEnabling('High Ping Hop') and GetPing and GetPing() >= 1000 then 
                             print('High Ping')
                             wait(10)
                             if GetPing and GetPing() >= 650 then 
@@ -1123,7 +1123,7 @@ function KillNigga(MobInstance)
                             end
                         end 
                         local bbxz 
-                        if Exploiters then 
+                        if CheckEnabling("Player Nearing Hop") and Exploiters then 
                             for name__,v in Exploiters  do 
                                 bbxz = workspace.Characters:FindFirstChild(name__)  
                                 if bbxz then 
