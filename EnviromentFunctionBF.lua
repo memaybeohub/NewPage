@@ -773,7 +773,7 @@ task.spawn(function()
     wait(3)
     _G.Ticktp = tick() 
     getgenv().TushitaQuest = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress")
-    if CheckEnabling('Cursed Dual Katana') and TushitaQuest and not TushitaQuest.OpenedDoor and _G.ServerData['PlayerData'].Level >= 2000 then 
+    if game.PlaceId == 7449423635 and CheckEnabling('Cursed Dual Katana') and TushitaQuest and not TushitaQuest.OpenedDoor and _G.ServerData['PlayerData'].Level >= 2000 then 
         print('PRo')
         task.spawn(function()
             loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/FinderServerLoading.lua'))()
@@ -799,7 +799,7 @@ end)
 task.spawn(function()
     wait(3)
     for i2 = 1,5 do 
-        if Sea3 and CheckEnabling('Mirage Puzzle') and _G.RaceV4Progress and _G.ServerData['PlayerData'].RaceVer == "V3" and _G.Config.OwnedItems['Mirror Fractal'] and _G.Config.OwnedItems['Valkyrie Helm'] and (_G.RaceV4Progress < 4 or (game:GetService("Workspace").Map:FindFirstChild("MysticIsland") and not game.ReplicatedStorage.Remotes.CommF_:InvokeServer("CheckTempleDoor"))) then 
+        if game.PlaceId == 7449423635 and CheckEnabling('Mirage Puzzle') and _G.RaceV4Progress and _G.ServerData['PlayerData'].RaceVer == "V3" and _G.Config.OwnedItems['Mirror Fractal'] and _G.Config.OwnedItems['Valkyrie Helm'] and (_G.RaceV4Progress < 4 or (game:GetService("Workspace").Map:FindFirstChild("MysticIsland") and not game.ReplicatedStorage.Remotes.CommF_:InvokeServer("CheckTempleDoor"))) then 
             task.spawn(function()
                 loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/FinderServerLoading.lua'))()
                 if AutoMirageIslandHop then  
@@ -1114,7 +1114,7 @@ function KillNigga(MobInstance)
             
             task.spawn(function()
                 if not KillingBoss and CheckEnabling and (CheckEnabling('High Ping Hop') or CheckEnabling("Player Nearing Hop")) then 
-                    if MobInstance.Humanoid.MaxHealth < 100000 and not (_G.ServerData["PlayerBackpack"]['Sweet Chalice'] or _G.ServerData["PlayerBackpack"]["God's Chalice"]) and not _G.PirateRaidTick or tick()-_G.PirateRaidTick >= 90 then 
+                    if MobInstance.Humanoid.MaxHealth < 100000 and not _G.ServerData["PlayerBackpack"]['Sweet Chalice'] and not _G.ServerData["PlayerBackpack"]["God's Chalice"] and not _G.PirateRaidTick or tick()-_G.PirateRaidTick >= 90 then 
                         if GetPing and GetPing() >= 1000 then 
                             print('High Ping')
                             wait(10)
