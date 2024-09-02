@@ -1572,6 +1572,15 @@ AutoMeleeMasteryCheck = function()
                     elseif MLLV['Dragon Talon'] > 0 and MLLV['Dragon Talon'] < 400 then 
                         SetMeleeWait('Dragon Talon',400)
                         BuyMelee('Dragon Talon')
+                    elseif MLLV['Electric Claw'] >= 400 and MLLV['Sharkman Karate'] >= 400 and MLLV['Death Step'] >= 400 and MLLV['Superhuman'] >= 400 and MLLV['Dragon Talon'] == 0 then 
+                        if (_G.ServerData["Inventory Items"]['Yama'] and _G.ServerData["Inventory Items"]['Yama'].Mastery < 350) or (_G.ServerData["Inventory Items"]['Tushita'] and _G.ServerData["Inventory Items"]['Tushita'].Mastery < 350) then 
+                            _G.WeaponType = 'Sword'
+                            if _G.ServerData["Inventory Items"]['Yama'] and _G.ServerData["Inventory Items"]['Yama'].Mastery < 350 then 
+                                LoadItem('Yama')
+                            elseif _G.ServerData["Inventory Items"]['Tushita'] and _G.ServerData["Inventory Items"]['Tushita'].Mastery < 350 then 
+                                LoadItem('Tushita')
+                            end
+                        end
                     end   
                     if MLLV['Sharkman Karate'] == 0 then 
                         BuyMelee('Sharkman Karate')  
