@@ -803,6 +803,9 @@ task.spawn(function()
             loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/FinderServerLoading.lua'))()
             if AutoRipIndraHop then  
                 for i = 1,240 do 
+                    repeat 
+                        task.wait()
+                    until _G.CurrentTask and _G.CurrentTask ~= ''
                     print('Finding Rip india sv...')
                     AutoRipIndraHop()
                     task.wait(1)
