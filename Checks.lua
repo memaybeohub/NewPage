@@ -569,10 +569,6 @@ AutoCDK = function(questTitle)
                 wait(1)
                 CDKTICK = tick()
             until GetDistance(game:GetService("Workspace")["_WorldOrigin"].Locations["Heavenly Dimension"]) <= 2000 or tick()-CDKTICK >= 30
-            if tick()-CDKTICK >= 30 then 
-                return 
-            end
-            wait(1)
         elseif not _G.DimensionLoading then
             wait(1)
             if _G.DimensionLoading then return end
