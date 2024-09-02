@@ -2316,6 +2316,9 @@ task.spawn(function()
 end)
 function CheckMaterialCount(MM) 
     local Count = 0 
+    repeat 
+        task.wait()
+    until _G.LoadedTimes and _G.LoadedTimes >= 15
     if _G.ServerData['Inventory Items'][MM] and _G.ServerData['Inventory Items'][MM].Count then 
         Count = _G.ServerData['Inventory Items'][MM].Count 
     end 
@@ -2676,6 +2679,7 @@ end
 _G.ServerData["Fruits Stock"] = {}
 local ThisiSW  
 _G.Ticktp = 0
+_G.LoadedTimes = 0
 ThisiSW = RunService.Heartbeat:Connect(function()
     if game.PlaceId == 2753915549 then
         Sea1 = true
@@ -2783,6 +2787,7 @@ ThisiSW = RunService.Heartbeat:Connect(function()
                 _G.Config.OwnedItems[v.Name] = true 
             end
         end
+        _G.LoadedTimes +=1
         _G.Config.OwnedItems.LoadedFr = true
         _G.HavingX2 =CheckX2Exp()
         UpdateBossDropTable()
