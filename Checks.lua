@@ -395,8 +395,6 @@ AutoDoughKing = function()
                 )
             end
             KillBoss(_G.CurrentElite)
-            task.wait(1)
-            return
         else
             HopServer(10,true,'Elite (Auto Dough King)')
         end
