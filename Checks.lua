@@ -1621,27 +1621,27 @@ AutoMeleeMasteryCheck = function()
                         LoadItem('Tushita')
                         SetMeleeWait('Tushita',350)
                         _G.WeaponType = 'Sword'
-                    elseif MLLV['Godhuman'] < 600 then 
+                    elseif CheckEnabling('Auto Switch Melee') and MLLV['Godhuman'] < 600 then 
                         BuyMelee('Godhuman') 
                         _G.WeaponType = "Melee"
                         SetMeleeWait('Godhuman',600)
-                    elseif MLLV['Sharkman Karate'] < 450 then 
+                    elseif CheckEnabling('Auto Switch Melee') and MLLV['Sharkman Karate'] < 450 then 
                         BuyMelee('Sharkman Karate')
                         _G.WeaponType = "Melee"
                         SetMeleeWait('Sharkman Karate',450)
-                    elseif MLLV['Death Step'] < 450 then 
+                    elseif CheckEnabling('Auto Switch Melee') and MLLV['Death Step'] < 450 then 
                         BuyMelee('Death Step')
                         _G.WeaponType = "Melee"
                         SetMeleeWait('Death Step',450)
-                    elseif MLLV['Electric Claw'] < 450 then 
+                    elseif CheckEnabling('Auto Switch Melee') and MLLV['Electric Claw'] < 450 then 
                         BuyMelee('Electric Claw')
                         _G.WeaponType = "Melee"
                         SetMeleeWait('Electric Claw',450)
-                    elseif MLLV['Dragon Talon'] < 450 then 
+                    elseif CheckEnabling('Auto Switch Melee') and MLLV['Dragon Talon'] < 450 then 
                         BuyMelee('Dragon Talon')
                         _G.WeaponType = "Melee"
                         SetMeleeWait('Dragon Talon',450)
-                    elseif MLLV['Superhuman'] < 450 then 
+                    elseif CheckEnabling('Auto Switch Melee') and    MLLV['Superhuman'] < 450 then 
                         BuyMelee('Superhuman')
                         _G.WeaponType = "Melee"
                         SetMeleeWait('Superhuman',450)
