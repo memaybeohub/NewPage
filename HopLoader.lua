@@ -91,7 +91,52 @@ function getRandomIndex(tab)
 end
 local Settings2 = ReadSetting2()
 _G.TimeTryHopLow = 0
-_G.LastHopTick = 0
+_G.LastHopTick = 0 
+local Ids = {}
+local function SaveIds()
+    writefile('HopSave.json',game:GetService("HttpService"):JSONEncode(Ids))
+    return Ids
+end
+local function LoadIds()
+    local a,b = pcall(function()
+        return game:GetService("HttpService"):JSONDecode('HopSave.json')
+    end)
+    if not a then return SaveIds() end 
+    return b 
+end
+local function CanJoin(S)
+    getgenv().HopMin = 4
+    getgenv().HopMax = 10
+    if S.Count < getgenv().HopMin or S.Count > getgenv().HopMax then 
+        return false 
+    end
+    if Ids[S.JobId] then
+        if tick()-Ids[S.JobId].tick > 60*60 then 
+            return true 
+        end  
+    else
+        S.tick = tick()
+        Ids[S.JobId] = S 
+        SaveIds()
+        return true 
+    end
+    return false 
+end
+local function Hop()
+    for i = 1,100,1 do 
+        getgenv().HopDelay = 3
+        local ServersDT = game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer(i)
+        local Currsv
+        for k,Currsv in pairs(ServersDT) do 
+            Currsv.JobId = k
+            if CanJoin(Currsv) then 
+                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X,math.random(4000,15000),game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Z)
+                game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer("teleport", k)
+                task.wait(getgenv().HopDelay)
+            end 
+        end
+    end
+end
 getgenv().HopServer = function(CountTarget, hoplowallow,reasontohop)
     delay = 3 
     if not reasontohop then 
@@ -100,90 +145,9 @@ getgenv().HopServer = function(CountTarget, hoplowallow,reasontohop)
     SetContent(reasontohop)
     HopGuiCreation(reasontohop,delay) 
     local timeplased = tick()+delay
-    --[[
-    if hoplowallow and _G.TimeTryHopLow < 3 then
-        for i = 1, 3 - _G.TimeTryHopLow do
-            if _G.TimeTryHopLow < 3 then
-                local a2,b2 = pcall(function()
-                    local FoundId = game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer(math.random(1, 100))[math.random(1, 100)] 
-                    repeat 
-                        SetContent('Finding Low Sever...')
-                        task.wait()
-                        FoundId = getRandomIndex(game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer(math.random(1, 100)))
-                        task.wait(1)
-                    until FoundId and game.JobId ~= FoundId and (not Settings2[FoundId] or tick()-Settings2[FoundId] >= 60*60)
-                    SetContent('Found Low Player Server: '..tostring(FoundId))
-                    Settings2[FoundId] = tick() 
-                    SaveSettings2()
-                    game:GetService("TeleportService"):Teleport(game.PlaceId, game.Players.LocalPlayer, FoundId)
-                end)
-                if not a2 then 
-                    print('b2',b2)
-                end
-                _G.TimeTryHopLow = _G.TimeTryHopLow + 1
-                warn('Hop low times: ',_G.TimeTryHopLow)
-                SetContent('Low Server hopping times: '..tostring(_G.TimeTryHopLow))
-            end
-        end
-    end
-    ]]
     if not CountTarget then
         CountTarget = 10
     end
-    local function Hop()
-        for i = 1, 100 do
-            if ChooseRegion == nil or ChooseRegion == "" then
-                ChooseRegion = "Singapore"
-            else
-                game:GetService("Players").LocalPlayer.PlayerGui.ServerBrowser.Frame.Filters.SearchRegion.TextBox.Text =
-                    ChooseRegion
-            end
-            local huhu = game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer(i)
-            for k, v in pairs(huhu) do
-                if k ~= game.JobId and v["Count"] <= 10 then
-                    if not Settings2[k] or tick() - Settings2[k].Time > 60 * 10 then
-                        SetContent('Hopping normal server...')
-                        Settings2[k] = {
-                            Time = tick()
-                        }
-                        SaveSettings2()
-                        _G.SwitchingServer = true
-                        game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer("teleport", k)
-                    elseif tick() - Settings2[k].Time > 60 * 60 then
-                        Settings2[k] = nil
-                    end
-                end
-            end
-        end
-        return false
-    end 
-    if not _G.Loaded then
-        local function child(v)
-            if v.Name == "ErrorPrompt" then
-                if v.Visible then
-                    if v.TitleFrame.ErrorTitle.Text == "Teleport Failed" then
-                        HopServer()
-                        v.Visible = false
-                    end
-                end
-                v:GetPropertyChangedSignal("Visible"):Connect(
-                    function()
-                        if v.Visible then
-                            if v.TitleFrame.ErrorTitle.Text == "Teleport Failed" then
-                                HopServer()
-                                v.Visible = false
-                            end
-                        end
-                    end
-                )
-            end
-        end
-        for k, v in pairs(game.CoreGui.RobloxPromptGui.promptOverlay:GetChildren()) do
-            child(v)
-        end
-        game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(child)
-    end
-    SaveSettings2()
     return Hop()
 end
 print('Hub: Loaded Hop.')
