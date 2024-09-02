@@ -799,7 +799,7 @@ task.spawn(function()
         task.spawn(function()
             repeat 
                 task.wait()
-            until not _G.ServerData['Server Bosses']['rip_indra True Form']
+            until not _G.ServerData['Server Bosses']['rip_indra True Form'] and _G.CurrentTask and _G.CurrentTask ~= ''
             loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/FinderServerLoading.lua'))()
             if AutoRipIndraHop then  
                 for i = 1,240 do 
