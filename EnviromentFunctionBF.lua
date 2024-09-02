@@ -2674,7 +2674,8 @@ for i,v in pairs(game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeSe
     end
 end
 _G.ServerData["Fruits Stock"] = {}
-local ThisiSW 
+local ThisiSW  
+_G.Ticktp = 0
 ThisiSW = RunService.Heartbeat:Connect(function()
     if game.PlaceId == 2753915549 then
         Sea1 = true
