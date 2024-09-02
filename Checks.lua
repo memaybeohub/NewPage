@@ -1010,7 +1010,7 @@ AutoSoulGuitar = function()
             end 
         end 
     elseif CheckMaterialCount('Bones') < 500 then  
-        SetContent('Farming Bones for soul guitar')
+        SetContent('Farming Bones for soul guitar',5)
         if not Sea3 then 
             TeleportWorld(3) 
         else
@@ -1022,6 +1022,7 @@ AutoSoulGuitar = function()
             })
         end
     elseif CheckMaterialCount('Ectoplasm') < 250 then 
+        SetContent('Farming ecotplasm for soul guitar',5)
         if not Sea2 then 
             TeleportWorld(2)
         else
