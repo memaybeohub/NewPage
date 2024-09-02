@@ -2701,6 +2701,9 @@ ThisiSW = RunService.Heartbeat:Connect(function()
         MySea = "Sea 3"
     end
     if IsPlayerAlive() then 
+        if game.Players.LocalPlayer.Character.Humanoid.Sit then 
+            SendKey('Space',.5) 
+        end
         if Sea3 and not _G.ServerData["Inventory Items"]['Cursed Dual Katana'] and _G.ServerData["Inventory Items"]['Tushita'] and _G.ServerData["Inventory Items"]['Yama'] and _G.ServerData["Inventory Items"]['Tushita'].Mastery >= 350 and _G.ServerData["Inventory Items"]['Yama'].Mastery then 
             _G.CDKQuest = CheckQuestCDK()  
         end  
