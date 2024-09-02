@@ -2318,6 +2318,7 @@ function CheckMaterialCount(MM)
     local Count = 0 
     repeat 
         task.wait()
+        print(_G.LoadedTimes)
     until _G.LoadedTimes and _G.LoadedTimes >= 15
     if _G.ServerData['Inventory Items'][MM] and _G.ServerData['Inventory Items'][MM].Count then 
         Count = _G.ServerData['Inventory Items'][MM].Count 
