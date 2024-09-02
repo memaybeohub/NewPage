@@ -106,7 +106,7 @@ local function LoadIds()
 end
 local function CanJoin(S)
     getgenv().HopMin = 4
-    getgenv().HopMax = 10
+    getgenv().HopMax = 11
     if S.Count < getgenv().HopMin or S.Count > getgenv().HopMax then 
         return false 
     end
