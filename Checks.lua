@@ -177,6 +177,7 @@ if hookfunction then
     end)
 end
 if getgenv().AutoRejoin or AutoRejoin then 
+    print('adding auto rejoin')
     _G.rejoin = game:GetService("CoreGui").RobloxPromptGui.promptOverlay.ChildAdded:Connect(function(
         child)
         if not _G.SwitchingServer and child.Name == 'ErrorPrompt' and child:FindFirstChild('MessageArea') and child.MessageArea:FindFirstChild("ErrorFrame") then
