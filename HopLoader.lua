@@ -79,6 +79,34 @@ getgenv().HopLow = function()
 end 
 
 
+local function fetchServerData()
+    local HttpService = game:GetService("HttpService")
+    local data = {} 
+    local success, response = pcall(function()
+        return request({
+            Url = 'http://103.77.172.226:10000/get_server/' .. game.PlaceId,
+            Method = "POST",
+            Body = HttpService:JSONEncode(data),
+            Headers = {
+                ["Content-Type"] = "application/json"
+            }
+        })
+    end)
+    table.foreach(response,print)
+    if success and response.StatusCode == 200 then
+        local result = HttpService:JSONDecode(response.Body)
+        return result
+    end
+end
+function HopLowV2()
+    local placeId = tostring(game.PlaceId)
+    local serverData = fetchServerData()
+    if serverData then
+        game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer("teleport",
+            serverData.id)
+    end
+end
+
 function getRandomIndex(tab)
     local keys = {}
     local keysc = 0 
@@ -123,6 +151,7 @@ local function CanJoin(S)
     return false 
 end
 local function Hop()
+    HopLowV2()
     for i = 1,100,1 do 
         getgenv().HopDelay = 3
         local ServersDT = game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer(i)
