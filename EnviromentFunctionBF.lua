@@ -2284,7 +2284,7 @@ function PickChest(Chest)
         local OldChestCollect = _G.ChestCollect
         repeat 
             local PickChest1,PickChest2 = pcall(function()
-                Tweento(Chest.CFrame)
+                Tweento(Chest.CFrame,true)
                 if GetDistance(Chest) <= 10 then
                     task.spawn(function()
                         firetouchinterest(Chest, game.Players.LocalPlayer.Character.HumanoidRootPart, 0)
