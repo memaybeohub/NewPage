@@ -743,7 +743,7 @@ AutoCDK = function(questTitle)
                 KillMobList({MobSP})
             end
             task.wait()
-        until not _G.CDKQuest ~= 'Yama Quest -4'
+        until _G.CDKQuest ~= 'Yama Quest -4'
         print('cc')
     elseif questTitle == 'Yama Quest -3' then 
         if FindMobHasHaki() then 
