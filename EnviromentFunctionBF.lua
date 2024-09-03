@@ -854,10 +854,14 @@ function Tweento(targetCFrame,dontmove)
         local Distance =
             (targetPos -
             game:GetService("Players").LocalPlayer.Character:WaitForChild("HumanoidRootPart").Position).Magnitude
-        if not dontmove and Distance <= 300 and tick() - _G.Ticktp >= 0.01 then
-            game.Players.LocalPlayer.Character:MoveTo(targetCFrame.Position)
+        if and Distance <= 300 and tick() - _G.Ticktp >= 0.01 then
             _G.Ticktp = tick()
-            return
+            if not dontmove then 
+                game.Players.LocalPlayer.Character:MoveTo(targetCFrame.Position)
+                return
+            else
+                game.Players.LocalPlayer.Character.PrimaryPart.CFrame = CFrame.new(targetCFrame.Position)
+            end
         end
         local bmg, bmg2 = CheckNearestTeleporter(targetCFrame)
         if bmg then
