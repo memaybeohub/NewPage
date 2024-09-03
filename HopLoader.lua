@@ -76,9 +76,9 @@ getgenv().HopLow = function()
             )
         end
     end
-end 
-
-
+end
+local Settings2 = ReadSetting2()
+_G.TimeTryHopLow = 0  
 local function fetchServerData()
     local HttpService = game:GetService("HttpService")
     local data = {} 
@@ -106,77 +106,63 @@ function HopLowV2()
             serverData.id)
     end
 end
-
-function getRandomIndex(tab)
-    local keys = {}
-    local keysc = 0 
-    for k, v in pairs(tab) do
-            keysc +=1
-            table.insert(keys, k)
-    end
-    -- Chọn ngẫu nhiên một index từ bảng keys
-    return keysc > 0 and keys[math.random(1,keysc)] or nil
-end
-local Settings2 = ReadSetting2()
-_G.TimeTryHopLow = 0
-_G.LastHopTick = 0 
-local Ids = {}
-local function SaveIds()
-    writefile('HopSave.json',game:GetService("HttpService"):JSONEncode(Ids))
-    return Ids
-end
-local function LoadIds()
-    local a,b = pcall(function()
-        return game:GetService("HttpService"):JSONDecode('HopSave.json')
-    end)
-    if not a then return SaveIds() end 
-    return b 
-end
-local function CanJoin(S)
-    getgenv().HopMin = 4
-    getgenv().HopMax = 11
-    if S.Count < getgenv().HopMin or S.Count > getgenv().HopMax then 
-        return false 
-    end
-    if Ids[S.JobId] then
-        if tick()-Ids[S.JobId].tick > 60*60 then 
-            return true 
-        end  
-    else
-        S.tick = tick()
-        Ids[S.JobId] = S 
-        SaveIds()
-        return true 
-    end
-    return false 
-end
-local function Hop()
-    HopLowV2()
-    for i = 1,100,1 do 
-        getgenv().HopDelay = 3
-        local ServersDT = game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer(i)
-        local Currsv
-        for k,Currsv in pairs(ServersDT) do 
-            Currsv.JobId = k
-            if CanJoin(Currsv) then 
-                game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X,math.random(4000,15000),game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Z)
-                game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer("teleport", k)
-                task.wait(getgenv().HopDelay)
-            end 
-        end
-    end
-end
 getgenv().HopServer = function(CountTarget, hoplowallow,reasontohop)
+    SetContent(reasontohop)
     delay = 3 
     if not reasontohop then 
         reasontohop = 'None'
     end
-    SetContent(reasontohop)
-    HopGuiCreation(reasontohop,delay) 
+    HopGuiCreation(reasontohop,delay)
     local timeplased = tick()+delay
+    if hoplowallow and _G.TimeTryHopLow < 3 then
+        for i = 1, 3 - _G.TimeTryHopLow do
+            if _G.TimeTryHopLow < 3 then
+                local a2,b2 = pcall(function()
+                    HopLowV2()
+                end)
+                if not a2 then print('hop fail',b2) end
+                _G.TimeTryHopLow = _G.TimeTryHopLow + 1
+                warn('Hop low times: ',_G.TimeTryHopLow)
+                SetContent('Low Server hopping times: '..tostring(_G.TimeTryHopLow))
+                wait(delay/2)
+            end
+        end
+    end
     if not CountTarget then
         CountTarget = 10
     end
-    return Hop()
+    wait(delay)
+    local function Hop()
+        for i = 1, 100 do
+            if ChooseRegion == nil or ChooseRegion == "" then
+                ChooseRegion = "Singapore"
+            else
+                game:GetService("Players").LocalPlayer.PlayerGui.ServerBrowser.Frame.Filters.SearchRegion.TextBox.Text =
+                    ChooseRegion
+            end
+            local huhu = game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer(i)
+            for k, v in pairs(huhu) do
+                if k ~= game.JobId and v["Count"] <= CountTarget-1 then
+                    if not Settings2[k] or tick() - Settings2[k].Time > 60 * 10 then
+                        SetContent('Hopping normal server...')
+                        Settings2[k] = {
+                            Time = tick()
+                        }
+                        SaveSettings2()
+                        game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer("teleport", k)
+                        getgenv().SwitchingServer = true
+                        task.wait(10)
+                    elseif tick() - Settings2[k].Time > 60 * 60 then
+                        Settings2[k] = nil
+                    end
+                end
+            end
+        end
+        return false
+    end 
+    while not Hop() do 
+        task.wait()
+    end
+    SaveSettings2()
 end
 print('Hub: Loaded Hop.')
