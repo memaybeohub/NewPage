@@ -753,6 +753,8 @@ AutoCDK = function(questTitle)
                     Tweento(FindMobHasHaki().PrimaryPart.CFrame * CFrame.new(0,0,-2))
                 end)
             until not IsPlayerAlive()
+        else 
+            print('not mob haki')
         end
     end        
 end
