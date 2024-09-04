@@ -773,7 +773,7 @@ task.spawn(function()
     wait(3)
     _G.Ticktp = tick() 
     getgenv().TushitaQuest = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress")
-    if game.PlaceId == 7449423635 and CheckEnabling('Cursed Dual Katana') and TushitaQuest and not TushitaQuest.OpenedDoor and _G.ServerData['PlayerData'].Level >= 2000 then 
+    if game.PlaceId == 7449423635 and CheckEnabling('Tushita Hopping') and TushitaQuest and not TushitaQuest.OpenedDoor and _G.ServerData['PlayerData'].Level >= 2000 then 
         print('PRo')
         task.spawn(function()
             loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/FinderServerLoading.lua'))()
@@ -795,7 +795,7 @@ task.spawn(function()
             end
         end)
     end
-    if game.PlaceId == 7449423635 and CheckEnabling('Mirror Fractal') and not _G.Config.OwnedItems['Valkyrie Helm'] and not _G.ServerData['Server Bosses']['rip_indra True Form'] and _G.ServerData['PlayerData'].Level >= 2000 then 
+    if game.PlaceId == 7449423635 and CheckEnabling('Rip Indra Hopping') and not _G.Config.OwnedItems['Valkyrie Helm'] and not _G.ServerData['Server Bosses']['rip_indra True Form'] and _G.ServerData['PlayerData'].Level >= 2000 then 
         task.spawn(function()
             repeat 
                 task.wait()
@@ -820,7 +820,7 @@ end)
 task.spawn(function()
     wait(3)
     for i2 = 1,5 do 
-        if game.PlaceId == 7449423635 and CheckEnabling('Mirage Puzzle') and _G.ServerData['PlayerData'].RaceVer == "V3" and _G.Config.OwnedItems['Mirror Fractal'] and _G.Config.OwnedItems['Valkyrie Helm'] and (game.ReplicatedStorage.Remotes.CommF_:InvokeServer("RaceV4Progress", "Check") < 4 or (not game:GetService("Workspace").Map:FindFirstChild("MysticIsland") and not game.ReplicatedStorage.Remotes.CommF_:InvokeServer("CheckTempleDoor"))) then 
+        if game.PlaceId == 7449423635 and CheckEnabling('Mirage Hopping') and _G.ServerData['PlayerData'].RaceVer == "V3" and _G.Config.OwnedItems['Mirror Fractal'] and _G.Config.OwnedItems['Valkyrie Helm'] and (game.ReplicatedStorage.Remotes.CommF_:InvokeServer("RaceV4Progress", "Check") < 4 or (not game:GetService("Workspace").Map:FindFirstChild("MysticIsland") and not game.ReplicatedStorage.Remotes.CommF_:InvokeServer("CheckTempleDoor"))) then 
             task.spawn(function()
                 loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/FinderServerLoading.lua'))()
                 if AutoMirageIslandHop then  
