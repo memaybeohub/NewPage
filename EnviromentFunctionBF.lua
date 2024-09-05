@@ -1472,9 +1472,7 @@ function KillPlayer(PlayerName)
                         Click()
                         _G.UseFAttack = true
                         SendKey('Z')
-                        SendKey("Q")
                         SendKey('X')
-                        SendKey("Q")
                     end
                 end
             else
