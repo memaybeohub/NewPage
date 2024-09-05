@@ -102,6 +102,8 @@ function HopLowV2()
     local placeId = tostring(game.PlaceId)
     local serverData = fetchServerData()
     if serverData then
+        print("joinin:")
+        table.foreach(serverData,print)
         game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer("teleport",
             serverData.id)
     end
