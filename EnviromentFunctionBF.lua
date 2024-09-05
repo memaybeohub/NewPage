@@ -795,26 +795,28 @@ task.spawn(function()
             end
         end)
     end
-    if game.PlaceId == 7449423635 and CheckEnabling('Rip Indra Hopping') and not _G.Config.OwnedItems['Valkyrie Helm'] and not _G.ServerData['Server Bosses']['rip_indra True Form'] and _G.ServerData['PlayerData'].Level >= 2000 then 
-        task.spawn(function()
-            repeat 
-                task.wait()
-            until not _G.ServerData['Server Bosses']['rip_indra True Form'] and _G.CurrentTask and _G.CurrentTask == ''
-            loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/FinderServerLoading.lua'))()
-            if AutoRipIndraHop then  
-                for i = 1,240 do 
-                    repeat 
-                        task.wait()
-                    until _G.CurrentTask and _G.CurrentTask ~= ''
-                    print('Finding Rip india sv...')
-                    AutoRipIndraHop()
-                    task.wait(1)
-                end
-                print('Didint found any rip indra server in 100s')
-            else
+    for i2 = 1,3 do 
+        if game.PlaceId == 7449423635 and CheckEnabling('Rip Indra Hopping') and not _G.Config.OwnedItems['Valkyrie Helm'] and not _G.ServerData['Server Bosses']['rip_indra True Form'] and _G.ServerData['PlayerData'].Level >= 2000 then 
+            task.spawn(function()
+                repeat 
+                    task.wait()
+                until not _G.ServerData['Server Bosses']['rip_indra True Form'] and _G.CurrentTask and _G.CurrentTask == ''
                 loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/FinderServerLoading.lua'))()
-            end
-        end)
+                if AutoRipIndraHop then  
+                    for i = 1,240 do 
+                        repeat 
+                            task.wait()
+                        until _G.CurrentTask and _G.CurrentTask ~= ''
+                        print('Finding Rip india sv...')
+                        AutoRipIndraHop()
+                        task.wait(1)
+                    end
+                    print('Didint found any rip indra server in 100s')
+                else
+                    loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/FinderServerLoading.lua'))()
+                end
+            end)
+        end
     end
 end)
 task.spawn(function()
