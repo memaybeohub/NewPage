@@ -806,7 +806,7 @@ task.spawn(function()
                     for i = 1,240 do 
                         repeat 
                             task.wait()
-                        until _G.CurrentTask and _G.CurrentTask ~= ''
+                        until _G.CurrentTask and _G.CurrentTask == ''
                         print('Finding Rip india sv...')
                         AutoRipIndraHop()
                         task.wait(1)
