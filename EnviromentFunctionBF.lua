@@ -820,7 +820,7 @@ task.spawn(function()
     end
 end)
 task.spawn(function()
-    wait(3)
+    wait(10)
     for i2 = 1,5 do 
         if game.PlaceId == 7449423635 and CheckEnabling('Mirage Hopping') and _G.ServerData['PlayerData'].RaceVer == "V3" and _G.Config.OwnedItems['Mirror Fractal'] and _G.Config.OwnedItems['Valkyrie Helm'] and (game.ReplicatedStorage.Remotes.CommF_:InvokeServer("RaceV4Progress", "Check") < 4 or (not game:GetService("Workspace").Map:FindFirstChild("MysticIsland") and not game.ReplicatedStorage.Remotes.CommF_:InvokeServer("CheckTempleDoor"))) then 
             task.spawn(function()
@@ -837,6 +837,7 @@ task.spawn(function()
                 end
             end)
         end
+        wait(10)
     end
 end)
 game.workspace.Characters.ChildAdded:Connect(LoadPlayer)
