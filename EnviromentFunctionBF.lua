@@ -747,7 +747,7 @@ local function LoadPlayer()
             end
             task.delay(3,function()
                 for i,v in _G.ServerData['PlayerBackpack'] do 
-                    if v.ClassName == 'Tool' and not game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Skills:FindFirstChild(v.Name) then 
+                    if v.ClassName == 'Tool' and table.find({'Sword','Blox Fruit',"Melee","Gun"},v.ToolTip) and not game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Skills:FindFirstChild(v.Name) then 
                         game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
                     end
                 end
@@ -2456,6 +2456,9 @@ function addSkills(v)
         if not _G.ServerData['Skill Loaded'][v.Name] then 
             _G.ServerData['Skill Loaded'][v.Name] = {}
         end 
+        table.foreach(v:GetChildren(),function(i,v2)
+            advancedSkills(v2)
+        end)
         v.ChildAdded:Connect(advancedSkills)
     end
 end
@@ -2687,8 +2690,9 @@ function AutoSeaBeast()
                         end
                     end)
                 end
-            until not newTar or not newTar.PrimaryPart or not newTar:WaitForChild('Humanoid') or newTar.Humanoid.Value <= 0
+            until not newTar or not newTar.PrimaryPart
             getgenv().MySeatPart = OldSeat 
+            getgenv().AimPos = nil
         else 
             print('print(v.PrimaryPart)',newTar.PrimaryPart)
             repeat 
@@ -2709,6 +2713,7 @@ function AutoSeaBeast()
             until not newTar or not newTar.PrimaryPart or not newTar:WaitForChild('Humanoid') or newTar.Health.Value <= 0
             print(newTar.PrimaryPart)
             getgenv().MySeatPart = OldSeat 
+            getgenv().AimPos = nil
         end
     elseif not getgenv().MyBoat then 
         print('Buying Boat')
