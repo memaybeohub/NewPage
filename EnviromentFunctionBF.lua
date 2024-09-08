@@ -2817,11 +2817,10 @@ game:GetService("Workspace").Boats.ChildAdded:Connect(function(v)
     wait()
     local Owner = v and v:WaitForChild('Owner')
     local Hum = v and v:WaitForChild('Humanoid')
-    if not v or not Owner or not Hum then 
-        return 
-    end
+    print('New boat added')
     if tostring(Owner) == game:GetService("Players").LocalPlayer.Name then
-        getgenv().MyBoat = v 
+        getgenv().MyBoat = v
+        print('My boat',getgenv().MyBoat) 
         getgenv().MySeatPart = v:WaitForChild('VehicleSeat')
         Hum:GetPropertyChangedSignal('Value'):Connect(function()
             if getgenv().MyBoat == v then 
