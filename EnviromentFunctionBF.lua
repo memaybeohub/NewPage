@@ -2455,8 +2455,8 @@ function addSkills(v)
     if not table.find({'Title','Container','Level','StarContainer','Rage'},v.Name) then 
         if not _G.ServerData['Skill Loaded'][v.Name] then 
             _G.ServerData['Skill Loaded'][v.Name] = {}
-            v.ChildAdded:Connect(advancedSkills)
         end 
+        v.ChildAdded:Connect(advancedSkills)
     end
 end
 function getSkillLoaded()
@@ -2660,6 +2660,7 @@ function AutoSeaBeast()
         print('new tar',newTar.Name)
         local OldSeat = getgenv().MySeatPart
         local SkillAb,SkillBb
+        local tickUseSkill = 0 
         if game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true) == 1 then 
             BuyMelee("Sharkman Karate") 
         else
@@ -2676,10 +2677,15 @@ function AutoSeaBeast()
                 getgenv().MySeatPart = nil 
                 TeleportWorldbeast(newTar)
                 getgenv().AimPos = newTar.PrimaryPart.CFrame 
-                SkillAb,SkillBb = getSkillLoaded()
-                if SkillAb and SkillBb then 
-                    EquipWeaponName(SkillAb)
-                    SendKey(SkillBb,.5)
+                if tick()-tickUseSkill >= 1 then 
+                    SkillAb,SkillBb = getSkillLoaded()
+                    tickUseSkill = tick()
+                    task.spawn(function()
+                        if SkillAb and SkillBb then 
+                            EquipWeaponName(SkillAb)
+                            SendKey(SkillBb,.5)
+                        end
+                    end)
                 end
             until not newTar or not newTar.PrimaryPart or not newTar:WaitForChild('Humanoid') or newTar.Humanoid.Value <= 0
             getgenv().MySeatPart = OldSeat 
@@ -2690,10 +2696,15 @@ function AutoSeaBeast()
                 getgenv().MySeatPart = nil 
                 Tweento(newTar.PrimaryPart.CFrame * CFrame.new(0,30,0))
                 getgenv().AimPos = newTar.PrimaryPart.CFrame 
-                SkillAb,SkillBb = getSkillLoaded()
-                if SkillAb and SkillBb then 
-                    EquipWeaponName(SkillAb)
-                    SendKey(SkillBb,.5)
+                if tick()-tickUseSkill >= 1 then 
+                    SkillAb,SkillBb = getSkillLoaded()
+                    tickUseSkill = tick()
+                    task.spawn(function()
+                        if SkillAb and SkillBb then 
+                            EquipWeaponName(SkillAb)
+                            SendKey(SkillBb,.5)
+                        end
+                    end)
                 end
             until not newTar or not newTar.PrimaryPart or not newTar:WaitForChild('Humanoid') or newTar.Health.Value <= 0
             print(newTar.PrimaryPart)
