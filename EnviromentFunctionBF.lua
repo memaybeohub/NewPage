@@ -2831,11 +2831,13 @@ game:GetService("Workspace").Boats.ChildAdded:Connect(function(v)
         print('My boat',getgenv().MyBoat) 
         getgenv().MySeatPart = v:WaitForChild('VehicleSeat')
         Hum:GetPropertyChangedSignal('Value'):Connect(function()
-            if getgenv().MyBoat == v then 
-                getgenv().MyBoat = nil 
-            end
-            if getgenv().MySeatPart == v.VehicleSeat then 
-                getgenv().MySeatPart = nil 
+            if Hum.Value <= 0 then 
+                if getgenv().MyBoat == v then 
+                    getgenv().MyBoat = nil 
+                end
+                if getgenv().MySeatPart == v.VehicleSeat then 
+                    getgenv().MySeatPart = nil 
+                end
             end
         end)
     end
