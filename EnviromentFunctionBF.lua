@@ -2605,7 +2605,10 @@ function GetSeaBeast()
     for _, v in pairs(game:GetService("Workspace").SeaBeasts:GetChildren()) do
         if v.Name:find("SeaBeast") then
             local healthText = v.HealthBBG.Frame.TextLabel.Text
-            local currentHealth = tonumber((healthText:match("^(%d+),?%d*/") or ""):gsub(",", ""))
+            local currentHealth
+            pcall(function()
+                currentHealth = tonumber((healthText:match("^(%d+),?%d*/") or ""):gsub(",", ""))
+            end)
             if currentHealth and currentHealth >= 70000 then
                 return v
             end
@@ -2624,18 +2627,16 @@ function CheckPirateBoat()
     end
 end 
 function TeleportWorldbeast(x)
-    local a = Vector3.new(0, x:FindFirstChild("HumanoidRootPart").Position.Y, 0)
-    local b = Vector3.new(0, game:GetService("Workspace").Map["WaterBase-Plane"].Position.Y, 0)
-    if (a - b).Magnitude <= 175 then
-        Tweento(x.HumanoidRootPart.CFrame * CFrame.new(0, 300, 50))
-    else 
-        Tweento(CFrame.new(
-            x.HumanoidRootPart.Position.X,
-            game:GetService("Workspace").Map["WaterBase-Plane"].Position.Y + 200,
-            x.HumanoidRootPart.Position.Z
-        ))
+    local hrpPos = x.PrimaryPart.Position
+    local waterPosY = game:GetService("Workspace").Map["WaterBase-Plane"].Position.Y
+
+    if math.abs(hrpPos.Y - waterPosY) <= 175 then
+        Tweento(CFrame.new(hrpPos) * CFrame.new(0, 300, 50))
+    else
+        Tweento(CFrame.new(hrpPos.X, waterPosY + 200, hrpPos.Z))
     end
-end 
+end
+
 function AutoSeaBeast()
     local CFrameSB1 = CFrame.new(-13.488054275512695, 10.311711311340332, 2927.69287109375)
     local CFrameSB2 = CFrame.new(28.4108, 1.2327, 3679.99)
