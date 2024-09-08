@@ -746,6 +746,7 @@ local function LoadPlayer()
                 repeat 
                     task.wait()
                 until EquipAllWeapon 
+                wait(1)
                 EquipAllWeapon()
             end)
         end
@@ -1572,6 +1573,7 @@ function IsWpSKillLoaded(ki)
     end
 end
 function EquipAllWeapon()
+    print('EquipAllWeapon')
     local u3 = {
         "Melee",
         "Blox Fruit",
