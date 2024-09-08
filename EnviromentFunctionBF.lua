@@ -2411,8 +2411,8 @@ function LoadChest()
         if string.find(v.Name, 'Chest') and v.Parent then
             task.spawn(function()
                 AddChest(v)
-                local parentFullName = tostring(v.Parent:GetFullName())
-                if not _G.ChestsConnection[parentFullName] then
+                local parentFullName = v and v.Parent and tostring(v.Parent:GetFullName())
+                if parentFullName and not _G.ChestsConnection[parentFullName] then
                     _G.ChestsConnection[parentFullName] = v.Parent.ChildAdded:Connect(AddChest)
                 end
             end)
