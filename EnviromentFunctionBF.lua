@@ -2654,6 +2654,7 @@ function AutoSeaBeast()
     end 
     local newTar = GetSeaBeast() or CheckPirateBoat()
     if newTar then
+        print('new tar',newTar.Name)
         local OldSeat = GetLocalBoat().VehicleSeat
         local SkillAb,SkillBb
         if game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true) == 1 then 
@@ -2694,6 +2695,7 @@ function AutoSeaBeast()
             GetLocalBoat().VehicleSeat = OldSeat 
         end
     elseif not getgenv().MyBoat then 
+        print('Buying Boat')
         if GetDistance(CFrameSB1) > 8 then
             Tweento(CFrameSB1)
         else
@@ -2708,8 +2710,9 @@ function AutoSeaBeast()
         else
             _G.PlayerLastMoveTick = tick()
             if not game:GetService("Players").LocalPlayer.Character.Humanoid.Sit or game:GetService("Players").LocalPlayer.Character.Humanoid.SeatPart ~= getgenv().MySeatPart then 
+                print('Tweening to seabeast')
                 game:GetService("Players").LocalPlayer.Character.Humanoid.Sit = false 
-                Tweento(GetLocalBoat().VehicleSeat.CFrame,true)
+                Tweento(getgenv().MySeatPart.CFrame,true)
             end
         end
     end
