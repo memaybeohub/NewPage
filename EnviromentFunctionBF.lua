@@ -742,13 +742,11 @@ local function LoadPlayer()
                     _G.PlayerLastMoveTick = tick()
                 end)
             end
-            task.spawn(function()
-                repeat 
-                    task.wait()
-                until EquipAllWeapon 
-                wait(1)
-                EquipAllWeapon()
-            end)
+            for i,v in _G.ServerData['PlayerBackpack'] do 
+                if v.ClassName == 'Tool' and not game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Skills:FindFirstChild(v.Name) then 
+                    game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                end
+            end
         end
         
     end
@@ -1040,7 +1038,6 @@ function EquipWeapon(ToolSe)
         end
     else
         local tool = game.Players.LocalPlayer.Backpack:FindFirstChild(ToolSe)
-        wait(.4)
         game.Players.LocalPlayer.Character.Humanoid:EquipTool(tool)
     end
 end 
@@ -2620,7 +2617,20 @@ function CheckPirateBoat()
             return v
         end
     end
-end
+end 
+function TeleportWorldbeast(x)
+    local a = Vector3.new(0, x:FindFirstChild("HumanoidRootPart").Position.Y, 0)
+    local b = Vector3.new(0, game:GetService("Workspace").Map["WaterBase-Plane"].Position.Y, 0)
+    if (a - b).Magnitude <= 175 then
+        Tweento(x.HumanoidRootPart.CFrame * CFrame.new(0, 300, 50))
+    else 
+        Tweento(CFrame.new(
+            x.HumanoidRootPart.Position.X,
+            game:GetService("Workspace").Map["WaterBase-Plane"].Position.Y + 200,
+            x.HumanoidRootPart.Position.Z
+        ))
+    end
+end 
 function AutoSeaBeast()
     local CFrameSB1 = CFrame.new(-13.488054275512695, 10.311711311340332, 2927.69287109375)
     local CFrameSB2 = CFrame.new(28.4108, 1.2327, 3679.99)
@@ -2644,27 +2654,44 @@ function AutoSeaBeast()
     end 
     local newTar = GetSeaBeast() or CheckPirateBoat()
     if newTar then
+        local OldSeat = GetLocalBoat().VehicleSeat
+        local SkillAb,SkillBb
+        if game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true) == 1 then 
+            BuyMelee("Sharkman Karate") 
+        else
+            local args = {
+                [1] = "BlackbeardReward",
+                [2] = "DragonClaw",
+                [3] = "2"
+            }
+            game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+        end
         if v.Name:find('SeaBeast') then 
-            EnableBuso()
-            if game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true) == 1 then 
-                BuyMelee("Sharkman Karate") 
-            else
-                local args = {
-                    [1] = "BlackbeardReward",
-                    [2] = "DragonClaw",
-                    [3] = "2"
-                }
-                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
-            end
             repeat 
                 task.wait()
-
-            until not v or not v.PrimaryPart or not v:WaitForChild('Humanoid') or v.Humanoid.Value <= 0 
+                GetLocalBoat().VehicleSeat = nil 
+                TeleportWorldbeast(v)
+                getgenv().AimPos = v.PrimaryPart.CFrame 
+                SkillAb,SkillBb = getSkillLoaded()
+                if SkillAb and SkillBb then 
+                    EquipWeaponName(SkillAb)
+                    SendKey(SkillBb,.5)
+                end
+            until not v or not v.PrimaryPart or not v:WaitForChild('Humanoid') or v.Humanoid.Value <= 0
+            GetLocalBoat().VehicleSeat = OldSeat 
         else 
             repeat 
                 task.wait()
-                
+                GetLocalBoat().VehicleSeat = nil 
+                Tweento(v.PrimaryPart.CFrame * CFrame.new(0,30,0))
+                getgenv().AimPos = v.PrimaryPart.CFrame 
+                SkillAb,SkillBb = getSkillLoaded()
+                if SkillAb and SkillBb then 
+                    EquipWeaponName(SkillAb)
+                    SendKey(SkillBb,.5)
+                end
             until not v or not v.PrimaryPart or not v:WaitForChild('Humanoid') or v.Health.Value <= 0
+            GetLocalBoat().VehicleSeat = OldSeat 
         end
     elseif not getgenv().MyBoat then 
         if GetDistance(CFrameSB1) > 8 then

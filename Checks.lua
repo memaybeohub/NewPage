@@ -35,7 +35,7 @@ getgenv().refreshTask = function()
             _G.CurrentTask = 'Getting Cursed Dual Katana' 
         elseif Sea3 and CheckEnabling('Mirage Puzzle') and _G.RaceV4Progress and _G.ServerData['PlayerData'].RaceVer == "V3" and _G.Config.OwnedItems['Mirror Fractal'] and _G.Config.OwnedItems['Valkyrie Helm'] and (_G.RaceV4Progress < 4 or (game:GetService("Workspace").Map:FindFirstChild("MysticIsland") and not game.ReplicatedStorage.Remotes.CommF_:InvokeServer("CheckTempleDoor"))) then 
             _G.CurrentTask = 'Unlocking Mirage Puzzle'
-        elseif (Sea2 or Sea3) and CheckEnabling('Upgrading Race') and _G.ServerData['PlayerData'].Beli >= 2000000 and _G.ServerData['PlayerData'].Level >= 2550 and not table.find({'Skypiea',"Fishman","Ghoul"},_G.ServerData['PlayerData'].Race) and (_G.ServerData['PlayerData'].RaceVer == 'V2') then 
+        elseif (Sea2 or Sea3) and CheckEnabling('Upgrading Race') and _G.ServerData['PlayerData'].Beli >= 2000000 and _G.ServerData['PlayerData'].Level >= 2550 and not table.find({'Skypiea',"Ghoul"},_G.ServerData['PlayerData'].Race) and (_G.ServerData['PlayerData'].RaceVer == 'V2') then 
             _G.CurrentTask = 'Auto Race V3'
         elseif _G.ServerData['PlayerData'].Level > 200 and CheckEnabling('Saber') and not (_G.Config.OwnedItems["Saber"]) and ((SaberQuest and not SaberQuest.UsedRelic) or _G.ServerData['PlayerData'].Level >= 550) then 
             _G.CurrentTask = 'Saber Quest'
@@ -460,6 +460,12 @@ AutoV3 = function()
                 game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "3") 
             until game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "1") ~= 1
             game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "3") 
+        elseif CurrentR == 'Fishman' then 
+            repeat 
+                task.wait()
+                AutoSeaBeast()
+                game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "3") 
+            until game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "1") == -2
         end
     end
 end
