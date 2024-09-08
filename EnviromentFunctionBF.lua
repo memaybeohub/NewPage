@@ -2658,7 +2658,7 @@ function AutoSeaBeast()
     local newTar = GetSeaBeast() or CheckPirateBoat()
     if newTar then
         print('new tar',newTar.Name)
-        local OldSeat = GetLocalBoat().VehicleSeat
+        local OldSeat = getgenv().MySeatPart
         local SkillAb,SkillBb
         if game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true) == 1 then 
             BuyMelee("Sharkman Karate") 
@@ -2673,7 +2673,7 @@ function AutoSeaBeast()
         if newTar.Name:find('SeaBeast') then 
             repeat 
                 task.wait()
-                GetLocalBoat().VehicleSeat = nil 
+                getgenv().MySeatPart = nil 
                 TeleportWorldbeast(newTar)
                 getgenv().AimPos = newTar.PrimaryPart.CFrame 
                 SkillAb,SkillBb = getSkillLoaded()
@@ -2682,12 +2682,12 @@ function AutoSeaBeast()
                     SendKey(SkillBb,.5)
                 end
             until not newTar or not newTar.PrimaryPart or not newTar:WaitForChild('Humanoid') or newTar.Humanoid.Value <= 0
-            GetLocalBoat().VehicleSeat = OldSeat 
+            getgenv().MySeatPart = OldSeat 
         else 
             print('print(v.PrimaryPart)',newTar.PrimaryPart)
             repeat 
                 task.wait()
-                GetLocalBoat().VehicleSeat = nil 
+                getgenv().MySeatPart = nil 
                 Tweento(newTar.PrimaryPart.CFrame * CFrame.new(0,30,0))
                 getgenv().AimPos = newTar.PrimaryPart.CFrame 
                 SkillAb,SkillBb = getSkillLoaded()
@@ -2697,7 +2697,7 @@ function AutoSeaBeast()
                 end
             until not newTar or not newTar.PrimaryPart or not newTar:WaitForChild('Humanoid') or newTar.Health.Value <= 0
             print(newTar.PrimaryPart)
-            GetLocalBoat().VehicleSeat = OldSeat 
+            getgenv().MySeatPart = OldSeat 
         end
     elseif not getgenv().MyBoat then 
         print('Buying Boat')
