@@ -2601,18 +2601,15 @@ function NearestHazeMob()
     end
     return MobF
 end 
-function GetSeaBeast()
-    for _, v in pairs(game:GetService("Workspace").SeaBeasts:GetChildren()) do
-        if v.Name:find("SeaBeast") then
-            local healthText = v.HealthBBG.Frame.TextLabel.Text
-            local currentHealth
-            pcall(function()
-                currentHealth = tonumber((healthText:match("^(%d+),?%d*/") or ""):gsub(",", ""))
-            end)
-            if currentHealth and currentHealth >= 70000 then
-                return v
-            end
-        end
+function GetSeaBeast() 
+    for i,v in pairs(game:GetService("Workspace").SeaBeasts:GetChildren()) do 
+        if v.Name:find("SeaBeast") and v:FindFirstChild('Health') then
+            MaxHealth = v.HealthBBG.Frame.TextLabel.Text:gsub(',',''):gsub('%d+/','')
+            MaxHealth = tonumber(MaxHealth)     
+            if MaxHealth >= 75000 then 
+                return v 
+            end   
+        end 
     end
 end
 function CheckPirateBoat()
