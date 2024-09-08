@@ -461,13 +461,12 @@ AutoV3 = function()
             until game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "1") ~= 1
             game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "3") 
         elseif CurrentR == 'Fishman' then 
-            print('cc')
             repeat 
                 task.wait()
                 AutoSeaBeast()
                 print('auto sib')
                 game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "3") 
-            until game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "1") == -2
+            until _G.ServerData['PlayerData'].RaceVer == "V3"
             print('nqu')
         end
     end
@@ -753,7 +752,6 @@ AutoCDK = function(questTitle)
             end
             task.wait()
         until _G.CDKQuest ~= 'Yama Quest -4'
-        print('cc')
     elseif questTitle == 'Yama Quest -3' then 
         if FindMobHasHaki() then 
             repeat 
