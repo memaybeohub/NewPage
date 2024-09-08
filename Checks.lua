@@ -461,11 +461,14 @@ AutoV3 = function()
             until game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "1") ~= 1
             game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "3") 
         elseif CurrentR == 'Fishman' then 
+            print('cc')
             repeat 
                 task.wait()
                 AutoSeaBeast()
+                print('auto sib')
                 game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "3") 
             until game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "1") == -2
+            print('nqu')
         end
     end
 end
