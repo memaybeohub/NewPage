@@ -2818,7 +2818,7 @@ game:GetService("Workspace").Boats.ChildAdded:Connect(function(v)
     local Owner = v and v:WaitForChild('Owner')
     local Hum = v and v:WaitForChild('Humanoid')
     print('New boat added')
-    if tostring(Owner) == game:GetService("Players").LocalPlayer.Name then
+    if tostring(Owner.Value) == game:GetService("Players").LocalPlayer.Name then
         getgenv().MyBoat = v
         print('My boat',getgenv().MyBoat) 
         getgenv().MySeatPart = v:WaitForChild('VehicleSeat')
