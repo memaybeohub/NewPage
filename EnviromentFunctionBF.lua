@@ -2672,33 +2672,33 @@ function AutoSeaBeast()
             }
             game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
         end
-        if v.Name:find('SeaBeast') then 
+        if newTar.Name:find('SeaBeast') then 
             repeat 
                 task.wait()
                 GetLocalBoat().VehicleSeat = nil 
-                TeleportWorldbeast(v)
-                getgenv().AimPos = v.PrimaryPart.CFrame 
+                TeleportWorldbeast(newTar)
+                getgenv().AimPos = newTar.PrimaryPart.CFrame 
                 SkillAb,SkillBb = getSkillLoaded()
                 if SkillAb and SkillBb then 
                     EquipWeaponName(SkillAb)
                     SendKey(SkillBb,.5)
                 end
-            until not v or not v.PrimaryPart or not v:WaitForChild('Humanoid') or v.Humanoid.Value <= 0
+            until not newTar or not newTar.PrimaryPart or not newTar:WaitForChild('Humanoid') or newTar.Humanoid.Value <= 0
             GetLocalBoat().VehicleSeat = OldSeat 
         else 
-            print('print(v.PrimaryPart)',v.PrimaryPart)
+            print('print(v.PrimaryPart)',newTar.PrimaryPart)
             repeat 
                 task.wait()
                 GetLocalBoat().VehicleSeat = nil 
-                Tweento(v.PrimaryPart.CFrame * CFrame.new(0,30,0))
-                getgenv().AimPos = v.PrimaryPart.CFrame 
+                Tweento(newTar.PrimaryPart.CFrame * CFrame.new(0,30,0))
+                getgenv().AimPos = newTar.PrimaryPart.CFrame 
                 SkillAb,SkillBb = getSkillLoaded()
                 if SkillAb and SkillBb then 
                     EquipWeaponName(SkillAb)
                     SendKey(SkillBb,.5)
                 end
-            until not v or not v.PrimaryPart or not v:WaitForChild('Humanoid') or v.Health.Value <= 0
-            print(v.PrimaryPart)
+            until not newTar or not newTar.PrimaryPart or not newTar:WaitForChild('Humanoid') or newTar.Health.Value <= 0
+            print(newTar.PrimaryPart)
             GetLocalBoat().VehicleSeat = OldSeat 
         end
     elseif not getgenv().MyBoat then 
