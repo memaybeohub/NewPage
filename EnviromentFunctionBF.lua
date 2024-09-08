@@ -742,11 +742,13 @@ local function LoadPlayer()
                     _G.PlayerLastMoveTick = tick()
                 end)
             end
-            for i,v in _G.ServerData['PlayerBackpack'] do 
-                if v.ClassName == 'Tool' and not game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Skills:FindFirstChild(v.Name) then 
-                    game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+            task.delay(3,function()
+                for i,v in _G.ServerData['PlayerBackpack'] do 
+                    if v.ClassName == 'Tool' and not game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Skills:FindFirstChild(v.Name) then 
+                        game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                    end
                 end
-            end
+            end)
         end
         
     end
@@ -2710,7 +2712,7 @@ function AutoSeaBeast()
         else
             _G.PlayerLastMoveTick = tick()
             if not game:GetService("Players").LocalPlayer.Character.Humanoid.Sit or game:GetService("Players").LocalPlayer.Character.Humanoid.SeatPart ~= getgenv().MySeatPart then 
-                print('Tweening to seabeast')
+                print('Tweening to boat')
                 game:GetService("Players").LocalPlayer.Character.Humanoid.Sit = false 
                 Tweento(getgenv().MySeatPart.CFrame,true)
             end
