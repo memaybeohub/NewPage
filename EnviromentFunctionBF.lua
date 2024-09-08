@@ -664,6 +664,9 @@ local function LoadPlayer()
                         repeat task.wait() until _G.Config and _G.Config['Melee Level Values'] _G.Config["Melee Level Values"][v.Name] = v:WaitForChild('Level').Value 
                     end
                 end)
+                if not game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Skills:FindFirstChild(v.Name) then 
+                    game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                end
             end
         end  
         if not _G.ServerData['PlayerData'] then _G.ServerData['PlayerData'] = {} end
@@ -2683,6 +2686,7 @@ function AutoSeaBeast()
             until not v or not v.PrimaryPart or not v:WaitForChild('Humanoid') or v.Humanoid.Value <= 0
             GetLocalBoat().VehicleSeat = OldSeat 
         else 
+            print('print(v.PrimaryPart)',v.PrimaryPart)
             repeat 
                 task.wait()
                 GetLocalBoat().VehicleSeat = nil 
@@ -2694,6 +2698,7 @@ function AutoSeaBeast()
                     SendKey(SkillBb,.5)
                 end
             until not v or not v.PrimaryPart or not v:WaitForChild('Humanoid') or v.Health.Value <= 0
+            print(v.PrimaryPart)
             GetLocalBoat().VehicleSeat = OldSeat 
         end
     elseif not getgenv().MyBoat then 
