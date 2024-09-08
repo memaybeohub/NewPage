@@ -743,9 +743,10 @@ local function LoadPlayer()
                 end)
             end
             task.spawn(function()
-                if EquipAllWeapon then 
-                    EquipAllWeapon() 
-                end
+                repeat 
+                    task.wait()
+                until EquipAllWeapon 
+                EquipAllWeapon()
             end)
         end
         
@@ -2279,7 +2280,7 @@ function PickChest(Chest)
     elseif not _G.ChestConnection then 
         SetContent('Picking up chest | '..tostring(_G.ChestCollect))
         _G.ChestConnection = Chest:GetPropertyChangedSignal('Parent'):Connect(function()
-            _G.ChestCollect +=1 
+            _G.ChestCollect =_G.ChestCollect+1 
             _G.ChestConnection:Disconnect()
             _G.ChestConnection = nil
             SortChest()
@@ -2303,7 +2304,7 @@ function PickChest(Chest)
         if Chest and Chest.Parent then 
             Chest:Destroy() 
         elseif _G.ChestCollect == OldChestCollect then 
-            _G.ChestCollect+=1
+            _G.ChestCollect=_G.ChestCollect+1
         end
     end
 end
@@ -2450,8 +2451,19 @@ function addSkills(v)
     if not table.find({'Title','Container','Level','StarContainer','Rage'},v.Name) then 
         if not _G.ServerData['Skill Loaded'][v.Name] then 
             _G.ServerData['Skill Loaded'][v.Name] = {}
+            v.ChildAdded:Connect(advancedSkills)
         end 
-        v.ChildAdded:Connect(advancedSkills)
+    end
+end
+function getSkillLoaded()
+    for i,v in pairs(_G.ServerData['Skill Loaded']) do 
+        if _G.ServerData['PlayerBackpack'][i] then 
+            for i2,v2 in pairs(v) do 
+                if v2 then 
+                    return i,i2 
+                end 
+            end
+        end 
     end
 end
 function loadSkills()
@@ -2584,6 +2596,94 @@ function NearestHazeMob()
         end
     end
     return MobF
+end 
+function GetSeaBeast()
+    for _, v in pairs(game:GetService("Workspace").SeaBeasts:GetChildren()) do
+        if v.Name:find("SeaBeast") then
+            local healthText = v.HealthBBG.Frame.TextLabel.Text
+            local currentHealth = tonumber((healthText:match("^(%d+),?%d*/") or ""):gsub(",", ""))
+            if currentHealth and currentHealth >= 70000 then
+                return v
+            end
+        end
+    end
+end
+function CheckPirateBoat()
+    local PirateBoats = {
+        "PirateBasic",
+        "PirateBrigade",
+    }
+    for i, v in next, game:GetService("Workspace").Enemies:GetChildren() do
+        if table.find(PirateBoats, v.Name) and v:FindFirstChild("Health") and v.Health.Value > 0 then
+            return v
+        end
+    end
+end
+function AutoSeaBeast()
+    local CFrameSB1 = CFrame.new(-13.488054275512695, 10.311711311340332, 2927.69287109375)
+    local CFrameSB2 = CFrame.new(28.4108, 1.2327, 3679.99)
+    if Sea3 then
+        CFrameSB1 = CFrame.new(-6044.32031, 15.1150599, -2040.65674)
+        CFrameSB2 =
+            CFrame.new(
+            -6737.10742,
+            6.33979416,
+            -1870.81787,
+            -0.393565148,
+            5.29488897e-09,
+            0.919296741,
+            1.58969673e-08,
+            1,
+            1.04602116e-09,
+            -0.919296741,
+            1.50257087e-08,
+            -0.393565148
+        )
+    end 
+    local newTar = GetSeaBeast() or CheckPirateBoat()
+    if newTar then
+        if v.Name:find('SeaBeast') then 
+            EnableBuso()
+            if game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true) == 1 then 
+                BuyMelee("Sharkman Karate") 
+            else
+                local args = {
+                    [1] = "BlackbeardReward",
+                    [2] = "DragonClaw",
+                    [3] = "2"
+                }
+                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
+            end
+            repeat 
+                task.wait()
+
+            until not v or not v.PrimaryPart or not v:WaitForChild('Humanoid') or v.Humanoid.Value <= 0 
+        else 
+            repeat 
+                task.wait()
+                
+            until not v or not v.PrimaryPart or not v:WaitForChild('Humanoid') or v.Health.Value <= 0
+        end
+    elseif not getgenv().MyBoat then 
+        if GetDistance(CFrameSB1) > 8 then
+            Tweento(CFrameSB1)
+        else
+            repeat 
+                game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("BuyBoat", "MarineBrigade")
+                task.wait(2)
+            until getgenv().MyBoat
+        end
+    else
+        if GetDistance(getgenv().MySeatPart, CFrameSB2) > 50 then 
+            getgenv().MySeatPart.CFrame = CFrameSB2 * CFrame.new(20, 10, 20)
+        else
+            _G.PlayerLastMoveTick = tick()
+            if not game:GetService("Players").LocalPlayer.Character.Humanoid.Sit or game:GetService("Players").LocalPlayer.Character.Humanoid.SeatPart ~= getgenv().MySeatPart then 
+                game:GetService("Players").LocalPlayer.Character.Humanoid.Sit = false 
+                Tweento(GetLocalBoat().VehicleSeat.CFrame,true)
+            end
+        end
+    end
 end
 if not _G.ServerData['PlayerData'] then _G.ServerData['PlayerData'] = {} end
 
@@ -2647,7 +2747,7 @@ function getNextBossDropParent()
     end
     local currentDrop,dropParent = findDrop(_G.DropIndex)
     while not currentDrop or _G.ServerData["Inventory Items"][currentDrop] do 
-        _G.DropIndex +=1 
+        _G.DropIndex =_G.DropIndex+1 
         currentDrop,dropParent = findDrop(_G.DropIndex) 
     end
     return currentDrop,dropParent
@@ -2684,6 +2784,26 @@ for i,v in pairs(game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeSe
         _G.Config.OwnedItems[v.Name] = true 
     end
 end
+game:GetService("Workspace").Boats.ChildAdded:Connect(function(v)
+    wait()
+    local Owner = v and v:WaitForChild('Owner')
+    local Hum = v and v:WaitForChild('Humanoid')
+    if not v or not Owner or not Hum then 
+        return 
+    end
+    if tostring(Owner) == game:GetService("Players").LocalPlayer.Name then
+        getgenv().MyBoat = v 
+        getgenv().MySeatPart = v:WaitForChild('VehicleSeat')
+        Hum:GetPropertyChangedSignal('Value'):Connect(function()
+            if getgenv().MyBoat == v then 
+                getgenv().MyBoat = nil 
+            end
+            if getgenv().MySeatPart == v.VehicleSeat then 
+                getgenv().MySeatPart = nil 
+            end
+        end)
+    end
+end)
 _G.ServerData["Fruits Stock"] = {}
 local ThisiSW  
 _G.Ticktp = 0
@@ -2706,8 +2826,8 @@ ThisiSW = RunService.Heartbeat:Connect(function()
         MySea = "Sea 3"
     end
     if IsPlayerAlive() then 
-        if game.Players.LocalPlayer.Character.Humanoid.Sit then 
-            SendKey('Space',.5) 
+        if game.Players.LocalPlayer.Character.Humanoid.Sit and not (getgenv().MySeatPart and game.Players.LocalPlayer.Character.Humanoid.SeatPart == getgenv().MySeatPart) then 
+            game.Players.LocalPlayer.Character.Humanoid.Sit = false
         end
         if Sea3 and not _G.ServerData["Inventory Items"]['Cursed Dual Katana'] and _G.ServerData["Inventory Items"]['Tushita'] and _G.ServerData["Inventory Items"]['Yama'] and _G.ServerData["Inventory Items"]['Tushita'].Mastery >= 350 and _G.ServerData["Inventory Items"]['Yama'].Mastery then 
             _G.CDKQuest = CheckQuestCDK()  
@@ -2798,7 +2918,7 @@ ThisiSW = RunService.Heartbeat:Connect(function()
                 _G.Config.OwnedItems[v.Name] = true 
             end
         end
-        _G.LoadedTimes +=1
+        _G.LoadedTimes =_G.LoadedTimes+1
         _G.Config.OwnedItems.LoadedFr = true
         _G.HavingX2 =CheckX2Exp()
         UpdateBossDropTable()
@@ -2892,26 +3012,23 @@ if GC then
         end
     )
 end 
---[[
-local getrawgame = getrawmetatable(game)
-local oldraw = getrawgame.__namecall
-setreadonly(getrawgame,false)
-getrawgame.__namecall = newcclosure(function(...)
-	local method = getnamecallmethod()
-	local args = {...}
-	if tostring(method) == "FireServer" then
-		if tostring(args[1]) == "RemoteEvent" then
-			if tostring(args[2]) ~= "true" and tostring(args[2]) ~= "false" then
-				if _G.AimbotToggle and _G.AimbotPosition then
-					args[2] = _G.AimbotPosition
-					return oldraw(unpack(args))
-				end
-			end
-		end
-	end
-	return oldraw(...)
+local MT = getrawmetatable(game)
+local OldNameCall = MT.__namecall
+setreadonly(MT, false)
+MT.__namecall = newcclosure(function(self, ...)
+    local Method = getnamecallmethod()
+    local Args = {...}
+    if Method == 'FireServer' and self.Name == 'RemoteEvent' and AimPos 
+    and tostring(AimPos.X) ~= "nan" then
+        if  #Args == 1 and typeof(Args[1]) == "Vector3" then
+            Args[1] = AimPos.Position
+        end
+        if #Args == 1 and typeof(Args[1]) == "CFrame" then
+            Args[1] = AimPos
+        end
+    end
+    return OldNameCall(self, unpack(Args))
 end)
-]]
 LoadPlayer()
 task.spawn(SetContent,"😇")
 print('Loaded Success Full!')
