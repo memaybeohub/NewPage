@@ -464,7 +464,6 @@ AutoV3 = function()
             repeat 
                 task.wait()
                 AutoSeaBeast()
-                print('auto sib')
                 game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "3") 
             until _G.ServerData['PlayerData'].RaceVer == "V3"
             print('nqu')
@@ -1675,7 +1674,7 @@ AutoMeleeMasteryCheck = function()
                         BuyMelee('Superhuman')
                         _G.WeaponType = "Melee"
                         SetMeleeWait('Superhuman',450)
-                    elseif _G.CurrentTask ~='Getting Cursed Dual Katana' then
+                    elseif _G.CurrentTask ~='Getting Cursed Dual Katana' and _G.CurrentTask ~= 'Auto Race V3' then
                         _G.MasteryFarm = false
                         local SwordMasteryFarm,SwordMasteryFarm2 = getNextSwordToFarm()
                         if SwordMasteryFarm and not SwordMasteryFarm.Equipped then 
