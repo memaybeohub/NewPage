@@ -1440,8 +1440,16 @@ AutoMeleeFunc = function()
             game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true) 
         elseif _G.ServerData['Server Bosses']['Tide Keeper'] then 
             KillBoss(_G.ServerData['Server Bosses']['Tide Keeper']) 
-            if (not _G.ServerData['Server Bosses']['Tide Keeper'] or _G.ServerData['Server Bosses']['Tide Keeper'].Humanoid.Health <= 0) and (type(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)) ~='string' or _G.ServerData['PlayerData'].Level < 1450) then   
+            if (not _G.ServerData['Server Bosses']['Tide Keeper'] or _G.ServerData['Server Bosses']['Tide Keeper']:FindFirstChildOfClass('Humanoid').Health <= 0) and (type(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)) ~='string' or _G.ServerData['PlayerData'].Level < 1450) then   
                 _G.MeleeTask = '' 
+                _G.MeleeTask=''
+                _G.MeleeTask=''
+                _G.MeleeTask=''
+                _G.MeleeTask=''
+                _G.MeleeTask=''
+                _G.MeleeTask=''
+                _G.MeleeTask=''
+
             end
         elseif _G.ServerData['PlayerData'].Level >= 1450 then
             SetContent('Hopping for Tide Keeper',5)
