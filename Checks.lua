@@ -1451,7 +1451,7 @@ AutoMeleeFunc = function()
                 _G.MeleeTask=''
 
             end
-        elseif _G.ServerData['PlayerData'].Level >= 1450 then
+        elseif _G.ServerData['PlayerData'].Level >= 1450 and type(game.ReplicatedStorage.Remotes.CommF_:InvokeServer("BuySharkmanKarate", true)) =='string' then
             SetContent('Hopping for Tide Keeper',5)
             HopServer(10,true,"Tide Keeper")
         else
