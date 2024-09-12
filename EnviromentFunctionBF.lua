@@ -699,7 +699,7 @@ local function LoadPlayer()
                     if v.Name == 'Flower 3' then 
                         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Alchemist", "3")
                     end
-                    task.delay(3,function()
+                    task.delay(0.1,function()
                         if v.Name == 'Red Key' then 
                             print('DOugh chip unlocked: ',game.ReplicatedStorage.Remotes.CommF_:InvokeServer("CakeScientist", "Check"))
                         end
