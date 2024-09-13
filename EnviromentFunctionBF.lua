@@ -1962,7 +1962,7 @@ function LoadBoss(v)
     end 
     if Hum then 
         v.Humanoid:GetPropertyChangedSignal('Health'):Connect(function()
-            if v.Humanoid.Health <= 0 then  
+            if v.Humanoid.Health <= 0 and IsElite or _G.ServerData['Server Bosses'][v.Name] then  
                 print('Removing boss:',v.Name)
                 if _G.CurrentElite == v then 
                     _G.CurrentElite = nil 
