@@ -134,8 +134,11 @@ end
 LPH_JIT_MAX(function()
 	spawn(function()
 		while game:GetService("RunService").Stepped:Wait() do
-			local ac = CombatFrameworkR.activeController
-			if ac and ac.equipped and not CheckStun() then
+			local ac = CombatFrameworkR.activeController 
+			if not getgenv().CurrentCharHum or not getgenv().CurrentCharHum.Parent or getgenv().CurrentCharHum.ClassName ~='Humanoid' then 
+				getgenv().CurrentCharHum = game.Players.LocalPlayer.Character:FindFirstChildOfClass('Humanoid')
+			end
+			if ac and ac.equipped and not CheckStun() and (getgenv().CurrentCharHum and getgenv().CurrentCharHum.Parent.Stun.Value <= 0) then
 				if 1> 0 then
 					task.spawn(function()
 						pcall(task.spawn,AttackFunction,1)
