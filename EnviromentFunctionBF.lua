@@ -1963,6 +1963,7 @@ function LoadBoss(v)
     if Hum then 
         v.Humanoid:GetPropertyChangedSignal('Health'):Connect(function()
             if v.Humanoid.Health <= 0 then  
+                print('Removing boss:',v.Name)
                 if _G.CurrentElite == v then 
                     _G.CurrentElite = nil 
                 end
@@ -1973,7 +1974,6 @@ function LoadBoss(v)
                 if index then
                     _G.ServerData['Server Bosses'][v.Name] = nil
                 end            
-                return
             end
         end)
     end
@@ -2687,6 +2687,13 @@ function AutoSeaBeast()
                         if SkillAb and SkillBb then 
                             EquipWeaponName(SkillAb)
                             SendKey(SkillBb,.5)
+                        else 
+                            for i,v in pairs(_G.ServerData['PlayerBackpack']) do 
+                                if v.ClassName == 'Tool' and table.find({"Melee","Sword","Gun","Blox Fruit"},v.ToolTip) then 
+                                    game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
+                                    task.wait()
+                                end  
+                            end
                         end
                     end)
                 end
