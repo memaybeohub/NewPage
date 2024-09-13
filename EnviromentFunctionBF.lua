@@ -1939,7 +1939,7 @@ function LoadBoss(v)
                 repeat 
                     game.Players.LocalPlayer.Character.PrimaryPart.CFrame = game:GetService("Workspace").Map.Waterfall.SecretRoom.Room.Door.Door.Hitbox.CFrame
                     task.wait()
-                until game.Players.LocalPlayer.Backpack:FindFirstChild('Holy Torch') or not v or not v.Parent or not v.Humanoid or v.Humanoid.Health <= 0
+                until game.Players.LocalPlayer.Backpack:FindFirstChild('Holy Torch') or not v or not v.Parent or not v.Humanoid or v.Humanoid.Health <= 0 or _G.ServerData['PlayerData'].Level < 2000
                 game.Players.LocalPlayer.Character.PrimaryPart.Anchored= false
                 task.spawn(function()
                     for i,v in game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress").Torches do 
