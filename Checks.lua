@@ -1240,6 +1240,7 @@ AutoElite = function()
             _G.CurrentTask = ''
         end
     else
+        print('Not Elite')
         _G.CurrentElite = nil
         _G.CurrentTask = ''
     end
@@ -1624,15 +1625,6 @@ AutoMeleeMasteryCheck = function()
                     if MLLV['Dragon Talon'] > 0 then
                         SetMeleeWait('Dragon Talon',400)
                         BuyMelee('Dragon Talon') 
-                    else
-                        if (_G.ServerData["Inventory Items"]['Yama'] and _G.ServerData["Inventory Items"]['Yama'].Mastery < 350) or (_G.ServerData["Inventory Items"]['Tushita'] and _G.ServerData["Inventory Items"]['Tushita'].Mastery < 350) then 
-                            _G.WeaponType = 'Sword'
-                            if _G.ServerData["Inventory Items"]['Yama'] and _G.ServerData["Inventory Items"]['Yama'].Mastery < 350 then 
-                                LoadItem('Yama')
-                            elseif _G.ServerData["Inventory Items"]['Tushita'] and _G.ServerData["Inventory Items"]['Tushita'].Mastery < 350 then 
-                                LoadItem('Tushita')
-                            end
-                        end
                     end
                 elseif MLLV['Godhuman'] == 0 then 
                     if not _G.Config.AllV2MeleeStyles400Mastery then 
