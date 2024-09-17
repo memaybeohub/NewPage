@@ -664,7 +664,7 @@ local function LoadPlayer()
                         repeat task.wait() until _G.Config and _G.Config['Melee Level Values'] _G.Config["Melee Level Values"][v.Name] = v:WaitForChild('Level').Value 
                     end
                 end)
-                if not game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Skills:FindFirstChild(v.Name) then 
+                if v.ClassName == 'Tool' and table.find({'Sword','Blox Fruit',"Melee","Gun"},v.ToolTip) and not game:GetService("Players")["LocalPlayer"].PlayerGui.Main.Skills:FindFirstChild(v.Name) then 
                     game.Players.LocalPlayer.Character.Humanoid:EquipTool(v)
                 end
             end
@@ -2697,7 +2697,7 @@ function AutoSeaBeast()
                         end
                     end)
                 end
-            until not newTar or not newTar.PrimaryPart
+            until not newTar or not newTar.PrimaryPart or not v:FindFirstChildOfClass('IntValue') or v:FindFirstChildOfClass('IntValue').Value <= 0
             getgenv().MySeatPart = OldSeat 
             getgenv().AimPos = nil
         else 
@@ -2888,6 +2888,8 @@ ThisiSW = RunService.Heartbeat:Connect(function()
         MySea = "Sea 3"
     end
     if IsPlayerAlive() then 
+        game.Players.LocalPlayer.Character.PrimaryPart.Velocity = Vector3.new(0,0,0)
+
         if game.Players.LocalPlayer.Character.Humanoid.Sit and not (getgenv().MySeatPart and game.Players.LocalPlayer.Character.Humanoid.SeatPart == getgenv().MySeatPart) then 
             game.Players.LocalPlayer.Character.Humanoid.Sit = false
         end
@@ -2902,7 +2904,6 @@ ThisiSW = RunService.Heartbeat:Connect(function()
             _G.LastBuyChipTick = tick() buyRaidingChip() 
         end
         if tick()-_G.Ticktp < 0.5 or KillingMob or (_G.tween and _G.tween.PlaybackState and tostring(string.gsub(tostring(_G.tween.PlaybackState), "Enum.PlaybackState.", "")) == 'Playing') or (_G.TweenStats and tostring(string.gsub(tostring(_G.TweenStats), "Enum.PlaybackState.", "")) == 'Playing') then 
-            game.Players.LocalPlayer.Character.PrimaryPart.Velocity = Vector3.new(0,0,0)
             AddBodyVelocity(true)
             for i,v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do 
                 if v:IsA("BasePart") or v:IsA("Part") then 
