@@ -2967,17 +2967,17 @@ ThisiSW = RunService.Heartbeat:Connect(function()
         end
         if KillingMob or tick()-TOIKHONGBIET < _G.ReloadTime then return end   
         TOIKHONGBIET = tick() 
+        if not _G.Config then 
+            _G.Config = {}
+        end
+        if not _G.Config.OwnedItems then 
+            _G.Config.OwnedItems = {}
+        end
         for i,v in pairs(game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("getInventory")) do 
             if v and typeof(v) == 'table' and v.Name and v.Name ~= '' then 
                 _G.ServerData["Inventory Items"][v.Name] = v  
             end
             if _G.Config and v.Type ~= 'Fruit' and not v.Value then 
-                if not _G.Config then 
-                    _G.Config = {}
-                end
-                if not _G.Config.OwnedItems then 
-                    _G.Config.OwnedItems = {}
-                end
                 _G.Config.OwnedItems[v.Name] = true 
             end
         end
