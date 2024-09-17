@@ -2868,7 +2868,8 @@ end)
 _G.ServerData["Fruits Stock"] = {}
 local ThisiSW  
 _G.Ticktp = 0
-_G.LoadedTimes = 0
+_G.LoadedTimes = 0 
+_G.ReloadTime = _G.ReloadTime or 3
 ThisiSW = RunService.Heartbeat:Connect(function()
     if game.PlaceId == 2753915549 then
         Sea1 = true
@@ -2901,6 +2902,7 @@ ThisiSW = RunService.Heartbeat:Connect(function()
             _G.LastBuyChipTick = tick() buyRaidingChip() 
         end
         if tick()-_G.Ticktp < 0.5 or KillingMob or (_G.tween and _G.tween.PlaybackState and tostring(string.gsub(tostring(_G.tween.PlaybackState), "Enum.PlaybackState.", "")) == 'Playing') or (_G.TweenStats and tostring(string.gsub(tostring(_G.TweenStats), "Enum.PlaybackState.", "")) == 'Playing') then 
+            game.Players.LocalPlayer.Character.PrimaryPart.Velocity = Vector3.new(0,0,0)
             AddBodyVelocity(true)
             for i,v in pairs(game.Players.LocalPlayer.Character:GetDescendants()) do 
                 if v:IsA("BasePart") or v:IsA("Part") then 
@@ -2963,7 +2965,7 @@ ThisiSW = RunService.Heartbeat:Connect(function()
                 Content = SetText
             })
         end
-        if KillingMob or tick()-TOIKHONGBIET < 3 then return end   
+        if KillingMob or tick()-TOIKHONGBIET < _G.ReloadTime then return end   
         TOIKHONGBIET = tick() 
         for i,v in pairs(game:GetService("ReplicatedStorage").Remotes["CommF_"]:InvokeServer("getInventory")) do 
             if v and typeof(v) == 'table' and v.Name and v.Name ~= '' then 
