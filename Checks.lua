@@ -143,38 +143,12 @@ if hookfunction then
         task.delay(3,function() 
             warn('Disabling effects') 
             if hookfunction and not islclosure(hookfunction) then 
-                for i,v in pairs(require(game.ReplicatedStorage.Effect.Container.Misc.Damage)) do 
-                    if typeof(v) == 'function' then 
-                        hookfunction(
-                            v, 
-                            function()
-                                return {
-                                    Run = function() end,
-                                    Stop = function() end,
-                                }
-                            end
-                        )
-                    end
-                end 
                 for i,v in pairs(game.ReplicatedStorage.Assets.GUI:GetChildren()) do 
                     v.Enabled = false 
                 end
                 hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Death), function()end)
                 hookfunction(require(game:GetService("ReplicatedStorage").Effect.Container.Respawn), function()end)
                 hookfunction(require(game:GetService("ReplicatedStorage"):WaitForChild("GuideModule")).ChangeDisplayedNPC,function() end) 
-                --[[
-                
-                task.delay(0.1,function()
-                    for i,v2 in pairs(game.ReplicatedStorage.Effect.Container:GetDescendants()) do 
-                        pcall(function()
-                            if v2.ClassName =='ModuleScript' and typeof(require(v2)) == 'function' then 
-                                hookfunction(require(v2),function()end)     
-                                task.wait(1)
-                            end
-                        end)
-                    end
-                end)
-                ]]
             end
         end)
     end)
