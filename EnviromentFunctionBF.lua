@@ -2966,6 +2966,9 @@ ThisiSW = RunService.Heartbeat:Connect(function()
                 Content = SetText
             })
         end
+        if not _G.ReloadTime or _G.ReloadTime < 3 then 
+            _G.ReloadTime = 3 
+        end
         if KillingMob or tick()-TOIKHONGBIET < _G.ReloadTime then return end   
         TOIKHONGBIET = tick() 
         if not _G.Config then 
