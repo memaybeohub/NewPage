@@ -116,7 +116,6 @@ if hookfunction then
         table.foreach(gameNgu,function(i,v)
             for i2,v2 in getconnections(v.Touched) do 
                 v2:Disable()
-                print('Disabled:',v)
             end
         end)
     end)
