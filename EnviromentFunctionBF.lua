@@ -778,7 +778,8 @@ task.spawn(function()
     wait(3)
     _G.Ticktp = tick() 
     getgenv().TushitaQuest = game.ReplicatedStorage:WaitForChild("Remotes"):WaitForChild("CommF_"):InvokeServer("TushitaProgress")
-    if game.PlaceId == 7449423635 and CheckEnabling('Tushita Hopping') and TushitaQuest and not TushitaQuest.OpenedDoor and _G.ServerData['PlayerData'].Level >= 2000 then 
+    repeat task.wait(1) until CheckEnabling
+    if game.PlaceId == 7449423635 and CheckEnabling and CheckEnabling('Tushita Hopping') and TushitaQuest and not TushitaQuest.OpenedDoor and _G.ServerData['PlayerData'].Level >= 2000 then 
         print('PRo')
         task.spawn(function()
             loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/FinderServerLoading.lua'))()
@@ -826,6 +827,7 @@ task.spawn(function()
 end)
 task.spawn(function()
     wait(10)
+    repeat task.wait(10) until CheckEnabling
     for i2 = 1,5 do 
         if game.PlaceId == 7449423635 and CheckEnabling('Mirage Hopping') and _G.ServerData['PlayerData'].RaceVer == "V3" and _G.Config.OwnedItems['Mirror Fractal'] and _G.Config.OwnedItems['Valkyrie Helm'] and (game.ReplicatedStorage.Remotes.CommF_:InvokeServer("RaceV4Progress", "Check") < 4 or (not game:GetService("Workspace").Map:FindFirstChild("MysticIsland") and not game.ReplicatedStorage.Remotes.CommF_:InvokeServer("CheckTempleDoor"))) then 
             task.spawn(function()
@@ -1842,9 +1844,10 @@ local function mmb(v)
             table.insert(OC2,v)
             if #OC2 >= #OC/2 then break end 
         end
-        return unpack(OC2)
+        return tostring(unpack(OC2))
     else
-        return OC[1]
+        print(OC[1])
+        return tostring(OC[1])
     end
 end
 function ReturnToShowFruit(v)
@@ -1927,7 +1930,7 @@ function LoadBoss(v)
     end)
     task.spawn(function()
         AddNoknockback(v)
-        if Sea3 and Hum and Root and v:FindFirstChildOfClass('Humanoid') and v:FindFirstChildOfClass('Humanoid').Health > 0 and GetDistance(v.PrimaryPart,CastleCFrame) <= 1500 and (RemoveLevelTitle(v.Name) ~='rip_indra True Form' and not v.Name:find('Friend')) then  
+        if Sea3 and Hum and Root and v:FindFirstChildOfClass('Humanoid') and v:FindFirstChildOfClass('Humanoid').Health > 0 and GetDistance(v.PrimaryPart,CastleCFrame) <= 1500 and (RemoveLevelTitle(v.Name) ~='rip_indra True Form' and not v.Name:find('Friend') and not v.Name:find("Player")) then  
             _G.PirateRaidTick = tick() 
         end
     end)
@@ -2901,7 +2904,8 @@ ThisiSW = RunService.Heartbeat:Connect(function()
         end
         EnableBuso()
         if tick() - _G.LastBuyChipTick > 5 then 
-            _G.LastBuyChipTick = tick() buyRaidingChip() 
+            _G.LastBuyChipTick = tick();
+            buyRaidingChip() 
         end
         if tick()-_G.Ticktp < 0.5 or KillingMob or (_G.tween and _G.tween.PlaybackState and tostring(string.gsub(tostring(_G.tween.PlaybackState), "Enum.PlaybackState.", "")) == 'Playing') or (_G.TweenStats and tostring(string.gsub(tostring(_G.TweenStats), "Enum.PlaybackState.", "")) == 'Playing') then 
             AddBodyVelocity(true)
