@@ -1457,9 +1457,9 @@ function KillPlayer(PlayerName)
                         task.wait()
                         game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,100,10)
                         _G.UseFAttack = false
-                    until tick()-getNeartick > 3 and tick()-getNeartick < 100
+                    until tick()-getNeartick > 1 and tick()-getNeartick < 100
                     game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,0,10)
-                elseif tick()-getNeartick > 3 and tick()-getNeartick < 100 then 
+                elseif tick()-getNeartick > 1 and tick()-getNeartick < 100 then 
                     KillingMob = true
                     EquipWeapon() 
                     FastMob = false
