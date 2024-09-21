@@ -76,6 +76,7 @@ getgenv().AutoL = function()
             if game:GetService("Players").LocalPlayer.PlayerGui.Main:FindFirstChild("Quest").Visible then
                 if KillPlayer(namequest) then 
                     _G.QuestKillPlayer = false 
+                    table.insert(BlackListedKillPlayers, namequest)
                     return;
                 else
                     table.insert(BlackListedKillPlayers, namequest)
