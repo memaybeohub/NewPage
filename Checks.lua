@@ -843,6 +843,7 @@ AutoSoulGuitar = function()
                     AutoL()
                 end
             else 
+                print('Auto fm')
                 if not AutoFullMoon then 
                     loadstring(game:HttpGet('https://raw.githubusercontent.com/memaybeohub/NewPage/main/AutoFullMoon.lua'))()
                 else
