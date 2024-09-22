@@ -699,7 +699,7 @@ local function LoadPlayer()
                     if v.Name == 'Flower 3' then 
                         game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer("Alchemist", "3")
                     end
-                    task.delay(0.35,function()
+                    task.delay(0.75,function()
                         if v.Name == 'Red Key' then 
                             print('DOugh chip unlocked: ',game.ReplicatedStorage.Remotes.CommF_:InvokeServer("CakeScientist", "Check"))
                         end
@@ -895,7 +895,7 @@ function Tweento(targetCFrame,dontmove)
         end
         task.spawn(function()
             if not _G.SavedConfig['Same Y Tween'] then return end
-            if (game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Y < targetCFrame.Y-5 or game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Y > targetCFrame.Y+5)  then 
+            if (game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Y < targetCFrame.Y-1 or game.Players.LocalPlayer.Character.PrimaryPart.CFrame.Y > targetCFrame.Y+1)  then 
                 if _G.tween then 
                     _G.tween:Cancel()
                     _G.tween = nil 
