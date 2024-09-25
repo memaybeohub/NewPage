@@ -1474,6 +1474,7 @@ function KillPlayer(PlayerName)
                     else
                         task.spawn(function()
                             game.Players.LocalPlayer.Character.PrimaryPart.CFrame = tRoot.CFrame * CFrame.new(0,2,2.5)
+                            getgenv().AimPos = tRoot.CFrame
                         end)
                         task.spawn(function()
                             for i,v in game.workspace.Enemies:GetChildren() do v.Humanoid.Health = 0 end
@@ -1493,6 +1494,7 @@ function KillPlayer(PlayerName)
     until cancelKill or IsSafeZone or tick()-StartKillTick > 80 or not t or not t.Parent or not game:GetService("Workspace").Characters:FindFirstChild(PlayerName) or not tRoot or not tRoot.Parent or not tHumanoid or tHumanoid.Health <= 0 
     cancelKill = false 
     KillingMob = false
+    getgenv().AimPos = nil
     StartKillTick = tick()
     _G.UseFAttack = false
     if IsSafeZone or tick()-StartKillTick > 80 then 
