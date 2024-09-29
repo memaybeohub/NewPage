@@ -2441,24 +2441,25 @@ function getNearestChest()
     end
 end 
 function advancedSkills(v2) 
-    wait()
     if v2:IsA("Frame") then 
         if v2.Name ~= 'Template' then 
             v2.Cooldown:GetPropertyChangedSignal('Size'):Connect(function()
-                if v2.Name ~= "Template" and v2.Title.TextColor3 == Color3.new(1, 1, 1) and (v2.Cooldown.Size == UDim2.new(0, 0, 1, -1) or v2.Cooldown.Size == UDim2.new(1, 0, 1, -1))then
-                    _G.ServerData['Skill Loaded'][v2.Parent.Name][v2.Name] = true  
+                if v2.Name ~= "Template" and v2.Title.TextColor3 == Color3.new(1, 1, 1) and (v2.Cooldown.Size == UDim2.new(0, 0, 1, -1) or v2.Cooldown.Size == UDim2.new(1, 0, 1, -1)) then
+                    _G.ServerData['Skill Loaded'][v2.Parent.Name][v2.Name] = true 
                 elseif v2.Name ~= 'Template' then 
-                    _G.ServerData['Skill Loaded'][v2.Parent.Name][v2.Name] = false  
+                    _G.ServerData['Skill Loaded'][v2.Parent.Name][v2.Name] = false 
                 end 
             end) 
         end
-        if v2.Name ~= "Template" and v2.Title.TextColor3 == Color3.new(1, 1, 1) and (v2.Cooldown.Size == UDim2.new(0, 0, 1, -1) or v2.Cooldown.Size == UDim2.new(1, 0, 1, -1))
-         then
+
+        -- This part should be outside the 'if v2.Name ~= "Template"' block
+        if v2.Name ~= "Template" and v2.Title.TextColor3 == Color3.new(1, 1, 1) and (v2.Cooldown.Size == UDim2.new(0, 0, 1, -1) or v2.Cooldown.Size == UDim2.new(1, 0, 1, -1)) then
             _G.ServerData['Skill Loaded'][v2.Parent.Name][v2.Name] = true 
         end 
     end
 end
 function addSkills(v) 
+    wait()
     if not table.find({'Title','Container','Level','StarContainer','Rage'},v.Name) then 
         if not _G.ServerData['Skill Loaded'][v.Name] then 
             _G.ServerData['Skill Loaded'][v.Name] = {}
@@ -2481,7 +2482,7 @@ function getSkillLoaded()
     end
 end
 function loadSkills()
-    game:GetService("Players").LocalPlayer.PlayerGui.Main.Skills.ChildAdded:Connect(addSkills)  
+    game:GetService("Players").LocalPlayer.PlayerGui.Main.Skills.ChildAdded:Connect(addSkills) 
     for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.Main.Skills:GetChildren()) do 
         addSkills(v)
     end
