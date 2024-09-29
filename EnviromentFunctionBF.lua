@@ -620,8 +620,10 @@ local function LoadPlayer()
         _G.ServerData["PlayerBackpackFruits"] = {}
         _G.ServerData["PlayerBackpack"] = {} 
         task.spawn(function()
-            repeat task.wait() until loadSkills
-            task.wait(1)
+            while not loadSkills do -- Wait until loadSkills is defined
+                task.wait() 
+            end
+            task.wait(1) -- Wait for 1 second
             loadSkills()
         end)
         for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do  
@@ -2452,10 +2454,10 @@ function advancedSkills(v2)
             end) 
         end
 
-        -- This part should be outside the 'if v2.Name ~= "Template"' block
+        -- Check the Cooldown.Size immediately after connecting the signal
         if v2.Name ~= "Template" and v2.Title.TextColor3 == Color3.new(1, 1, 1) and (v2.Cooldown.Size == UDim2.new(0, 0, 1, -1) or v2.Cooldown.Size == UDim2.new(1, 0, 1, -1)) then
-            _G.ServerData['Skill Loaded'][v2.Parent.Name][v2.Name] = true 
-        end 
+            _G.ServerData['Skill Loaded'][v2.Parent.Name][v2.Name] = true
+        end
     end
 end
 function addSkills(v) 
