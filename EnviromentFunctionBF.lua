@@ -621,6 +621,7 @@ local function LoadPlayer()
         _G.ServerData["PlayerBackpack"] = {} 
         task.spawn(function()
             repeat task.wait() until loadSkills
+            task.wait(1)
             loadSkills()
         end)
         for i,v in pairs(game.Players.LocalPlayer.Character:GetChildren()) do  
@@ -2440,6 +2441,7 @@ function getNearestChest()
     end
 end 
 function advancedSkills(v2) 
+    wait()
     if v2:IsA("Frame") then 
         if v2.Name ~= 'Template' then 
             v2.Cooldown:GetPropertyChangedSignal('Size'):Connect(function()
@@ -2479,10 +2481,10 @@ function getSkillLoaded()
     end
 end
 function loadSkills()
+    game:GetService("Players").LocalPlayer.PlayerGui.Main.Skills.ChildAdded:Connect(addSkills)  
     for i,v in pairs(game:GetService("Players").LocalPlayer.PlayerGui.Main.Skills:GetChildren()) do 
         addSkills(v)
     end
-    game:GetService("Players").LocalPlayer.PlayerGui.Main.Skills.ChildAdded:Connect(addSkills) 
 end    
 function CheckTorchDimension(DimensionName) 
     DimensionName = DimensionName == "Yama" and "HellDimension" or "HeavenlyDimension" 
