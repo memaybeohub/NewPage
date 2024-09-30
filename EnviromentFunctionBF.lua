@@ -2686,6 +2686,7 @@ function AutoSeaBeast()
             game:GetService("ReplicatedStorage").Remotes.CommF_:InvokeServer(unpack(args))
         end
         if newTar.Name:find('SeaBeast') then 
+            print('print(v.PrimaryPart)',newTar.PrimaryPart)
             repeat 
                 task.wait()
                 getgenv().MySeatPart = nil 
@@ -2708,7 +2709,7 @@ function AutoSeaBeast()
                         end
                     end)
                 end
-            until not newTar or not newTar.PrimaryPart or not v:FindFirstChildOfClass('IntValue') or v:FindFirstChildOfClass('IntValue').Value <= 0
+            until not newTar or not newTar.PrimaryPart or not newTar:FindFirstChildOfClass('IntValue') or newTar:FindFirstChildOfClass('IntValue').Value <= 0
             getgenv().MySeatPart = OldSeat 
             getgenv().AimPos = nil
         else 
