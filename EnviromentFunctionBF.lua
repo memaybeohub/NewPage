@@ -2348,7 +2348,7 @@ end
 _G.SuccessBoughtTick = 0
 _G.LastBuyChipTick = 0
 function buyRaidingChip() 
-    if _G.EnLoaded and (Sea2 or Sea3) and tick()-JoinedGame > 60 and tick()-_G.SuccessBoughtTick > 60 and _G.ServerData['PlayerData'].Level >= 1100 and not _G.ServerData["PlayerBackpack"]['Special Microchip'] and not CheckIsRaiding() then 
+    if _G.EnLoaded and _G.TaskUpdateTick and (Sea2 or Sea3) and tick()-JoinedGame > 60 and tick()-_G.SuccessBoughtTick > 60 and _G.ServerData['PlayerData'].Level >= 1100 and not _G.ServerData["PlayerBackpack"]['Special Microchip'] and not CheckIsRaiding() then 
         if (((_G.CurrentTask == '' or _G.MeleeTask == 'None') and _G.CurrentTask ~= 'Auto Sea 3') or _G.FragmentNeeded) and not checkFruit1M() and (_G.FragmentNeeded or (not CheckX2Exp() and ((_G.ServerData['PlayerData'].Fragments < 7500 or (_G.ServerData['PlayerData'].Level >= 2550 and _G.ServerData['PlayerData'].Fragments < 25000)) or #_G.ServerData["PlayerBackpackFruits"] > 0))) then 
             wait(1)
             local SelRaid = "Flame"
