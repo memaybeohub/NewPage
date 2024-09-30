@@ -614,6 +614,7 @@ function LoadMessage(v)
         end) 
     end
 end
+localaaaabx = {}
 local function LoadPlayer() 
     if not IsPlayerAlive() then repeat task.wait(.1) until IsPlayerAlive() end
     if IsPlayerAlive() then
@@ -2715,7 +2716,7 @@ function AutoSeaBeast()
             repeat 
                 task.wait()
                 getgenv().MySeatPart = nil 
-                Tweento(newTar.PrimaryPart.CFrame * CFrame.new(0,30,0))
+                pcall(Tweento,newTar.PrimaryPart.CFrame * CFrame.new(0,30,0))
                 getgenv().AimPos = newTar.PrimaryPart.CFrame 
                 if tick()-tickUseSkill >= 1 then 
                     SkillAb,SkillBb = getSkillLoaded()
