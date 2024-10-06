@@ -35,7 +35,7 @@ getgenv().refreshTask = function()
             _G.CurrentTask = 'Getting Cursed Dual Katana' 
         elseif Sea3 and CheckEnabling('Mirage Puzzle') and _G.RaceV4Progress and _G.ServerData['PlayerData'].RaceVer == "V3" and _G.Config.OwnedItems['Mirror Fractal'] and _G.Config.OwnedItems['Valkyrie Helm'] and (_G.RaceV4Progress < 4 or (game:GetService("Workspace").Map:FindFirstChild("MysticIsland") and not game.ReplicatedStorage.Remotes.CommF_:InvokeServer("CheckTempleDoor"))) then 
             _G.CurrentTask = 'Unlocking Mirage Puzzle'
-        elseif (Sea2 or Sea3) and CheckEnabling('Upgrading Race') and _G.ServerData['PlayerData'].Beli >= 2000000 and _G.ServerData['PlayerData'].Level >= 2550 and not table.find({'Skypiea',"Ghoul"},_G.ServerData['PlayerData'].Race) and (_G.ServerData['PlayerData'].RaceVer == 'V2') then 
+        elseif (Sea2 or Sea3) and CheckEnabling('Upgrading Race') and _G.ServerData['PlayerData'].Beli >= 2000000 and _G.ServerData['PlayerData'].Level >= 2550 and not table.find({"Ghoul"},_G.ServerData['PlayerData'].Race) and (_G.ServerData['PlayerData'].RaceVer == 'V2') then 
             _G.CurrentTask = 'Auto Race V3'
         elseif _G.ServerData['PlayerData'].Level > 200 and CheckEnabling('Saber') and not (_G.Config.OwnedItems["Saber"]) and ((SaberQuest and not SaberQuest.UsedRelic) or _G.ServerData['PlayerData'].Level >= 550) then 
             _G.CurrentTask = 'Saber Quest'
@@ -176,6 +176,32 @@ local Tiers = {
     'Mirage Puzzle',
     --'Rainbown Haki'
 }
+local Skypieaniggalist = {}
+getSkypieas = function()
+    local reutrner = {}
+    local Race
+    for i,v in game.Players:GetChildren() do 
+        Race = v:WaitForChild('Data'):WaitForChild('Race').Value 
+        if Race == 'Skypiea' and not table.find(Skypieaniggalist,v.Name) then 
+            table.insert(reutrner,v.Name)
+        end 
+    end
+    return reutrner
+end
+getSkypiea = function()
+    local skys = getSkypieas()
+    if #skys > 0 then
+        local choss
+        local maxva = 2550 
+        for i,v in pairs(skys) do 
+            if game.Players[v].Data.Level.Value < maxva then 
+                maxva = game.Players[v].Data.Level.Value 
+                choss = v 
+            end 
+        end
+        return choss
+    end
+end
 AutoMiragePuzzle = function()
     if _G.ServerData['PlayerData'].RaceVer == "V3" and _G.Config.OwnedItems['Mirror Fractal'] and _G.Config.OwnedItems['Valkyrie Helm'] then 
         if not Sea3 then 
@@ -440,6 +466,17 @@ AutoV3 = function()
                 game.ReplicatedStorage.Remotes.CommF_:InvokeServer("Wenlocktoad", "3") 
             until _G.ServerData['PlayerData'].RaceVer == "V3"
             print('nqu')
+        elseif CurrentR == 'Skypiea' then 
+            if #getSkypieas() > 0 then
+                local Skypiea = getSkypiea()
+                if Skypiea then
+                    if not KillPlayer(Skypiea) then 
+                        table.insert(Skypieaniggalist,Skypiea)
+                    end
+                end
+            else
+                HopServer(10,false,'Finding skypieas players')
+            end
         end
     end
 end
