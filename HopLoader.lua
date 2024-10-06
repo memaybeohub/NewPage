@@ -116,20 +116,22 @@ getgenv().HopServer = function(CountTarget, hoplowallow,reasontohop)
     end
     HopGuiCreation(reasontohop,delay)
     local timeplased = tick()+delay
-    if hoplowallow and _G.TimeTryHopLow < 3 then
-        for i = 1, 3 - _G.TimeTryHopLow do
-            if _G.TimeTryHopLow < 3 then
-                local a2,b2 = pcall(function()
-                    HopLowV2()
-                end)
-                if not a2 then print('hop fail',b2) end
-                _G.TimeTryHopLow = _G.TimeTryHopLow + 1
-                warn('Hop low times: ',_G.TimeTryHopLow)
-                SetContent('Low Server hopping times: '..tostring(_G.TimeTryHopLow))
-                wait(delay/2)
+    task.spawn(function()
+        if hoplowallow and _G.TimeTryHopLow < 3 then
+            for i = 1, 3 - _G.TimeTryHopLow do
+                if _G.TimeTryHopLow < 3 then
+                    local a2,b2 = pcall(function()
+                        HopLowV2()
+                    end)
+                    if not a2 then print('hop fail',b2) end
+                    _G.TimeTryHopLow = _G.TimeTryHopLow + 1
+                    warn('Hop low times: ',_G.TimeTryHopLow)
+                    SetContent('Low Server hopping times: '..tostring(_G.TimeTryHopLow))
+                    wait(delay/2)
+                end
             end
         end
-    end
+    end)
     if not CountTarget then
         CountTarget = 10
     end
