@@ -84,7 +84,7 @@ local function fetchServerData()
     local data = {} 
     local success, response = pcall(function()
         return request({
-            Url = 'http://103.77.172.226:10000/get_server/' .. game.PlaceId,
+            Url = 'http://103.238.234.228:10000/get_server/' .. game.PlaceId,
             Method = "POST",
             Body = HttpService:JSONEncode(data),
             Headers = {

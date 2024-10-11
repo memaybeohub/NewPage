@@ -1495,7 +1495,7 @@ function KillPlayer(PlayerName)
         else
             getNeartick = tick()-5555
         end
-    until cancelKill or IsSafeZone or tick()-StartKillTick > 80 or not t or not t.Parent or not game:GetService("Workspace").Characters:FindFirstChild(PlayerName) or not tRoot or not tRoot.Parent or not tHumanoid or tHumanoid.Health <= 0 
+    until cancelKill or IsSafeZone or CheckSafeZone(t) or tick()-StartKillTick > 80 or not t or not t.Parent or not game:GetService("Workspace").Characters:FindFirstChild(PlayerName) or not tRoot or not tRoot.Parent or not tHumanoid or tHumanoid.Health <= 0 
     cancelKill = false 
     KillingMob = false
     getgenv().AimPos = nil
